@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>English Vocabulary Game</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f2f2f2;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 8px;
+      max-width: 400px;
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>English Vocabulary Spelling Game 🎮</h1>
+
+<div class="card">
+  <h3 id="bengaliMeaning"></h3>
+
+  <input type="text" id="userAnswer" placeholder="Type English word" />
+
+  <br>
+  <button onclick="checkAnswer()">Check</button>
+
+  <p id="message"></p>
+</div>
+
+<script>
+  const words = [
+    { english: "abandon", bengali: "পরিত্যাগ করা" },
+    { english: "brave", bengali: "সাহসী" },
+    { english: "calm", bengali: "শান্ত" }
+  ];
+
+  let currentIndex = 0;
+
+  function loadWord() {
+    document.getElementById("bengaliMeaning").innerText =
+      "Bengali: " + words[currentIndex].bengali;
+    document.getElementById("userAnswer").value = "";
+    document.getElementById("message").innerText = "";
+  }
+
+  function checkAnswer() {
+    const userInput = document.getElementById("userAnswer").value.toLowerCase().trim();
+    const correctAnswer = words[currentIndex].english;
+
+    if (userInput === correctAnswer)
