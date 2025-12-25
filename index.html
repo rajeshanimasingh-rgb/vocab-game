@@ -5,73 +5,176 @@
   <style>
     body {
       font-family: Arial;
-      padding: 20px;
-      background: #f2f2f2;
+      background: linear-gradient(#e3f2fd, #ffffff);
       text-align: center;
+      padding: 20px;
     }
     .card {
       background: white;
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 8px;
-      max-width: 400px;
+      padding: 25px;
+      max-width: 450px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    input {
+    button, select, input {
       padding: 10px;
-      width: 80%;
-      font-size: 16px;
       margin-top: 10px;
+      width: 90%;
+      font-size: 16px;
+      border-radius: 6px;
     }
     button {
-      padding: 10px 15px;
-      font-size: 16px;
       background: green;
       color: white;
       border: none;
-      border-radius: 5px;
-      margin-top: 10px;
       cursor: pointer;
     }
-    #message {
-      margin-top: 10px;
+    .hidden { display: none; }
+    .level {
       font-weight: bold;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 
 <body>
 
-<h1>English Vocabulary Spelling Game 🎮</h1>
+<h1>English Vocabulary Game 🎮</h1>
 
 <div class="card">
-  <h3 id="bengaliMeaning"></h3>
 
-  <input type="text" id="userAnswer" placeholder="Type English word" />
+  <div class="level" id="levelText"></div>
 
-  <br>
-  <button onclick="checkAnswer()">Check</button>
+  <!-- LEARN -->
+  <div id="learn">
+    <h3>Learn Words</h3>
+    <div id="wordList"></div>
+    <button onclick="startTest()">Start Test</button>
+  </div>
 
-  <p id="message"></p>
+  <!-- MCQ TEST -->
+  <div id="mcqTest" class="hidden">
+    <h3 id="engWord"></h3>
+    <button onclick="speak()">🔊 Pronounce</button>
+    <select id="mcq"></select>
+    <button onclick="checkMCQ()">Next</button>
+  </div>
+
+  <!-- SPELLING TEST -->
+  <div id="spellTest" class="hidden">
+    <h3 id="bnWord"></h3>
+    <input id="spellInput" placeholder="Type English word">
+    <button onclick="checkSpell()">Next</button>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="hidden">
+    <h2 id="resultText"></h2>
+    <button onclick="nextLevel()">Continue</button>
+  </div>
+
 </div>
 
 <script>
-  const words = [
-    { english: "abandon", bengali: "পরিত্যাগ করা" },
-    { english: "brave", bengali: "সাহসী" },
-    { english: "calm", bengali: "শান্ত" }
-  ];
+let level = Number(localStorage.getItem("level")) || 1;
 
-  let currentIndex = 0;
+const allWords = [
+  {e:"abandon", b:"পরিত্যাগ করা"},
+  {e:"brave", b:"সাহসী"},
+  {e:"calm", b:"শান্ত"},
+  {e:"honest", b:"সৎ"},
+  {e:"strong", b:"শক্তিশালী"},
+  {e:"kind", b:"দয়ালু"},
+  {e:"lazy", b:"আলসে"},
+  {e:"fast", b:"দ্রুত"},
+  {e:"happy", b:"খুশি"},
+  {e:"smart", b:"চতুর"},
+  {e:"angry", b:"রাগান্বিত"},
+  {e:"clean", b:"পরিষ্কার"},
+  {e:"danger", b:"বিপদ"},
+  {e:"easy", b:"সহজ"},
+  {e:"fresh", b:"তাজা"},
+  {e:"heavy", b:"ভারী"},
+  {e:"light", b:"হালকা"},
+  {e:"quick", b:"দ্রুত"},
+  {e:"safe", b:"নিরাপদ"},
+  {e:"truth", b:"সত্য"}
+];
 
-  function loadWord() {
-    document.getElementById("bengaliMeaning").innerText =
-      "Bengali: " + words[currentIndex].bengali;
-    document.getElementById("userAnswer").value = "";
-    document.getElementById("message").innerText = "";
+let start = (level - 1) * 10;
+let words = allWords.slice(start, start + 10);
+
+let index = 0;
+let score = 0;
+
+document.getElementById("levelText").innerText = "Level " + level;
+
+// LEARN
+const list = document.getElementById("wordList");
+words.forEach(w => {
+  list.innerHTML += `<p><b>${w.e}</b> - ${w.b}</p>`;
+});
+
+function startTest() {
+  document.getElementById("learn").classList.add("hidden");
+  document.getElementById("mcqTest").classList.remove("hidden");
+  loadMCQ();
+}
+
+function loadMCQ() {
+  document.getElementById("engWord").innerText = words[index].e;
+  const mcq = document.getElementById("mcq");
+  mcq.innerHTML = "";
+  words.forEach(w => {
+    mcq.innerHTML += `<option>${w.b}</option>`;
+  });
+}
+
+function speak() {
+  const msg = new SpeechSynthesisUtterance(words[index].e);
+  speechSynthesis.speak(msg);
+}
+
+function checkMCQ() {
+  if (document.getElementById("mcq").value === words[index].b) score++;
+  document.getElementById("mcqTest").classList.add("hidden");
+  document.getElementById("spellTest").classList.remove("hidden");
+  document.getElementById("bnWord").innerText = words[index].b;
+}
+
+function checkSpell() {
+  if (document.getElementById("spellInput").value.toLowerCase() === words[index].e) score++;
+  document.getElementById("spellInput").value = "";
+  index++;
+
+  if (index < words.length) {
+    document.getElementById("spellTest").classList.add("hidden");
+    document.getElementById("mcqTest").classList.remove("hidden");
+    loadMCQ();
+  } else {
+    showResult();
   }
+}
 
-  function checkAnswer() {
-    const userInput = document.getElementById("userAnswer").value.toLowerCase().trim();
-    const correctAnswer = words[currentIndex].english;
+function showResult() {
+  document.getElementById("spellTest").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
 
-    if (userInput === correctAnswer)
+  if (score >= 8) {
+    document.getElementById("resultText").innerText =
+      `🎉 Passed! Score: ${score}/10`;
+    localStorage.setItem("level", level + 1);
+  } else {
+    document.getElementById("resultText").innerText =
+      `❌ Failed! Score: ${score}/10`;
+  }
+}
+
+function nextLevel() {
+  location.reload();
+}
+</script>
+
+</body>
+</html>
