@@ -12,7 +12,7 @@
     .card {
       background: white;
       padding: 25px;
-      max-width: 450px;
+      max-width: 480px;
       margin: auto;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -30,7 +30,12 @@
       border: none;
       cursor: pointer;
     }
-    .hidden { display: none; }
+    .back {
+      background: #555;
+    }
+    .hidden {
+      display: none;
+    }
     .level {
       font-weight: bold;
       margin-bottom: 10px;
@@ -45,6 +50,8 @@
 <div class="card">
 
   <div class="level" id="levelText"></div>
+
+  <button class="back" onclick="goBack()">⬅ Back to Learn</button>
 
   <!-- LEARN -->
   <div id="learn">
@@ -110,18 +117,23 @@ let score = 0;
 
 document.getElementById("levelText").innerText = "Level " + level;
 
-// LEARN
+// Show learn words
 const list = document.getElementById("wordList");
+list.innerHTML = "";
 words.forEach(w => {
   list.innerHTML += `<p><b>${w.e}</b> - ${w.b}</p>`;
 });
 
+// Start test
 function startTest() {
+  index = 0;
+  score = 0;
   document.getElementById("learn").classList.add("hidden");
   document.getElementById("mcqTest").classList.remove("hidden");
   loadMCQ();
 }
 
+// Load MCQ
 function loadMCQ() {
   document.getElementById("engWord").innerText = words[index].e;
   const mcq = document.getElementById("mcq");
@@ -131,50 +143,12 @@ function loadMCQ() {
   });
 }
 
+// Pronounce
 function speak() {
   const msg = new SpeechSynthesisUtterance(words[index].e);
   speechSynthesis.speak(msg);
 }
 
+// Check MCQ
 function checkMCQ() {
-  if (document.getElementById("mcq").value === words[index].b) score++;
-  document.getElementById("mcqTest").classList.add("hidden");
-  document.getElementById("spellTest").classList.remove("hidden");
-  document.getElementById("bnWord").innerText = words[index].b;
-}
-
-function checkSpell() {
-  if (document.getElementById("spellInput").value.toLowerCase() === words[index].e) score++;
-  document.getElementById("spellInput").value = "";
-  index++;
-
-  if (index < words.length) {
-    document.getElementById("spellTest").classList.add("hidden");
-    document.getElementById("mcqTest").classList.remove("hidden");
-    loadMCQ();
-  } else {
-    showResult();
-  }
-}
-
-function showResult() {
-  document.getElementById("spellTest").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-
-  if (score >= 8) {
-    document.getElementById("resultText").innerText =
-      `🎉 Passed! Score: ${score}/10`;
-    localStorage.setItem("level", level + 1);
-  } else {
-    document.getElementById("resultText").innerText =
-      `❌ Failed! Score: ${score}/10`;
-  }
-}
-
-function nextLevel() {
-  location.reload();
-}
-</script>
-
-</body>
-</html>
+  if (document.getElementById("mcq").
