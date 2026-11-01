@@ -1,229 +1,1806 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>English Vocabulary Game</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta charset="utf-8">
+<title>Personal English Speaking Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Practise English speaking, vocabulary, grammar, office English and interviews, with Bengali and Hindi meanings.">
+<meta name="theme-color" content="#1a56db">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a56db'/%3E%3Crect x='12' y='6' width='8' height='14' rx='4' fill='white'/%3E%3Cpath d='M8 15a8 8 0 0 0 16 0M16 23v4' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
-body{
-  font-family: Arial;
-  background:#eef3f7;
-  text-align:center;
-  padding:15px;
+:root{
+  --ink:#0f2547;--ink-2:#465a78;--ink-3:#5f7290;
+  --blue:#1a56db;--blue-d:#1442ab;--blue-l:#e8f0fe;--blue-xl:#f3f7ff;
+  --line:#dfe7f3;--bg:#f4f7fc;--card:#ffffff;
+  --good:#0f7a47;--good-bg:#e3f6ec;--bad:#c02626;--bad-bg:#fde8e8;--warn:#a15c00;--warn-bg:#fff3dc;
+  --shadow:0 1px 2px rgba(15,37,71,.05),0 6px 20px rgba(15,37,71,.06);
+  --r:16px;--side:244px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Nirmala UI","Noto Sans Bengali","Noto Sans Devanagari","Helvetica Neue",Arial,sans-serif;
 }
-.card{
-  background:#fff;
-  max-width:480px;
-  margin:auto;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,.15);
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;overflow-x:hidden}
+h1,h2,h3,h4,p{margin:0}
+h1{font-size:1.6rem;line-height:1.25;letter-spacing:-.01em}
+h2{font-size:1.15rem;line-height:1.3}
+h3{font-size:1rem;line-height:1.35}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--blue)}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:3px solid #93b4f5;outline-offset:2px}
+[lang=bn],[lang=hi]{line-height:1.6}
+
+/* layout */
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:40;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:10px;padding:18px 16px 14px;font-weight:700;line-height:1.2}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:var(--blue);color:#fff;display:grid;place-items:center;flex:none}
+.brand small{display:block;font-weight:500;color:var(--ink-3);font-size:.76rem}
+.nav{list-style:none;margin:0;padding:6px 10px 14px}
+.nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;color:var(--ink-2);text-decoration:none;font-weight:500;font-size:.95rem}
+.nav a:hover{background:var(--blue-xl);color:var(--ink)}
+.nav a[aria-current=page]{background:var(--blue-l);color:var(--blue-d);font-weight:650}
+.side-foot{margin-top:auto;padding:12px 16px;font-size:.8rem;color:var(--ink-3);border-top:1px solid var(--line)}
+.main{margin-left:var(--side);min-height:100vh}
+.topbar{display:none}
+.view{max-width:1060px;margin:0 auto;padding:26px 24px 48px}
+.page-head{margin-bottom:18px}
+.page-head p{color:var(--ink-2);margin-top:4px}
+.page-head h1:focus{outline:none}
+.bottom-nav{display:none}
+.scrim{display:none}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
+.card+.card{margin-top:14px}
+.grid{display:grid;gap:14px}
+.grid>.card+.card{margin-top:0}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.section{margin-top:22px}
+.section>h2{margin-bottom:10px}
+.muted{color:var(--ink-2)}
+.small{font-size:.875rem}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.between{justify-content:space-between}
+.stack>*+*{margin-top:10px}
+.grow{flex:1;min-width:0}
+.mt{margin-top:12px}
+.hidden{display:none!important}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 16px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer;text-decoration:none;text-align:center}
+.btn:hover{background:var(--blue-xl);border-color:#c5d5ee}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:var(--blue-d)}
+.btn.danger{color:var(--bad);border-color:#f1c4c4}
+.btn.danger:hover{background:var(--bad-bg)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.block{width:100%}
+.icon-btn{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--blue);cursor:pointer;flex:none}
+.icon-btn:hover{background:var(--blue-l)}
+.icon-btn.on{background:var(--blue-l);border-color:#a9c3f3}
+.icon-btn.fav-on{color:#b45309;background:var(--warn-bg);border-color:#f0d49c}
+.icon-btn.fav-on .ic{fill:currentColor}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:thin}
+.tab{flex:none;min-height:40px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:.92rem;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.tab:hover{background:var(--blue-xl)}
+.tab[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.tab:disabled{opacity:.45;cursor:not-allowed}
+.input,select.input,textarea.input{width:100%;min-height:44px;padding:9px 12px;border:1px solid #c8d5e8;border-radius:11px;background:#fff}
+textarea.input{resize:vertical;min-height:84px}
+.input:focus{border-color:var(--blue);outline:3px solid #cfdefb}
+label.field{display:block;font-weight:600;font-size:.9rem}
+label.field .input{margin-top:4px;font-weight:400;font-size:1rem}
+
+/* progress */
+.bar{height:9px;background:#e4ebf6;border-radius:6px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--blue);border-radius:6px;transition:width .3s}
+.bar.good>i{background:var(--good)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;background:var(--blue-l);color:var(--blue-d);font-size:.78rem;font-weight:650;white-space:nowrap}
+.badge.good{background:var(--good-bg);color:var(--good)}
+.badge.warn{background:var(--warn-bg);color:var(--warn)}
+.badge.bad{background:var(--bad-bg);color:var(--bad)}
+.badge .ic{width:14px;height:14px}
+
+/* dashboard */
+.hero{background:linear-gradient(135deg,#1442ab,#1a56db 60%,#3b7bf0);color:#fff;border:0;display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:22px}
+.hero p{color:#dfe9ff}
+.hero h1{color:#fff}
+.hero .grow{min-width:220px}
+.hero .btn{border-color:transparent}
+.hero .btn.ghost{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.35)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.24)}
+.hero .btn.primary{background:#fff;color:var(--blue-d)}
+.hero .btn.primary:hover{background:#e8f0fe}
+.ring{position:relative;width:118px;height:118px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-size:1.55rem;line-height:1.1}
+.ring b small{display:block;font-size:.74rem;font-weight:500;color:#dfe9ff}
+.stat .stat-ic{width:38px;height:38px;border-radius:11px;background:var(--blue-l);color:var(--blue);display:grid;place-items:center;margin-bottom:10px}
+.stat b{display:block;font-size:1.65rem;line-height:1.15}
+.stat span{color:var(--ink-2);font-size:.9rem}
+.check-item{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}
+.check-item:last-child{border-bottom:0}
+.check-dot{width:26px;height:26px;border-radius:50%;border:2px solid #c3d1e6;display:grid;place-items:center;flex:none;color:#fff}
+.check-dot .ic{width:15px;height:15px;stroke-width:3}
+.check-item.done .check-dot{background:var(--good);border-color:var(--good)}
+.quick{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;transition:transform .12s}
+.quick:hover{border-color:#b9cdf0;transform:translateY(-1px)}
+.quick .stat-ic{width:40px;height:40px;border-radius:11px;background:var(--blue-l);color:var(--blue);display:grid;place-items:center;flex:none}
+.quick p{color:var(--ink-2);font-size:.85rem}
+
+/* meanings & phrases */
+.mean{display:grid;gap:2px;font-size:.95rem;color:var(--ink-2)}
+.mean span::before{content:attr(data-l);display:inline-block;min-width:24px;margin-right:6px;padding:0 5px;border-radius:5px;background:var(--blue-l);color:var(--blue-d);font-size:.68rem;font-weight:700;text-align:center;vertical-align:1px;line-height:1.5}
+.phrase{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.phrase:last-child{border-bottom:0}
+.phrase .en{font-weight:600}
+.speaker{font-size:.76rem;font-weight:700;color:var(--blue-d);text-transform:uppercase;letter-spacing:.04em}
+.actions{display:flex;gap:6px;flex:none}
+.practice-slot:empty{display:none}
+.practice-slot{width:100%;margin-top:10px}
+
+/* vocabulary */
+.word-card h3{font-size:1.15rem}
+.word-card .pron{color:var(--ink-3);font-size:.85rem}
+.word-card .ex{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:.92rem;color:var(--ink-2)}
+.search{position:relative}
+.search .ic{position:absolute;left:12px;top:12px;color:var(--ink-3)}
+.search .input{padding-left:40px}
+.opt{display:block;width:100%;text-align:left;min-height:46px;padding:10px 14px;margin-top:8px;border:1px solid var(--line);border-radius:11px;background:var(--card);cursor:pointer;font-weight:500}
+.opt:hover:not(:disabled){background:var(--blue-xl);border-color:#b9cdf0}
+.opt:disabled{cursor:default;color:var(--ink)}
+.opt.right{background:var(--good-bg);border-color:var(--good)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.note{padding:10px 12px;border-radius:11px;background:var(--blue-xl);border:1px solid #d6e3f8;font-size:.92rem}
+.note.warn{background:var(--warn-bg);border-color:#f0d49c;color:#6b3d00}
+.note.bad{background:var(--bad-bg);border-color:#f3c0c0;color:#8a1c1c}
+.note.good{background:var(--good-bg);border-color:#b3e4ca;color:#0a5a34}
+.game-word{font-size:2rem;font-weight:700;text-align:center;margin:8px 0}
+
+/* speak box */
+.speakbox{border:1px solid #cddcf4;background:var(--blue-xl);border-radius:14px;padding:14px}
+.target{font-size:1.15rem;font-weight:650;line-height:1.4}
+.mic-row{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.mic-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:10px 20px;border-radius:999px;border:0;background:var(--blue);color:#fff;font-weight:650;cursor:pointer}
+.mic-btn:hover{background:var(--blue-d)}
+.mic-btn:disabled{background:#9db0cc;cursor:not-allowed}
+.mic-btn.rec{background:var(--bad);animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(192,38,38,.45)}70%{box-shadow:0 0 0 13px rgba(192,38,38,0)}100%{box-shadow:0 0 0 0 rgba(192,38,38,0)}}
+.heard{min-height:48px;margin-top:10px;padding:10px 12px;background:#fff;border:1px dashed #b9cdf0;border-radius:11px}
+.heard.empty{color:var(--ink-3)}
+.type-row{display:flex;gap:8px;margin-top:10px}
+.type-row .input{flex:1;min-width:0}
+.result{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.score-pill{font-weight:700;font-size:1.1rem}
+.w-ok{color:var(--ink)}
+.w-bad,.w-miss,.w-extra{padding:0 3px;border-radius:4px;font-weight:650}
+.w-bad{background:var(--bad-bg);color:var(--bad);text-decoration:underline wavy}
+.w-miss{background:var(--warn-bg);color:var(--warn);text-decoration:underline dotted}
+.w-extra{background:#efe7fb;color:#5b2ca0;text-decoration:line-through}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.8rem;margin-top:8px;color:var(--ink-2)}
+.mistakes{margin:8px 0 0;padding-left:20px;font-size:.92rem}
+.mic-state{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;color:var(--ink-2)}
+.mic-state i{width:9px;height:9px;border-radius:50%;background:#9db0cc}
+.mic-state.ok i{background:var(--good)}
+.mic-state.no i{background:var(--bad)}
+
+/* tutor */
+.honest{display:flex;gap:10px;align-items:flex-start}
+.chat{display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.msg{max-width:86%;padding:10px 13px;border-radius:14px;overflow-wrap:anywhere}
+.msg.coach{align-self:flex-start;background:var(--blue-l);border-bottom-left-radius:4px}
+.msg.user{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.msg.check{align-self:stretch;max-width:100%;background:#fff;border:1px solid var(--line)}
+.msg .who{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.74rem;font-weight:700;opacity:.8;margin-bottom:2px}
+.fix{margin-top:7px;padding-top:7px;border-top:1px dashed var(--line);font-size:.93rem}
+.fix del{color:var(--bad)}
+.fix ins{color:var(--good);text-decoration:none;font-weight:650}
+
+/* email */
+.email{white-space:pre-wrap;background:var(--blue-xl);border:1px solid var(--line);border-radius:11px;padding:12px;font-size:.93rem;overflow-wrap:anywhere}
+
+/* grammar table */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.78rem;color:var(--ink-2);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.ex-list{margin:8px 0 0;padding:0;list-style:none}
+.ex-list li{display:flex;align-items:center;gap:8px;padding:3px 0}
+.ex-list .icon-btn{width:40px;height:40px}
+.ex-list .ic{width:16px;height:16px}
+
+/* progress chart */
+.chart{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;height:170px;align-items:end;border-bottom:1px solid #c8d5e8;margin-top:22px}
+.chart .col{position:relative;height:100%;display:flex;align-items:flex-end;justify-content:center;border-radius:4px}
+.chart .col:hover{background:var(--blue-xl)}
+.chart .col i{display:block;width:min(56%,36px);min-height:0;background:var(--blue);border-radius:4px 4px 0 0}
+.chart .col.today i{background:var(--blue-d)}
+.chart .col b{position:absolute;left:50%;transform:translateX(-50%);font-size:.75rem;font-weight:650;color:var(--ink-2)}
+.chart .tip{display:none;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);z-index:3;background:var(--ink);color:#fff;padding:5px 9px;border-radius:7px;font-size:.78rem;white-space:nowrap}
+.chart .col:hover .tip,.chart .col:focus .tip{display:block}
+.chart .col:first-child .tip{left:0;transform:none}
+.chart .col:last-child .tip{left:auto;right:0;transform:none}
+.goal-line{position:absolute;left:0;right:0;border-top:2px dashed #7f93b2;pointer-events:none;z-index:2}
+.goal-line span{position:absolute;right:0;bottom:2px;font-size:.72rem;color:var(--ink-2);background:rgba(255,255,255,.88);padding:0 3px}
+.chart-x{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;text-align:center;font-size:.78rem;color:var(--ink-2);margin-top:5px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;max-width:min(92vw,440px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:.92rem;z-index:80;pointer-events:none;transition:all .2s;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.store-warn{background:var(--warn-bg);color:#6b3d00;padding:8px 16px;font-size:.88rem;text-align:center}
+
+/* responsive */
+@media (max-width:980px){
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-button,select,input{
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  font-size:16px;
-  border-radius:6px;
+@media (max-width:820px){
+  .sidebar{transform:translateX(-102%);transition:transform .2s;box-shadow:0 0 40px rgba(15,37,71,.2);width:min(82vw,290px)}
+  body.menu-open .sidebar{transform:none}
+  body.menu-open .scrim{display:block;position:fixed;inset:0;background:rgba(15,37,71,.42);z-index:35}
+  .main{margin-left:0;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+  .topbar{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:30;background:rgba(255,255,255,.95);border-bottom:1px solid var(--line);padding:8px 16px;font-weight:700;min-height:56px}
+  .topbar .icon-btn{border:0;background:transparent}
+  .topbar .brand-mark{width:32px;height:32px;border-radius:9px}
+  .view{padding:16px 16px 30px}
+  h1{font-size:1.38rem}
+  .bottom-nav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  .bottom-nav a,.bottom-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:58px;font-size:.72rem;font-weight:600;color:var(--ink-3);text-decoration:none;background:none;border:0;cursor:pointer;padding:0}
+  .bottom-nav [aria-current=page]{color:var(--blue-d)}
+  .toast{bottom:82px}
 }
-button{
-  background:#2e7d32;
-  color:#fff;
-  border:none;
+@media (max-width:560px){
+  .g2,.g3{grid-template-columns:minmax(0,1fr)}
+  .hero{padding:18px;gap:16px}
+  .ring{width:96px;height:96px}
+  .ring b{font-size:1.25rem}
+  .card{padding:15px}
+  .stat b{font-size:1.4rem}
+  .msg{max-width:92%}
+  .type-row{flex-wrap:wrap}
+  .type-row .btn{width:100%}
+  .mic-btn{width:100%}
 }
-.secondary{
-  background:#555;
-}
-.hidden{display:none}
-.progress{
-  height:8px;
-  background:#ddd;
-  border-radius:4px;
-  overflow:hidden;
-}
-.progress div{
-  height:100%;
-  background:#2e7d32;
-  width:0%;
-}
-.stat{
-  font-size:14px;
-  color:#555;
-}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
 </style>
 </head>
-
 <body>
-
-<h2>English Vocabulary Game 🎮</h2>
-
-<div class="card">
-
-<div class="stat" id="stats"></div>
-
-<div class="progress"><div id="bar"></div></div>
-
-<button class="secondary" onclick="goBack()">⬅ Back to Learn</button>
-
-<!-- HOME -->
-<div id="home">
-  <button onclick="startLevel()">▶ Start Level</button>
-  <button onclick="startDaily()">📅 Daily Practice</button>
+<aside class="sidebar" aria-label="Main navigation">
+  <div class="brand"><span class="brand-mark brand-ic"></span><span>Personal English<small>Speaking Coach</small></span></div>
+  <ul class="nav" id="nav"></ul>
+  <div class="side-foot">Works free in your browser.<br>No login or API key.</div>
+</aside>
+<div class="scrim" data-act="close-menu"></div>
+<div class="main">
+  <header class="topbar">
+    <button class="icon-btn" id="menu-btn" data-act="menu" aria-label="Open menu"></button>
+    <span class="brand-mark brand-ic"></span><span id="top-title">Dashboard</span>
+  </header>
+  <div class="store-warn hidden" id="store-warn" role="alert"></div>
+  <main class="view" id="view"></main>
 </div>
-
-<!-- LEARN -->
-<div id="learn" class="hidden">
-  <h3>Learn Words</h3>
-  <div id="list"></div>
-  <button onclick="startTest()">Start Test</button>
-</div>
-
-<!-- MCQ -->
-<div id="mcqBox" class="hidden">
-  <h3 id="eng"></h3>
-  <button onclick="speak()">🔊 Pronounce</button>
-  <select id="mcq"></select>
-  <button onclick="mcqNext()">Next</button>
-</div>
-
-<!-- SPELL -->
-<div id="spellBox" class="hidden">
-  <h3 id="bn"></h3>
-  <input id="spell" placeholder="Type English word">
-  <button onclick="spellNext()">Next</button>
-</div>
-
-<!-- RESULT -->
-<div id="result" class="hidden">
-  <h3 id="resultText"></h3>
-  <button onclick="continueGame()">Continue</button>
-</div>
-
-</div>
-
+<nav class="bottom-nav" id="bottom-nav" aria-label="Quick navigation"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:20px">Please turn on JavaScript to use this app.</p></noscript>
 <script>
-const allWords=[
-{e:"abandon",b:"পরিত্যাগ করা"},{e:"brave",b:"সাহসী"},
-{e:"calm",b:"শান্ত"},{e:"honest",b:"সৎ"},
-{e:"strong",b:"শক্তিশালী"},{e:"kind",b:"দয়ালু"},
-{e:"lazy",b:"আলসে"},{e:"fast",b:"দ্রুত"},
-{e:"happy",b:"খুশি"},{e:"smart",b:"চতুর"},
-{e:"angry",b:"রাগান্বিত"},{e:"clean",b:"পরিষ্কার"},
-{e:"danger",b:"বিপদ"},{e:"easy",b:"সহজ"},
-{e:"fresh",b:"তাজা"},{e:"heavy",b:"ভারী"},
-{e:"light",b:"হালকা"},{e:"quick",b:"দ্রুত"},
-{e:"safe",b:"নিরাপদ"},{e:"truth",b:"সত্য"}
+(function(){
+"use strict";
+/* ===== CONTENT: VOCABULARY =====
+   First 20 words (and their Bengali meanings) come unchanged from the original English Vocabulary Game.
+   Format: English | Bengali | Hindi | Pronunciation | Example | Category */
+const WORD_ROWS=[
+["abandon","পরিত্যাগ করা","छोड़ देना","uh-BAN-dun","He did not abandon his friend in trouble.","General"],
+["brave","সাহসী","बहादुर","BRAYV","The brave soldier saved many lives.","General"],
+["calm","শান্ত","शांत","KAHM","Please stay calm during the meeting.","General"],
+["honest","সৎ","ईमानदार","ON-ist","She is an honest and hardworking person.","General"],
+["strong","শক্তিশালী","मज़बूत","STRONG","You need a strong password for your account.","General"],
+["kind","দয়ালু","दयालु","KYND","My neighbour is very kind to everyone.","General"],
+["lazy","আলসে","आलसी","LAY-zee","Do not be lazy, finish your work today.","General"],
+["fast","দ্রুত","तेज़","FAST","This train is very fast.","General"],
+["happy","খুশি","खुश","HAP-ee","I am happy with my new job.","General"],
+["smart","চতুর","चतुर / होशियार","SMART","She is a smart student.","General"],
+["angry","রাগান্বিত","गुस्से में","ANG-gree","He was angry about the delay.","General"],
+["clean","পরিষ্কার","साफ़","KLEEN","Please keep your desk clean.","General"],
+["danger","বিপদ","ख़तरा","DAYN-jer","There is danger on this road at night.","General"],
+["easy","সহজ","आसान","EE-zee","This lesson is easy to follow.","General"],
+["fresh","তাজা","ताज़ा","FRESH","I buy fresh vegetables every morning.","General"],
+["heavy","ভারী","भारी","HEV-ee","This box is too heavy for me.","General"],
+["light","হালকা","हल्का","LYTE","This bag is very light.","General"],
+["quick","দ্রুত","जल्दी / तेज़","KWIK","Can we have a quick call?","General"],
+["safe","নিরাপদ","सुरक्षित","SAYF","Keep your documents in a safe place.","General"],
+["truth","সত্য","सच","TROOTH","Always tell the truth.","General"],
+["polite","ভদ্র","विनम्र","puh-LYTE","Always be polite to customers.","General"],
+["confident","আত্মবিশ্বাসী","आत्मविश्वासी","KON-fi-dent","I feel confident before my interview.","General"],
+["careful","সতর্ক","सावधान","KAIR-ful","Be careful while crossing the road.","General"],
+["patient","ধৈর্যশীল","धैर्यवान","PAY-shunt","A good teacher is always patient.","General"],
+["curious","কৌতূহলী","जिज्ञासु","KYOOR-ee-us","Children are curious about everything.","General"],
+["generous","উদার","उदार","JEN-er-us","He is generous with his time.","General"],
+["humble","বিনয়ী","नम्र","HUM-bul","She stayed humble after her success.","General"],
+["proud","গর্বিত","गर्वित","PROWD","My parents are proud of me.","General"],
+["afraid","ভীত","डरा हुआ","uh-FRAYD","Do not be afraid of making mistakes.","General"],
+["tired","ক্লান্ত","थका हुआ","TY-erd","I am tired after a long day.","General"],
+["achieve","অর্জন করা","हासिल करना","uh-CHEEV","We can achieve this target together.","General"],
+["improve","উন্নত করা","सुधारना","im-PROOV","I practise daily to improve my English.","General"],
+["practice","অনুশীলন","अभ्यास","PRAK-tis","Daily practice makes you better.","General"],
+["remember","মনে রাখা","याद रखना","ri-MEM-ber","Please remember to send the report.","General"],
+["forget","ভুলে যাওয়া","भूल जाना","fer-GET","Do not forget your laptop charger.","General"],
+["explain","ব্যাখ্যা করা","समझाना","ik-SPLAYN","Can you explain this chart to me?","General"],
+["decide","সিদ্ধান্ত নেওয়া","निर्णय लेना","di-SYD","We will decide after the meeting.","General"],
+["believe","বিশ্বাস করা","विश्वास करना","bi-LEEV","I believe in hard work.","General"],
+["borrow","ধার নেওয়া","उधार लेना","BOR-oh","May I borrow your pen?","General"],
+["promise","প্রতিশ্রুতি দেওয়া","वादा करना","PROM-is","I promise to finish it today.","General"],
+["habit","অভ্যাস","आदत","HAB-it","Reading every day is a good habit.","General"],
+["journey","যাত্রা","यात्रा","JUR-nee","The journey to Kolkata took six hours.","General"],
+["knowledge","জ্ঞান","ज्ञान","NOL-ij","Good knowledge of Excel is useful at work.","General"],
+["opportunity","সুযোগ","अवसर","op-er-TYOO-ni-tee","This job is a great opportunity for me.","General"],
+["experience","অভিজ্ঞতা","अनुभव","ik-SPEER-ee-ens","I have three years of work experience.","General"],
+["success","সাফল্য","सफलता","suk-SES","Hard work brings success.","General"],
+["mistake","ভুল","ग़लती","mi-STAYK","Everyone makes a mistake sometimes.","General"],
+["advice","পরামর্শ","सलाह","ad-VYSE","My manager gave me good advice.","General"],
+["neighbour","প্রতিবেশী","पड़ोसी","NAY-ber","Our neighbour helped us yesterday.","General"],
+["festival","উৎসব","त्योहार","FES-ti-vul","Durga Puja is my favourite festival.","General"],
+["important","গুরুত্বপূর্ণ","महत्वपूर्ण","im-POR-tunt","This meeting is very important.","General"],
+["necessary","প্রয়োজনীয়","आवश्यक","NES-uh-ser-ee","It is necessary to check the numbers.","General"],
+["difficult","কঠিন","कठिन","DIF-i-kult","English is not difficult with practice.","General"],
+["possible","সম্ভব","संभव","POS-uh-bul","Is it possible to finish by Friday?","General"],
+["comfortable","আরামদায়ক","आरामदायक","KUMF-ter-bul","This sofa is very comfortable.","General"],
+["expensive","দামি","महँगा","ik-SPEN-siv","This phone is too expensive.","General"],
+["cheap","সস্তা","सस्ता","CHEEP","Vegetables are cheap in the local market.","General"],
+["crowded","ভিড়যুক্ত","भीड़ भरा","KROW-did","The local train is crowded in the morning.","General"],
+["quiet","নীরব","शांत","KWY-ut","Please find a quiet place for the call.","General"],
+["beautiful","সুন্দর","सुंदर","BYOO-ti-ful","Darjeeling is a beautiful place.","General"],
+["deadline","শেষ সময়সীমা","अंतिम समय-सीमा","DED-lyn","The deadline for this report is Friday.","Office"],
+["schedule","সময়সূচি","समय-सारणी","SKEJ-ool","Let me check my schedule for tomorrow.","Office"],
+["meeting","সভা","बैठक","MEE-ting","The meeting starts at eleven.","Office"],
+["report","প্রতিবেদন","रिपोर्ट","ri-PORT","I send the sales report every morning.","Office"],
+["target","লক্ষ্যমাত্রা","लक्ष्य","TAR-git","We achieved our monthly sales target.","Office"],
+["revenue","আয়","राजस्व / आय","REV-uh-nyoo","Our revenue increased this quarter.","Office"],
+["profit","লাভ","लाभ","PROF-it","The profit is higher than last year.","Office"],
+["discount","ছাড়","छूट","DIS-kownt","The customer asked for a discount.","Office"],
+["customer","গ্রাহক","ग्राहक","KUS-tuh-mer","The customer is happy with the service.","Office"],
+["invoice","চালান","बीजक / इनवॉइस","IN-voys","Please share the invoice with accounts.","Office"],
+["inventory","মজুত পণ্য","माल का भंडार","IN-vun-tor-ee","We check the inventory every week.","Office"],
+["analysis","বিশ্লেষণ","विश्लेषण","uh-NAL-uh-sis","This analysis shows the sales trend.","Office"],
+["accurate","নির্ভুল","सटीक","AK-yuh-rut","The data must be accurate.","Office"],
+["update","সর্বশেষ তথ্য","ताज़ा जानकारी","UP-dayt","Please give me an update by evening.","Office"],
+["approve","অনুমোদন করা","मंज़ूरी देना","uh-PROOV","My manager will approve the leave.","Office"],
+["responsible","দায়িত্বশীল","ज़िम्मेदार","ri-SPON-suh-bul","I am responsible for the daily reports.","Office"],
+["colleague","সহকর্মী","सहकर्मी","KOL-eeg","My colleague helped me with the file.","Office"],
+["manager","ব্যবস্থাপক","प्रबंधक","MAN-i-jer","My manager reviews the report.","Office"],
+["attachment","সংযুক্ত ফাইল","संलग्न फ़ाइल","uh-TACH-munt","Please check the attachment in my email.","Office"],
+["summary","সারাংশ","सारांश","SUM-uh-ree","Here is a short summary of the data.","Office"],
+["priority","অগ্রাধিকার","प्राथमिकता","pry-OR-i-tee","This task is my top priority today.","Office"],
+["feedback","মতামত","राय / प्रतिक्रिया","FEED-bak","I would like your feedback on this report.","Office"],
+["delay","বিলম্ব","देरी","di-LAY","I am sorry for the delay.","Office"],
+["issue","সমস্যা","समस्या","ISH-oo","There is an issue with the data file.","Office"],
+["solution","সমাধান","समाधान","suh-LOO-shun","We found a solution to the problem.","Office"],
+["increase","বৃদ্ধি","वृद्धि","IN-krees","There is an increase in online orders.","Office"],
+["decrease","হ্রাস","कमी","DEE-krees","We saw a small decrease in returns.","Office"],
+["growth","প্রবৃদ্ধি","बढ़ोतरी","GROHTH","Sales growth was ten percent this month.","Office"],
+["compare","তুলনা করা","तुलना करना","kum-PAIR","Let us compare this month with last month.","Office"],
+["confirm","নিশ্চিত করা","पुष्टि करना","kun-FERM","Please confirm the numbers by noon.","Office"],
+["efficient","দক্ষ","कुशल","i-FISH-unt","This new process is more efficient.","Office"],
+["performance","কর্মদক্ষতা","प्रदर्शन","per-FOR-muns","Our team performance is improving.","Office"],
+["achievement","কৃতিত্ব","उपलब्धि","uh-CHEEV-munt","This award is a big achievement.","Office"],
+["negotiate","আলোচনা করে রফা করা","मोलभाव करना","ni-GOH-shee-ayt","We need to negotiate the price.","Office"],
+["forecast","পূর্বাভাস","पूर्वानुमान","FOR-kast","The sales forecast for next month is good.","Office"],
+["budget","বাজেট","बजट","BUJ-it","We must stay within the budget.","Office"],
+["escalate","ঊর্ধ্বতনকে জানানো","ऊपर के अधिकारी तक पहुँचाना","ES-kuh-layt","Please escalate this issue to the manager.","Office"],
+["reconcile","মিলিয়ে দেখা","मिलान करना","REK-un-syl","We reconcile the sales data every month.","Office"],
+["dashboard","ড্যাশবোর্ড","डैशबोर्ड","DASH-bord","The dashboard shows today's sales.","Office"],
+["stakeholder","সংশ্লিষ্ট পক্ষ","हितधारक","STAYK-hohl-der","All stakeholders will join the review.","Office"]
+];
+const WORDS=WORD_ROWS.map(r=>({e:r[0],b:r[1],h:r[2],p:r[3],x:r[4],c:r[5]}));
+
+/* ===== CONTENT: DAILY LESSONS =====
+   Each line: [speaker, English, Bengali, Hindi] */
+const LESSONS={
+Beginner:[
+{id:"b1",t:"Greetings and introductions",goal:"Greet people and say who you are.",lines:[
+["Amit","Good morning! How are you?","সুপ্রভাত! আপনি কেমন আছেন?","सुप्रभात! आप कैसे हैं?"],
+["Riya","I am fine, thank you. And you?","আমি ভালো আছি, ধন্যবাদ। আপনি?","मैं ठीक हूँ, धन्यवाद। और आप?"],
+["Amit","I am good too. My name is Amit.","আমিও ভালো আছি। আমার নাম অমিত।","मैं भी अच्छा हूँ। मेरा नाम अमित है।"],
+["Riya","Nice to meet you, Amit. I am Riya.","আপনার সাথে দেখা হয়ে ভালো লাগল, অমিত। আমি রিয়া।","आपसे मिलकर अच्छा लगा, अमित। मैं रिया हूँ।"],
+["Amit","Where do you live, Riya?","রিয়া, আপনি কোথায় থাকেন?","रिया, आप कहाँ रहती हैं?"],
+["Riya","I live in Kolkata with my family.","আমি পরিবারের সাথে কলকাতায় থাকি।","मैं अपने परिवार के साथ कोलकाता में रहती हूँ।"]]},
+{id:"b2",t:"Talking about family",goal:"Describe the people in your family.",lines:[
+["Neha","How many people are there in your family?","আপনার পরিবারে কতজন আছেন?","आपके परिवार में कितने लोग हैं?"],
+["Sumit","There are five people in my family.","আমার পরিবারে পাঁচজন আছেন।","मेरे परिवार में पाँच लोग हैं।"],
+["Neha","What does your father do?","আপনার বাবা কী করেন?","आपके पिताजी क्या करते हैं?"],
+["Sumit","My father is a teacher in a school.","আমার বাবা একটি স্কুলের শিক্ষক।","मेरे पिताजी एक स्कूल में शिक्षक हैं।"],
+["Neha","Do you have any brothers or sisters?","আপনার কি ভাই বা বোন আছে?","क्या आपके भाई या बहन हैं?"],
+["Sumit","Yes, I have one younger sister.","হ্যাঁ, আমার একটি ছোট বোন আছে।","हाँ, मेरी एक छोटी बहन है।"]]},
+{id:"b3",t:"My daily routine",goal:"Say what you do every day.",lines:[
+["Coach","What time do you wake up?","আপনি কখন ঘুম থেকে ওঠেন?","आप कितने बजे उठते हैं?"],
+["You","I wake up at six in the morning.","আমি সকাল ছটায় ঘুম থেকে উঠি।","मैं सुबह छह बजे उठता हूँ।"],
+["Coach","What do you do after that?","তারপর আপনি কী করেন?","उसके बाद आप क्या करते हैं?"],
+["You","I take a bath and have breakfast.","আমি স্নান করি এবং জলখাবার খাই।","मैं नहाता हूँ और नाश्ता करता हूँ।"],
+["Coach","When do you leave for office?","আপনি কখন অফিসের জন্য বের হন?","आप ऑफ़िस के लिए कब निकलते हैं?"],
+["You","I leave home at nine o'clock.","আমি নটায় বাড়ি থেকে বের হই।","मैं नौ बजे घर से निकलता हूँ।"]]},
+{id:"b4",t:"At the shop",goal:"Ask for things and ask the price.",lines:[
+["Shopkeeper","Hello, what do you need today?","নমস্কার, আজ আপনার কী লাগবে?","नमस्ते, आज आपको क्या चाहिए?"],
+["Customer","I need one kilo of rice, please.","আমার এক কিলো চাল দরকার।","मुझे एक किलो चावल चाहिए।"],
+["Shopkeeper","Do you want anything else?","আপনার আর কিছু লাগবে?","क्या आपको और कुछ चाहिए?"],
+["Customer","Yes, please give me a packet of tea.","হ্যাঁ, আমাকে এক প্যাকেট চা দিন।","हाँ, मुझे एक पैकेट चाय दीजिए।"],
+["Customer","How much is it all together?","সব মিলিয়ে কত হলো?","कुल कितने पैसे हुए?"],
+["Shopkeeper","It is two hundred rupees.","মোট দুশো টাকা।","कुल दो सौ रुपये हुए।"]]},
+{id:"b5",t:"Asking for directions",goal:"Ask the way and understand the reply.",lines:[
+["Traveller","Excuse me, where is the bus stop?","মাফ করবেন, বাস স্টপ কোথায়?","माफ़ कीजिए, बस स्टॉप कहाँ है?"],
+["Local","Go straight and turn left.","সোজা গিয়ে বাঁ দিকে ঘুরুন।","सीधे जाइए और बाएँ मुड़िए।"],
+["Traveller","Is it far from here?","এটা কি এখান থেকে দূরে?","क्या यह यहाँ से दूर है?"],
+["Local","No, it is only five minutes on foot.","না, হেঁটে মাত্র পাঁচ মিনিট।","नहीं, पैदल सिर्फ़ पाँच मिनट है।"],
+["Traveller","Thank you very much for your help.","আপনার সাহায্যের জন্য অনেক ধন্যবাদ।","आपकी मदद के लिए बहुत धन्यवाद।"],
+["Local","You are welcome. Have a nice day.","স্বাগতম। আপনার দিনটি ভালো কাটুক।","कोई बात नहीं। आपका दिन शुभ हो।"]]},
+{id:"b6",t:"A simple phone call",goal:"Start and end a phone call politely.",lines:[
+["Caller","Hello, may I speak to Mr. Sharma?","হ্যালো, আমি কি মিস্টার শর্মার সাথে কথা বলতে পারি?","हेलो, क्या मैं शर्मा जी से बात कर सकता हूँ?"],
+["Office","Sorry, he is not here right now.","দুঃখিত, তিনি এখন এখানে নেই।","माफ़ कीजिए, वे अभी यहाँ नहीं हैं।"],
+["Caller","When will he be back?","তিনি কখন ফিরবেন?","वे कब वापस आएँगे?"],
+["Office","He will be back after lunch.","তিনি দুপুরের খাবারের পরে ফিরবেন।","वे दोपहर के खाने के बाद लौटेंगे।"],
+["Caller","Please ask him to call me back.","দয়া করে তাঁকে আমাকে ফোন করতে বলবেন।","कृपया उनसे कहिए कि मुझे वापस फ़ोन करें।"],
+["Office","Sure, I will tell him.","নিশ্চয়ই, আমি তাঁকে বলে দেব।","ज़रूर, मैं उन्हें बता दूँगा।"]]}
+],
+Intermediate:[
+{id:"i1",t:"At a restaurant",goal:"Order food and ask for the bill.",lines:[
+["Waiter","Good evening. Are you ready to order?","শুভ সন্ধ্যা। আপনারা কি অর্ডার দিতে প্রস্তুত?","शुभ संध्या। क्या आप ऑर्डर देने के लिए तैयार हैं?"],
+["Guest","Could you please suggest something light?","আপনি কি হালকা কিছু খাবার বলতে পারেন?","क्या आप कुछ हल्का सुझा सकते हैं?"],
+["Waiter","The vegetable soup is very good today.","আজকের সবজির স্যুপ খুব ভালো।","आज का सब्ज़ियों का सूप बहुत अच्छा है।"],
+["Guest","I will have that, with one plate of fried rice.","আমি সেটাই নেব, সাথে এক প্লেট ফ্রায়েড রাইস।","मैं वही लूँगा, साथ में एक प्लेट फ़्राइड राइस।"],
+["Guest","Could we have the bill, please?","আমরা কি বিলটা পেতে পারি?","क्या हमें बिल मिल सकता है?"],
+["Waiter","Certainly. Would you like to pay by card or cash?","অবশ্যই। আপনি কি কার্ডে দেবেন, না নগদে?","ज़रूर। आप कार्ड से देंगे या नकद?"]]},
+{id:"i2",t:"Visiting the doctor",goal:"Explain a health problem clearly.",lines:[
+["Doctor","What seems to be the problem?","আপনার সমস্যাটা কী?","आपको क्या तकलीफ़ है?"],
+["Patient","I have had a fever since yesterday.","গতকাল থেকে আমার জ্বর।","मुझे कल से बुख़ार है।"],
+["Doctor","Do you also have a cough or a headache?","আপনার কি কাশি বা মাথাব্যথাও আছে?","क्या आपको खाँसी या सिरदर्द भी है?"],
+["Patient","Yes, my head has been hurting all morning.","হ্যাঁ, সকাল থেকে আমার মাথা ব্যথা করছে।","हाँ, सुबह से मेरे सिर में दर्द है।"],
+["Doctor","Take this medicine twice a day after food.","এই ওষুধটি দিনে দুবার খাবারের পরে খাবেন।","यह दवा दिन में दो बार खाने के बाद लीजिए।"],
+["Patient","Should I come back for a check-up?","আমাকে কি আবার দেখাতে আসতে হবে?","क्या मुझे दोबारा दिखाने आना चाहिए?"]]},
+{id:"i3",t:"Booking a train ticket",goal:"Ask about trains, seats and fares.",lines:[
+["Passenger","I would like to book a ticket to Delhi.","আমি দিল্লির একটি টিকিট কাটতে চাই।","मैं दिल्ली का एक टिकट बुक करना चाहता हूँ।"],
+["Clerk","Which date are you planning to travel?","আপনি কোন তারিখে যেতে চান?","आप किस तारीख़ को यात्रा करना चाहते हैं?"],
+["Passenger","I am planning to leave next Monday.","আমি আগামী সোমবার যাওয়ার পরিকল্পনা করছি।","मैं अगले सोमवार को जाने की सोच रहा हूँ।"],
+["Clerk","There are only a few seats left in sleeper class.","স্লিপার ক্লাসে আর অল্প কয়েকটি আসন বাকি আছে।","स्लीपर क्लास में बस कुछ ही सीटें बची हैं।"],
+["Passenger","That is fine. What is the total fare?","ঠিক আছে। মোট ভাড়া কত?","ठीक है। कुल किराया कितना है?"],
+["Clerk","The fare is eight hundred rupees.","ভাড়া আটশো টাকা।","किराया आठ सौ रुपये है।"]]},
+{id:"i4",t:"Making plans with friends",goal:"Invite someone and agree on a time.",lines:[
+["Rahul","Are you free this weekend?","এই সপ্তাহান্তে তুমি কি ফাঁকা আছ?","क्या तुम इस सप्ताहांत खाली हो?"],
+["Priya","I think so. What do you have in mind?","মনে হয় আছি। তুমি কী ভাবছ?","शायद हाँ। तुम्हारे मन में क्या है?"],
+["Rahul","Why don't we watch a movie on Saturday?","শনিবার একটা সিনেমা দেখলে কেমন হয়?","क्यों न हम शनिवार को फ़िल्म देखें?"],
+["Priya","That sounds great. What time should we meet?","দারুণ শোনাচ্ছে। আমরা কখন দেখা করব?","बहुत बढ़िया। हम कितने बजे मिलें?"],
+["Rahul","Let us meet at the mall at four.","চলো চারটেয় মলে দেখা করি।","चलो चार बजे मॉल में मिलते हैं।"],
+["Priya","Perfect. I will see you there.","ঠিক আছে। সেখানেই দেখা হবে।","ठीक है। वहीं मिलते हैं।"]]},
+{id:"i5",t:"Calling customer care",goal:"Make a polite complaint.",lines:[
+["Agent","Thank you for calling. How may I help you?","ফোন করার জন্য ধন্যবাদ। আমি কীভাবে সাহায্য করতে পারি?","फ़ोन करने के लिए धन्यवाद। मैं आपकी क्या मदद कर सकता हूँ?"],
+["Customer","I received a damaged product yesterday.","আমি গতকাল একটি ক্ষতিগ্রস্ত পণ্য পেয়েছি।","मुझे कल एक ख़राब सामान मिला।"],
+["Agent","I am very sorry about that. May I have your order number?","এর জন্য আমি খুব দুঃখিত। আপনার অর্ডার নম্বরটি বলবেন?","इसके लिए मुझे बहुत खेद है। क्या आप अपना ऑर्डर नंबर बता सकते हैं?"],
+["Customer","Yes, I have sent it to you by message.","হ্যাঁ, আমি মেসেজে পাঠিয়ে দিয়েছি।","हाँ, मैंने उसे मैसेज से भेज दिया है।"],
+["Customer","I would like a replacement as soon as possible.","আমি যত তাড়াতাড়ি সম্ভব একটি বদলি পণ্য চাই।","मुझे जल्द से जल्द इसका बदला हुआ सामान चाहिए।"],
+["Agent","We will arrange it within three days.","আমরা তিন দিনের মধ্যে ব্যবস্থা করে দেব।","हम तीन दिनों के अंदर इसकी व्यवस्था कर देंगे।"]]},
+{id:"i6",t:"Talking about hobbies",goal:"Share what you enjoy and why.",lines:[
+["Anjali","What do you usually do in your free time?","অবসর সময়ে আপনি সাধারণত কী করেন?","ख़ाली समय में आप आमतौर पर क्या करते हैं?"],
+["Vikram","I enjoy reading and listening to music.","আমি পড়তে এবং গান শুনতে ভালোবাসি।","मुझे पढ़ना और संगीत सुनना पसंद है।"],
+["Anjali","How long have you been reading books?","আপনি কতদিন ধরে বই পড়ছেন?","आप कितने समय से किताबें पढ़ रहे हैं?"],
+["Vikram","I have been reading since my school days.","আমি স্কুলের দিন থেকে বই পড়ছি।","मैं स्कूल के दिनों से पढ़ रहा हूँ।"],
+["Anjali","It helps you relax after work, doesn't it?","এটা কাজের পরে আরাম দেয়, তাই না?","यह काम के बाद आराम देता है, है ना?"],
+["Vikram","Yes, and it also improves my vocabulary.","হ্যাঁ, আর এতে আমার শব্দভাণ্ডারও বাড়ে।","हाँ, और इससे मेरी शब्दावली भी बेहतर होती है।"]]}
+],
+Advanced:[
+{id:"a1",t:"Giving your opinion",goal:"Share a view with reasons.",lines:[
+["Sara","What is your opinion on working from home?","বাড়ি থেকে কাজ করা নিয়ে আপনার মতামত কী?","घर से काम करने के बारे में आपकी क्या राय है?"],
+["Karan","In my opinion, it saves time and improves focus.","আমার মতে, এতে সময় বাঁচে এবং মনোযোগ বাড়ে।","मेरी राय में, इससे समय बचता है और ध्यान बेहतर होता है।"],
+["Sara","However, some people feel isolated at home.","তবে কেউ কেউ বাড়িতে একা বোধ করেন।","हालाँकि, कुछ लोग घर पर अकेलापन महसूस करते हैं।"],
+["Karan","That is a fair point, and I understand it.","এটা যুক্তিসঙ্গত কথা, আমি বুঝি।","यह सही बात है, और मैं इसे समझता हूँ।"],
+["Karan","A hybrid model may offer the best of both.","হাইব্রিড মডেলে হয়তো দুটোরই সুবিধা পাওয়া যাবে।","हाइब्रिड मॉडल से शायद दोनों के फ़ायदे मिल सकते हैं।"],
+["Sara","I completely agree with you on that.","এ বিষয়ে আমি আপনার সাথে সম্পূর্ণ একমত।","इस पर मैं आपसे पूरी तरह सहमत हूँ।"]]},
+{id:"a2",t:"Disagreeing politely",goal:"Say no without sounding rude.",lines:[
+["Manager","I think we should launch the offer next week.","আমার মনে হয় আগামী সপ্তাহে অফারটি চালু করা উচিত।","मुझे लगता है हमें अगले हफ़्ते ऑफ़र शुरू करना चाहिए।"],
+["Analyst","I see your point, but the stock may not be ready.","আপনার কথা বুঝতে পারছি, কিন্তু মাল হয়তো তৈরি থাকবে না।","मैं आपकी बात समझता हूँ, लेकिन स्टॉक शायद तैयार नहीं होगा।"],
+["Manager","What makes you say that?","আপনি এটা কেন বলছেন?","आप ऐसा क्यों कह रहे हैं?"],
+["Analyst","With respect, the latest data shows a shortage.","সম্মানের সাথে বলছি, সর্বশেষ তথ্য ঘাটতি দেখাচ্ছে।","सम्मान के साथ, ताज़ा आँकड़े कमी दिखा रहे हैं।"],
+["Analyst","Could we consider moving it by one week?","আমরা কি এক সপ্তাহ পিছিয়ে দেওয়ার কথা ভাবতে পারি?","क्या हम इसे एक हफ़्ते आगे बढ़ाने पर विचार कर सकते हैं?"],
+["Manager","That seems reasonable. Let us review it tomorrow.","এটা যুক্তিসঙ্গত মনে হচ্ছে। কাল আবার দেখে নেব।","यह ठीक लगता है। कल इसकी समीक्षा करते हैं।"]]},
+{id:"a3",t:"Solving a problem together",goal:"Describe a cause and suggest a fix.",lines:[
+["Lead","Why did the numbers change after the update?","আপডেটের পরে সংখ্যাগুলো কেন বদলে গেল?","अपडेट के बाद आँकड़े क्यों बदल गए?"],
+["Analyst","It appears that some records were counted twice.","মনে হচ্ছে কিছু রেকর্ড দুবার গোনা হয়েছে।","लगता है कुछ रिकॉर्ड दो बार गिने गए।"],
+["Lead","How can we prevent this from happening again?","আবার যাতে এমন না হয়, তার জন্য কী করতে পারি?","इसे दोबारा होने से कैसे रोक सकते हैं?"],
+["Analyst","We could add an automatic check before each upload.","প্রতিবার আপলোডের আগে আমরা একটি স্বয়ংক্রিয় যাচাই যোগ করতে পারি।","हम हर अपलोड से पहले एक स्वचालित जाँच जोड़ सकते हैं।"],
+["Lead","Good idea. How long would that take?","ভালো ভাবনা। এতে কত সময় লাগবে?","अच्छा विचार है। इसमें कितना समय लगेगा?"],
+["Analyst","I expect to finish it by the end of this week.","আমি এই সপ্তাহের শেষের মধ্যে শেষ করার আশা করছি।","मुझे उम्मीद है कि मैं इस हफ़्ते के अंत तक पूरा कर लूँगा।"]]},
+{id:"a4",t:"Presenting an idea",goal:"Open, explain and close a short talk.",lines:[
+["Speaker","Thank you all for joining me today.","আজ আমার সাথে যোগ দেওয়ার জন্য সবাইকে ধন্যবাদ।","आज मेरे साथ जुड़ने के लिए आप सभी का धन्यवाद।"],
+["Speaker","I would like to share an idea to reduce returns.","আমি রিটার্ন কমানোর একটি ভাবনা জানাতে চাই।","मैं रिटर्न कम करने का एक विचार साझा करना चाहता हूँ।"],
+["Speaker","As you can see, most returns happen in the first week.","যেমন দেখছেন, বেশিরভাগ রিটার্ন প্রথম সপ্তাহেই হয়।","जैसा कि आप देख सकते हैं, ज़्यादातर रिटर्न पहले हफ़्ते में होते हैं।"],
+["Speaker","Therefore, we should call customers soon after delivery.","তাই ডেলিভারির পরেই গ্রাহকদের ফোন করা উচিত।","इसलिए हमें डिलीवरी के तुरंत बाद ग्राहकों को फ़ोन करना चाहिए।"],
+["Speaker","To sum up, a small step can save a lot of money.","সংক্ষেপে, একটি ছোট পদক্ষেপ অনেক টাকা বাঁচাতে পারে।","संक्षेप में, एक छोटा क़दम बहुत पैसा बचा सकता है।"],
+["Speaker","I would be happy to take any questions now.","এখন যেকোনো প্রশ্নের উত্তর দিতে পেরে আমি খুশি হব।","अब मुझे आपके सवालों के जवाब देने में ख़ुशी होगी।"]]},
+{id:"a5",t:"Networking and small talk",goal:"Start a friendly professional chat.",lines:[
+["Meera","Hi, I don't think we have met. I am Meera.","হাই, মনে হয় আমাদের আগে দেখা হয়নি। আমি মীরা।","नमस्ते, शायद हम पहले नहीं मिले। मैं मीरा हूँ।"],
+["Arjun","Pleased to meet you. Which team do you work with?","আপনার সাথে পরিচিত হয়ে খুশি হলাম। আপনি কোন দলে কাজ করেন?","आपसे मिलकर ख़ुशी हुई। आप किस टीम में काम करती हैं?"],
+["Meera","I work in marketing. How about you?","আমি মার্কেটিংয়ে কাজ করি। আপনি?","मैं मार्केटिंग में काम करती हूँ। और आप?"],
+["Arjun","I handle reporting and data for the sales team.","আমি সেলস টিমের রিপোর্টিং ও ডেটা দেখি।","मैं सेल्स टीम की रिपोर्टिंग और डेटा देखता हूँ।"],
+["Meera","That sounds interesting. We should talk more sometime.","শুনতে ভালো লাগছে। আমাদের কখনও আরও কথা বলা উচিত।","यह दिलचस्प लगता है। हमें कभी और बात करनी चाहिए।"],
+["Arjun","Definitely. Let me give you my contact details.","অবশ্যই। আমি আপনাকে আমার যোগাযোগের তথ্য দিচ্ছি।","ज़रूर। मैं आपको अपना संपर्क विवरण देता हूँ।"]]},
+{id:"a6",t:"Discussing your career",goal:"Talk about growth with your manager.",lines:[
+["You","Do you have a few minutes to discuss my career?","আমার কেরিয়ার নিয়ে কথা বলার জন্য আপনার কি কয়েক মিনিট সময় হবে?","क्या आपके पास मेरे करियर पर बात करने के लिए कुछ मिनट हैं?"],
+["Manager","Of course. What would you like to talk about?","অবশ্যই। আপনি কী নিয়ে কথা বলতে চান?","ज़रूर। आप किस बारे में बात करना चाहते हैं?"],
+["You","I am keen to take on more responsibility.","আমি আরও দায়িত্ব নিতে আগ্রহী।","मैं और ज़िम्मेदारी लेने के लिए उत्सुक हूँ।"],
+["You","Over the past year, I have automated several reports.","গত এক বছরে আমি কয়েকটি রিপোর্ট স্বয়ংক্রিয় করেছি।","पिछले एक साल में मैंने कई रिपोर्ट स्वचालित की हैं।"],
+["Manager","That has been very useful for the team.","এটা দলের জন্য খুব কাজে লেগেছে।","यह टीम के लिए बहुत उपयोगी रहा है।"],
+["You","What skills should I develop for the next role?","পরের পদের জন্য আমার কোন দক্ষতা বাড়ানো উচিত?","अगली भूमिका के लिए मुझे कौन से कौशल विकसित करने चाहिए?"]]}
+]};
+const ALL_LESSONS=[].concat(LESSONS.Beginner,LESSONS.Intermediate,LESSONS.Advanced);
+
+/* ===== CONTENT: OFFICE ENGLISH =====
+   Each phrase: [English, Bengali, Hindi] */
+const OFFICE={
+daily:{t:"Daily office talk",icon:"building",d:"Small sentences you use every day at work.",phrases:[
+["Good morning, everyone.","সবাইকে সুপ্রভাত।","सभी को सुप्रभात।"],
+["Could you please help me with this?","আপনি কি এ বিষয়ে আমাকে একটু সাহায্য করবেন?","क्या आप इसमें मेरी मदद कर सकते हैं?"],
+["I will get back to you shortly.","আমি একটু পরেই আপনাকে জানাচ্ছি।","मैं आपको थोड़ी देर में बताता हूँ।"],
+["Let me check and confirm.","আমি দেখে নিশ্চিত করছি।","मैं देखकर पुष्टि करता हूँ।"],
+["Sorry, I did not get that. Could you repeat it?","দুঃখিত, বুঝতে পারিনি। আবার বলবেন?","माफ़ कीजिए, मैं समझ नहीं पाया। क्या आप दोहरा सकते हैं?"],
+["I am working on it right now.","আমি এখনই এটার কাজ করছি।","मैं अभी इस पर काम कर रहा हूँ।"],
+["I am leaving for the day. See you tomorrow.","আমি আজকের মতো যাচ্ছি। কাল দেখা হবে।","मैं आज के लिए निकल रहा हूँ। कल मिलते हैं।"]]},
+email:{t:"Email writing",icon:"mail",d:"Ready-to-use emails and useful lines.",phrases:[
+["I hope you are doing well.","আশা করি আপনি ভালো আছেন।","आशा है आप अच्छे होंगे।"],
+["Please find the report attached.","রিপোর্টটি সংযুক্ত করা হলো।","रिपोर्ट संलग्न है।"],
+["Please let me know if you need anything else.","আর কিছু লাগলে আমাকে জানাবেন।","और कुछ चाहिए तो मुझे बताइए।"],
+["I am writing to request two days of leave.","আমি দুদিনের ছুটির অনুরোধ জানাতে লিখছি।","मैं दो दिन की छुट्टी का अनुरोध करने के लिए लिख रहा हूँ।"],
+["Thank you for your quick response.","দ্রুত উত্তর দেওয়ার জন্য ধন্যবাদ।","जल्दी जवाब देने के लिए धन्यवाद।"],
+["I look forward to hearing from you.","আপনার উত্তরের অপেক্ষায় রইলাম।","आपके जवाब की प्रतीक्षा रहेगी।"]]},
+meeting:{t:"Meetings",icon:"users",d:"Join, speak up and follow up in meetings.",phrases:[
+["Shall we get started?","আমরা কি শুরু করতে পারি?","क्या हम शुरू करें?"],
+["Can everyone hear me clearly?","সবাই কি আমার কথা পরিষ্কার শুনতে পাচ্ছেন?","क्या सभी मुझे साफ़ सुन पा रहे हैं?"],
+["May I add something here?","আমি কি এখানে কিছু যোগ করতে পারি?","क्या मैं यहाँ कुछ जोड़ सकता हूँ?"],
+["Could you share your screen, please?","আপনি কি আপনার স্ক্রিন শেয়ার করবেন?","क्या आप अपनी स्क्रीन साझा कर सकते हैं?"],
+["Let us come back to the main point.","চলুন মূল বিষয়ে ফিরে আসি।","चलिए मुख्य बात पर वापस आते हैं।"],
+["To summarise, these are the action items.","সংক্ষেপে, এই হলো করণীয় কাজগুলো।","संक्षेप में, ये करने वाले काम हैं।"],
+["I will share the minutes after the meeting.","সভার পরে আমি কার্যবিবরণী পাঠিয়ে দেব।","बैठक के बाद मैं कार्यवृत्त भेज दूँगा।"]]},
+manager:{t:"Talking to managers",icon:"briefcase",d:"Give updates, ask for help, request leave.",phrases:[
+["Do you have a minute?","আপনার কি এক মিনিট সময় হবে?","क्या आपके पास एक मिनट है?"],
+["I wanted to give you a quick update.","আমি আপনাকে একটি ছোট আপডেট দিতে চেয়েছিলাম।","मैं आपको एक छोटी सी जानकारी देना चाहता था।"],
+["The report will be ready by five o'clock.","পাঁচটার মধ্যে রিপোর্ট তৈরি হয়ে যাবে।","रिपोर्ट पाँच बजे तक तैयार हो जाएगी।"],
+["I need your approval on this.","এ বিষয়ে আমার আপনার অনুমোদন দরকার।","इस पर मुझे आपकी मंज़ूरी चाहिए।"],
+["I am facing an issue and need your guidance.","আমি একটি সমস্যায় পড়েছি, আপনার পরামর্শ দরকার।","मुझे एक समस्या आ रही है और आपके मार्गदर्शन की ज़रूरत है।"],
+["May I take leave on Friday?","আমি কি শুক্রবার ছুটি নিতে পারি?","क्या मैं शुक्रवार को छुट्टी ले सकता हूँ?"],
+["I am sorry for the mistake. I will correct it now.","ভুলের জন্য আমি দুঃখিত। আমি এখনই ঠিক করে দিচ্ছি।","ग़लती के लिए मुझे खेद है। मैं इसे अभी ठीक करता हूँ।"]]},
+sales:{t:"Sales and MIS reporting",icon:"chart",d:"Explain numbers, trends and data issues.",phrases:[
+["Today's sales report has been shared on email.","আজকের সেলস রিপোর্ট ইমেলে পাঠানো হয়েছে।","आज की सेल्स रिपोर्ट ईमेल पर भेज दी गई है।"],
+["Sales increased by ten percent compared to last week.","গত সপ্তাহের তুলনায় বিক্রি দশ শতাংশ বেড়েছে।","पिछले हफ़्ते की तुलना में बिक्री दस प्रतिशत बढ़ी है।"],
+["We are behind the monthly target by five percent.","আমরা মাসিক লক্ষ্যমাত্রা থেকে পাঁচ শতাংশ পিছিয়ে আছি।","हम मासिक लक्ष्य से पाँच प्रतिशत पीछे हैं।"],
+["The main reason for the drop is low stock.","কমে যাওয়ার মূল কারণ হলো কম মজুত।","गिरावट का मुख्य कारण कम स्टॉक है।"],
+["The data for yesterday is not updated yet.","গতকালের ডেটা এখনও আপডেট হয়নি।","कल का डेटा अभी अपडेट नहीं हुआ है।"],
+["I have checked the numbers against the source file.","আমি মূল ফাইলের সাথে সংখ্যাগুলো মিলিয়ে দেখেছি।","मैंने आँकड़ों का मूल फ़ाइल से मिलान कर लिया है।"],
+["Please share the correct data so I can update the dashboard.","সঠিক ডেটা পাঠান, যাতে আমি ড্যাশবোর্ড আপডেট করতে পারি।","कृपया सही डेटा भेजिए ताकि मैं डैशबोर्ड अपडेट कर सकूँ।"]]},
+vocab:{t:"Professional vocabulary",icon:"book",d:"Key office words. Tap to hear them.",phrases:[]}
+};
+
+/* Email templates in the "Email writing" tab */
+const EMAILS=[
+{t:"Sending a report",s:"Daily Sales Report - [date]",b:"Dear [Name],\n\nI hope you are doing well.\n\nPlease find attached the daily sales report for [date]. Total sales were [amount], which is [percent] higher than yesterday.\n\nPlease let me know if you have any questions.\n\nRegards,\n[Your name]"},
+{t:"Asking for leave",s:"Leave Request for [date]",b:"Dear [Name],\n\nI am writing to request leave on [date] because of a family function.\n\nI will finish my pending reports before I leave, and [colleague's name] will handle urgent work in my absence.\n\nKindly approve my request.\n\nRegards,\n[Your name]"},
+{t:"Explaining a delay",s:"Delay in [report name]",b:"Dear [Name],\n\nI am sorry to inform you that [report name] will be delayed because the source data has not been received yet.\n\nI expect to send it by [time]. I will keep you updated.\n\nI apologise for the inconvenience.\n\nRegards,\n[Your name]"},
+{t:"Requesting data",s:"Request for [data name]",b:"Dear [Name],\n\nCould you please share [data name] for [month] by [date]? I need it to prepare the monthly MIS report.\n\nThank you for your support.\n\nRegards,\n[Your name]"},
+{t:"Following up",s:"Follow-up: [topic]",b:"Dear [Name],\n\nThis is a gentle reminder about [topic], which we discussed on [date].\n\nCould you please share an update when you have a moment?\n\nThank you.\n\nRegards,\n[Your name]"}
 ];
 
-let level=Number(localStorage.getItem("level"))||1;
-let best=Number(localStorage.getItem("best"))||0;
-let attempts=Number(localStorage.getItem("attempts"))||0;
+/* ===== CONTENT: GRAMMAR =====
+   sections: {h: heading, en: rule, bn: Bengali note, hi: Hindi note, ex: examples, table?: rows}
+   quiz: [question, options, correct index, explanation] */
+const GRAMMAR={
+tenses:{t:"Tenses",icon:"clock",d:"Talk about past, present and future.",sections:[
+{h:"Present tenses",en:"Use the present simple for habits and facts. Use the present continuous for actions happening now. Use the present perfect for past actions connected to now.",bn:"অভ্যাস বা সত্য ঘটনার জন্য Present Simple, এখন যা ঘটছে তার জন্য Present Continuous, আর সদ্য শেষ হওয়া বা এখনও প্রভাব আছে এমন কাজের জন্য Present Perfect।",hi:"आदत या तथ्य के लिए Present Simple, अभी हो रहे काम के लिए Present Continuous, और ऐसे बीते काम के लिए जिसका असर अभी है, Present Perfect।",
+table:[["Present simple","I work here.","He works here."],["Present continuous","I am working now.","She is working now."],["Present perfect","I have finished the report.","He has finished the report."],["Present perfect continuous","I have been working since nine.","She has been working since nine."]]},
+{h:"Past tenses",en:"Use the past simple for finished actions. Use the past continuous for an action in progress in the past. Use the past perfect for an action that happened before another past action.",bn:"শেষ হয়ে যাওয়া কাজের জন্য Past Simple, অতীতে চলতে থাকা কাজের জন্য Past Continuous, আর অতীতের দুটি কাজের মধ্যে আগেরটির জন্য Past Perfect।",hi:"ख़त्म हो चुके काम के लिए Past Simple, अतीत में चल रहे काम के लिए Past Continuous, और अतीत के दो कामों में पहले वाले के लिए Past Perfect।",
+table:[["Past simple","I sent the email yesterday.","She went to Delhi."],["Past continuous","I was working at ten.","They were talking."],["Past perfect","I had left before he came.","She had finished by noon."]]},
+{h:"Future forms",en:"Use will for decisions made now and promises. Use going to for plans. Use the present continuous for fixed arrangements.",bn:"এখনই নেওয়া সিদ্ধান্ত বা প্রতিশ্রুতির জন্য will, পরিকল্পনার জন্য going to, আর ঠিক হয়ে থাকা ব্যবস্থার জন্য Present Continuous।",hi:"अभी लिए गए फ़ैसले या वादे के लिए will, योजना के लिए going to, और तय कार्यक्रम के लिए Present Continuous।",
+table:[["Will","I will call you back.","It will be ready soon."],["Going to","I am going to learn Excel.","We are going to visit Puri."],["Present continuous","I am meeting him at five.","She is flying tomorrow."]]},
+{h:"Remember",en:"With he, she and it, the present simple verb takes -s. After did, use the base verb: did go, not did went.",bn:"he, she, it-এর সাথে Present Simple ক্রিয়ায় -s যোগ হয়। did-এর পরে ক্রিয়ার মূল রূপ বসে: did go, did went নয়।",hi:"he, she, it के साथ Present Simple की क्रिया में -s लगता है। did के बाद क्रिया का मूल रूप आता है: did go, did went नहीं।",ex:["She works in sales.","Did you go to the office?","He did not send the file."]}
+],quiz:[
+["She ___ to the office every day.",["go","goes","going","gone"],1,"He, she and it take -s or -es in the present simple."],
+["I ___ my lunch right now.",["eat","ate","am eating","have eaten"],2,"\"Right now\" needs the present continuous."],
+["They ___ the report yesterday.",["send","sent","have sent","sending"],1,"\"Yesterday\" is finished time, so use the past simple."],
+["I have ___ here for three years.",["work","worked","working","works"],1,"Present perfect is have + past participle."],
+["Did you ___ the meeting?",["attended","attend","attending","attends"],1,"After did, use the base verb."],
+["We ___ visit Puri next month. We booked the tickets.",["are going to","was going to","went to","go"],0,"Use going to for a plan you have already made."],
+["I ___ working here since 2022.",["am","was","have been","will"],2,"\"Since 2022\" connects past to now: have been + -ing."],
+["When he arrived, I ___ already left.",["have","had","has","was"],1,"Past perfect shows the earlier of two past actions."],
+["She ___ not like coffee.",["do","does","did to","is"],1,"Use does with he, she and it in present negatives."],
+["Don't worry, I ___ help you.",["was","will","did","am"],1,"Use will for a promise or a decision made now."]
+]},
+prepositions:{t:"Prepositions",icon:"pin",d:"Use in, on, at, for, since and more.",sections:[
+{h:"Time: in, on, at",en:"Use in for months, years and long periods. Use on for days and dates. Use at for exact times.",bn:"মাস, বছর ও দীর্ঘ সময়ের জন্য in; দিন ও তারিখের জন্য on; নির্দিষ্ট সময়ের জন্য at।",hi:"महीने, साल और लंबे समय के लिए in; दिन और तारीख़ के लिए on; ठीक समय के लिए at।",ex:["I joined in March.","The meeting is on Monday.","Come at nine o'clock."]},
+{h:"Place: in, on, at",en:"Use in for inside a space. Use on for a surface. Use at for a specific point or place.",bn:"কোনো জায়গার ভিতরে in; কোনো তলের উপরে on; নির্দিষ্ট স্থান বোঝাতে at।",hi:"किसी जगह के अंदर in; किसी सतह पर on; किसी ख़ास जगह के लिए at।",ex:["The file is in the folder.","The laptop is on the table.","I am at the office."]},
+{h:"For and since",en:"Use for with a length of time. Use since with a starting point.",bn:"কত সময় ধরে বোঝাতে for; কবে থেকে বোঝাতে since।",hi:"कितने समय से बताने के लिए for; कब से बताने के लिए since।",ex:["I have worked here for three years.","I have worked here since 2022."]},
+{h:"Common pairs",en:"Some words always take a fixed preposition. Learn them together.",bn:"কিছু শব্দের সাথে নির্দিষ্ট preposition বসে। একসাথে মনে রাখুন।",hi:"कुछ शब्दों के साथ तय preposition आता है। इन्हें साथ में याद करें।",ex:["good at Excel","depend on the data","interested in sales","married to Riya","reply to the email"]}
+],quiz:[
+["The meeting is ___ Monday.",["in","on","at","by"],1,"Use on with days."],
+["I was born ___ 1995.",["on","at","in","by"],2,"Use in with years."],
+["Please come ___ ten o'clock.",["at","in","on","for"],0,"Use at with exact times."],
+["I have lived here ___ five years.",["since","for","from","at"],1,"Five years is a length of time, so use for."],
+["She has been waiting ___ morning.",["for","since","at","by"],1,"Morning is a starting point, so use since."],
+["The report is ___ the table.",["at","on","by","to"],1,"Use on for a surface."],
+["He is good ___ Excel.",["in","on","at","with"],2,"The fixed pair is good at."],
+["Sales depend ___ many things.",["of","in","on","at"],2,"The fixed pair is depend on."]
+]},
+articles:{t:"Articles",icon:"text",d:"Choose between a, an and the.",sections:[
+{h:"A and an",en:"Use a before a consonant sound and an before a vowel sound. The sound matters, not the letter.",bn:"ব্যঞ্জনধ্বনির আগে a, স্বরধ্বনির আগে an। অক্ষর নয়, উচ্চারণের ধ্বনিই আসল।",hi:"व्यंजन ध्वनि से पहले a और स्वर ध्वनि से पहले an। अक्षर नहीं, ध्वनि मायने रखती है।",ex:["a report","an email","an hour","a university","an MIS report"]},
+{h:"The",en:"Use the when the listener knows which thing you mean, or when there is only one.",bn:"শ্রোতা যখন জানেন কোন জিনিসের কথা বলা হচ্ছে, অথবা জিনিসটি একটিই আছে, তখন the।",hi:"जब सुनने वाला जानता हो कि कौन सी चीज़ की बात है, या वह चीज़ एक ही हो, तब the।",ex:["Please open the file I sent.","The sun rises in the east.","He is the manager of our team."]},
+{h:"No article",en:"Do not use an article with general plural nouns, most names, languages, or meals in general.",bn:"সাধারণ বহুবচন, বেশিরভাগ নাম, ভাষা ও সাধারণভাবে খাবারের নামের আগে article বসে না।",hi:"आम बहुवचन, ज़्यादातर नाम, भाषाओं और सामान्य रूप से भोजन के नाम से पहले article नहीं आता।",ex:["Customers like discounts.","I speak English.","We had lunch."]}
+],quiz:[
+["She works in ___ office near my home.",["a","an","the","no article"],1,"Office starts with a vowel sound."],
+["It took ___ hour to finish.",["a","an","the","no article"],1,"The h in hour is silent, so it has a vowel sound."],
+["He studied at ___ university in Kolkata.",["a","an","the","no article"],0,"University starts with a \"yoo\" sound, a consonant sound."],
+["___ sun is very hot today.",["A","An","The","No article"],2,"There is only one sun."],
+["I speak ___ English at work.",["a","an","the","no article"],3,"Languages do not take an article."],
+["Please send me ___ report you made yesterday.",["a","an","the","no article"],2,"The listener knows which report."],
+["I bought ___ new laptop.",["a","an","the","no article"],0,"New starts with a consonant sound."],
+["We had ___ dinner at eight.",["a","an","the","no article"],3,"Meals in general take no article."]
+]},
+sentences:{t:"Sentence formation",icon:"list",d:"Build correct sentences and questions.",sections:[
+{h:"Basic word order",en:"English follows Subject, Verb, Object. This is different from Bengali and Hindi, where the verb comes at the end.",bn:"ইংরেজিতে ক্রম হলো কর্তা, ক্রিয়া, কর্ম। বাংলায় ক্রিয়া শেষে বসে, ইংরেজিতে নয়।",hi:"अंग्रेज़ी में क्रम होता है कर्ता, क्रिया, कर्म। हिंदी में क्रिया अंत में आती है, अंग्रेज़ी में नहीं।",ex:["I send the report.","She reads a book.","We sell furniture."]},
+{h:"Negative sentences",en:"Add do not, does not or did not before the main verb. With am, is, are, was and were, add not after the verb.",bn:"মূল ক্রিয়ার আগে do not, does not বা did not বসান। am, is, are, was, were-এর পরে not বসান।",hi:"मुख्य क्रिया से पहले do not, does not या did not लगाएँ। am, is, are, was, were के बाद not लगाएँ।",ex:["I do not drink tea.","He does not work here.","She is not at home."]},
+{h:"Questions",en:"Put do, does, did or a helping verb before the subject. Wh- words come first.",bn:"কর্তার আগে do, does, did বা সাহায্যকারী ক্রিয়া বসান। Wh- শব্দ শুরুতে বসে।",hi:"कर्ता से पहले do, does, did या सहायक क्रिया लगाएँ। Wh- शब्द शुरुआत में आते हैं।",ex:["Do you like coffee?","Where does she work?","Are you coming?"]},
+{h:"Polite requests",en:"Use could you, would you or may I. They sound softer than a direct order.",bn:"could you, would you বা may I ব্যবহার করুন। সরাসরি আদেশের চেয়ে এগুলো নরম শোনায়।",hi:"could you, would you या may I का प्रयोग करें। ये सीधे आदेश से ज़्यादा विनम्र लगते हैं।",ex:["Could you send me the file?","Would you mind waiting?","May I ask a question?"]}
+],quiz:[
+["Choose the correct sentence.",["I the report send.","I send the report.","Send I the report.","The report I send."],1,"Use Subject + Verb + Object."],
+["Choose the correct negative.",["He not works here.","He does not works here.","He does not work here.","He no work here."],2,"After does not, use the base verb."],
+["Choose the correct question.",["Where she works?","Where does she work?","Where she does work?","Where does she works?"],1,"Use wh- word + does + subject + base verb."],
+["Choose the most polite request.",["Send the file.","You send file.","Could you send me the file?","File send now."],2,"Could you is polite."],
+["Choose the correct sentence.",["She is not at home.","She not is at home.","She no at home.","Not she is at home."],0,"Put not after is."],
+["Choose the correct question.",["You are coming?","Are you coming?","Coming are you?","You coming are?"],1,"Put the helping verb before the subject."],
+["Choose the correct sentence.",["I did not went there.","I not went there.","I did not go there.","I no go there."],2,"After did not, use the base verb."],
+["Choose the correct sentence.",["We sell furniture online.","We furniture sell online.","Online we furniture sell.","Sell we furniture online."],0,"Use Subject + Verb + Object."]
+]}
+};
 
-let words=[],index=0,score=0,mode="level";
+/* ===== CONTENT: INTERVIEW PREPARATION =====
+   Sample answers suit an MIS / reporting role. The learner can save their own answer for each question. */
+const INTERVIEW=[
+{id:"q1",q:"Tell me about yourself.",b:"আপনার নিজের সম্পর্কে বলুন।",h:"अपने बारे में बताइए।",tip:"Keep it under one minute: your work, your skills, and why you are here.",a:"I work as an MIS executive. I prepare daily sales reports and dashboards using Excel. I am good with numbers and I enjoy finding patterns in data. I am now looking for a role where I can learn more and take on greater responsibility."},
+{id:"q2",q:"Why should we hire you?",b:"আমরা আপনাকে কেন নিয়োগ করব?",h:"हमें आपको क्यों चुनना चाहिए?",tip:"Link your skills to what the job needs.",a:"You should hire me because I have strong reporting skills and I am very careful with data. I deliver my work on time, and I learn new tools quickly. I believe I can add value to your team from the first month."},
+{id:"q3",q:"What are your strengths?",b:"আপনার শক্তির দিকগুলো কী?",h:"आपकी ताक़त क्या है?",tip:"Name two strengths and give one small example.",a:"My main strengths are accuracy and discipline. For example, I check every report against the source data before I send it. Because of this, my manager trusts my numbers."},
+{id:"q4",q:"What is your greatest weakness?",b:"আপনার সবচেয়ে বড় দুর্বলতা কী?",h:"आपकी सबसे बड़ी कमज़ोरी क्या है?",tip:"Choose a real weakness and show how you are improving it.",a:"My weakness is that I sometimes feel nervous when I speak English in meetings. To improve this, I practise speaking every day, and I am becoming more confident."},
+{id:"q5",q:"Why do you want to leave your current job?",b:"আপনি বর্তমান চাকরি কেন ছাড়তে চান?",h:"आप अपनी मौजूदा नौकरी क्यों छोड़ना चाहते हैं?",tip:"Stay positive. Never speak badly about your employer.",a:"I have learned a lot in my current job and I am thankful for it. Now I am looking for a bigger role where I can grow my skills and handle more challenging work."},
+{id:"q6",q:"Where do you see yourself in five years?",b:"পাঁচ বছর পরে আপনি নিজেকে কোথায় দেখেন?",h:"आप पाँच साल बाद ख़ुद को कहाँ देखते हैं?",tip:"Show that you want to grow, and stay realistic.",a:"In five years, I see myself leading a small reporting team. I want to become an expert in data analysis and help the business make better decisions."},
+{id:"q7",q:"Why do you want to work for our company?",b:"আপনি আমাদের কোম্পানিতে কেন কাজ করতে চান?",h:"आप हमारी कंपनी में क्यों काम करना चाहते हैं?",tip:"Read about the company first and mention one real reason.",a:"Your company is growing quickly and it uses data to make decisions. I would like to be part of such a team, because I can use my skills and also learn from experienced people."},
+{id:"q8",q:"Tell me about a challenge you faced at work.",b:"কাজের ক্ষেত্রে আপনার সামনে আসা একটি চ্যালেঞ্জের কথা বলুন।",h:"काम में आई किसी चुनौती के बारे में बताइए।",tip:"Use three steps: the problem, your action, the result.",a:"Once, our daily report was taking two hours because the data came from many files. I automated the process with Excel formulas. After that, the report took only twenty minutes, and the errors also went down."},
+{id:"q9",q:"How do you work in a team?",b:"আপনি দলে কীভাবে কাজ করেন?",h:"आप टीम में कैसे काम करते हैं?",tip:"Give an example of helping or sharing.",a:"I communicate clearly and I share updates early. When a colleague is busy, I offer to help. I believe a team does its best work when everyone trusts each other."},
+{id:"q10",q:"How do you handle pressure?",b:"আপনি চাপ কীভাবে সামলান?",h:"आप दबाव को कैसे संभालते हैं?",tip:"Describe your method: plan, prioritise, stay calm.",a:"When I have many tasks, I make a list and start with the most urgent work. I stay calm and I tell my manager early if there is a risk of delay."},
+{id:"q11",q:"What are your salary expectations?",b:"আপনি কত বেতন আশা করেন?",h:"आपकी वेतन अपेक्षा क्या है?",tip:"Research the market range first, then give a sensible range.",a:"I am looking for a fair salary based on my skills and the market range for this role. I am open to discussing the complete package."},
+{id:"q12",q:"Do you have any questions for us?",b:"আমাদের কাছে আপনার কোনো প্রশ্ন আছে?",h:"क्या आप हमसे कुछ पूछना चाहते हैं?",tip:"Always ask one or two questions. It shows interest.",a:"Yes, thank you. Could you tell me what success looks like in this role during the first six months? I would also like to know how the team works together."}
+];
 
-updateStats();
+/* ===== CONTENT: TUTOR CONVERSATION TOPICS ===== */
+const TUTOR_TOPICS={
+aboutme:{t:"About me",qs:["What is your name, and where are you from?","What do you do for work?","What do you like most about your job?","What do you do on weekends?","Why do you want to improve your English?"]},
+workday:{t:"My work day",qs:["What time do you start work?","What was the first thing you did at work today?","Which report or task takes the most time?","Who do you work with most often?","What will you do at work tomorrow?"]},
+family:{t:"Family and home",qs:["Who lives in your home?","Tell me about someone in your family.","What do you usually do together?","What did you eat yesterday evening?","What is your favourite festival, and why?"]},
+reporting:{t:"Explaining a report",qs:["What does your main report show?","Did sales go up or down last week?","What was the main reason for the change?","What would you tell your manager about this?","What will you do to improve the result?"]},
+opinions:{t:"Sharing opinions",qs:["Do you prefer working from home or from the office? Why?","Is online shopping better than shopping in a store? Why?","What makes a good manager?","Which skill is the most useful for your career?","What advice would you give to a new employee?"]}
+};
 
-function updateStats(){
-  document.getElementById("stats").innerText=
-  `Level: ${level} | Best Score: ${best} | Attempts: ${attempts}`;
+/* ===== STORAGE ===== */
+const KEY="pesc_v1";
+let storageOK=true;
+function readLS(k){try{return localStorage.getItem(k)}catch(e){storageOK=false;return null}}
+function writeLS(k,v){try{localStorage.setItem(k,v);return true}catch(e){storageOK=false;return false}}
+function defaults(){return{
+  settings:{name:"Rajesh",target:15,level:"Beginner",accent:"en-IN",rate:1,autoRead:true},
+  history:{},lessons:{},learned:{},fav:{},grammar:{},interview:{},
+  game:{level:1,best:0,attempts:0,daily:{date:"",words:[]}},
+  tutor:{topic:null,idx:0,msgs:[],done:false},
+  speakPos:{},migrated:false
+}}
+function load(){
+  const d=defaults();let raw=readLS(KEY),st=null;
+  if(raw){try{st=JSON.parse(raw)}catch(e){writeLS(KEY+"_broken",raw)}}
+  if(!st||typeof st!=="object")st={};
+  const out=Object.assign(d,st);
+  out.settings=Object.assign(defaults().settings,st.settings);
+  out.game=Object.assign(defaults().game,st.game);
+  out.tutor=Object.assign(defaults().tutor,st.tutor);
+  if(!out.migrated){
+    /* bring over scores saved by the old English Vocabulary Game */
+    const lv=Number(readLS("level")),be=Number(readLS("best")),at=Number(readLS("attempts"));
+    if(lv>1)out.game.level=lv;
+    if(be>0)out.game.best=be;
+    if(at>0)out.game.attempts=at;
+    out.migrated=true;
+  }
+  return out;
+}
+let S=load();
+function save(){writeLS(KEY,JSON.stringify(S))}
+
+/* ===== DATES AND PROGRESS LOGGING ===== */
+function ymd(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function todayKey(){return ymd(new Date())}
+function daysAgo(n){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-n);return ymd(d)}
+function niceDate(k){const p=k.split("-");return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString("en-IN",{day:"numeric",month:"short",weekday:"short"})}
+function day(k){
+  k=k||todayKey();
+  if(!S.history[k])S.history[k]={sec:0,act:{},scores:{}};
+  return S.history[k];
+}
+function logAct(kind,n){const d=day();d.act[kind]=(d.act[kind]||0)+(n||1);save()}
+function logScore(area,p){const d=day(),c=d.scores[area]||(d.scores[area]={n:0,sum:0});c.n++;c.sum+=p;save()}
+function isActive(k){
+  const d=S.history[k];if(!d)return false;
+  return d.sec>=60||Object.values(d.act).some(v=>v>0);
+}
+function streak(){
+  let i=isActive(daysAgo(0))?0:1,c=0;
+  while(isActive(daysAgo(i))){c++;i++}
+  return c;
+}
+function bestStreak(){
+  const keys=Object.keys(S.history).filter(isActive).sort();
+  let best=0,run=0,prev=null;
+  keys.forEach(k=>{
+    const p=k.split("-"),t=Date.UTC(+p[0],+p[1]-1,+p[2]);
+    run=prev!==null&&t-prev===864e5?run+1:1;best=Math.max(best,run);prev=t;
+  });
+  return best;
+}
+function areaAverage(area){
+  let n=0,sum=0;
+  Object.values(S.history).forEach(d=>{const c=d.scores[area];if(c){n+=c.n;sum+=c.sum}});
+  return n?{avg:Math.round(sum/n),n}:null;
+}
+function dayAverage(d){
+  let n=0,sum=0;
+  Object.values(d.scores).forEach(c=>{n+=c.n;sum+=c.sum});
+  return n?Math.round(sum/n):null;
+}
+function learnedCount(){return Object.keys(S.learned).length}
+function completedCount(){return ALL_LESSONS.filter(l=>S.lessons[l.id]).length}
+
+/* ===== SMALL HELPERS ===== */
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const ICONS={
+home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
+book:'<path d="M4 5a2 2 0 0 1 2-2h14v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 0 2 2h14v-4"/>',
+chat:'<path d="M21 12a8 8 0 0 1-12 7l-5 1 1-5a8 8 0 1 1 16-3z"/>',
+briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+letters:'<path d="M3 18l5-12 5 12"/><path d="M5 14h6"/><path d="M15 12h4a2 2 0 0 1 0 4h-4v-7h3a2 2 0 0 1 0 4"/>',
+check:'<path d="M5 12l5 5 9-10"/>',
+checkc:'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+tie:'<circle cx="12" cy="7" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+chart:'<path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-5"/><path d="M13 16V8"/><path d="M18 16v-3"/>',
+menu:'<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>',
+speaker:'<path d="M4 10v4h4l5 4V6L8 10z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a9 9 0 0 1 0 12"/>',
+slow:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/>',
+star:'<path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.3L12 17l-5.6 3.2 1.2-6.3L3 9.6l6.3-.8z"/>',
+flame:'<path d="M12 3c1 4 6 6 6 11a6 6 0 0 1-12 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 1-3 0-6 2-9.5z"/>',
+target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+next:'<path d="M9 5l7 7-7 7"/>',
+prev:'<path d="M15 5l-7 7 7 7"/>',
+shuffle:'<path d="M3 7h4l10 10h4"/><path d="M3 17h4l3-3"/><path d="M14 10l3-3h4"/><path d="M18 4l3 3-3 3"/><path d="M18 14l3 3-3 3"/>',
+copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/>',
+ext:'<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5a3.5 3.5 0 0 1 0 6.5"/><path d="M18 14a6 6 0 0 1 3 6"/>',
+building:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2"/><path d="M13 7h2"/><path d="M9 11h2"/><path d="M13 11h2"/><path d="M10 21v-5h4v5"/>',
+pin:'<path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+text:'<path d="M5 6h14"/><path d="M12 6v13"/><path d="M9 19h6"/>',
+list:'<path d="M9 6h11"/><path d="M9 12h11"/><path d="M9 18h11"/><path d="M4 6h.01"/><path d="M4 12h.01"/><path d="M4 18h.01"/>',
+game:'<rect x="3" y="7" width="18" height="11" rx="4"/><path d="M8 11v3"/><path d="M6.5 12.5h3"/><path d="M15 12h.01"/><path d="M18 13.5h.01"/>',
+info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>'
+};
+function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+(ICONS[n]||"")+"</svg>"}
+function mean(b,h){return '<div class="mean"><span lang="bn" data-l="বাং">'+esc(b)+'</span><span lang="hi" data-l="हिं">'+esc(h)+"</span></div>"}
+function sayBtn(text,label){return '<button class="icon-btn" data-act="say" data-text="'+esc(text)+'" aria-label="'+esc(label||"Listen")+'" title="Listen">'+ic("speaker")+"</button>"}
+function barHTML(p,cls){return '<div class="bar '+(cls||"")+'" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(p)+'"><i style="width:'+Math.min(100,p)+'%"></i></div>'}
+let toastTimer=0;
+function toast(msg){
+  const t=$("#toast");t.textContent=msg;t.classList.add("show");
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),3000);
+}
+async function copyText(text){
+  try{
+    if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return true}
+  }catch(e){}
+  const ta=document.createElement("textarea");
+  ta.value=text;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();
+  let ok=false;try{ok=document.execCommand("copy")}catch(e){}
+  ta.remove();return ok;
 }
 
-function hideAll(){
-["home","learn","mcqBox","spellBox","result"]
-.forEach(id=>document.getElementById(id).classList.add("hidden"));
+/* ===== TEXT TO SPEECH ===== */
+const ttsOK="speechSynthesis" in window&&"SpeechSynthesisUtterance" in window;
+function pickVoice(){
+  const vs=speechSynthesis.getVoices(),want=S.settings.accent.toLowerCase();
+  return vs.find(v=>v.lang.replace("_","-").toLowerCase()===want)||vs.find(v=>/^en/i.test(v.lang))||null;
+}
+function chunkText(t){
+  if(Array.isArray(t))return t;
+  if(t.length<180)return [t];
+  return t.match(/[^.!?\n]+[.!?]*/g).map(s=>s.trim()).filter(Boolean);
+}
+function say(text,rate){
+  if(!ttsOK){toast("Your browser cannot read text aloud. Please try Chrome.");return}
+  Mic.abort();
+  const run=()=>{
+    const v=pickVoice();
+    chunkText(text).forEach(c=>{
+      const u=new SpeechSynthesisUtterance(c);
+      u.lang=S.settings.accent;if(v)u.voice=v;
+      u.rate=rate||S.settings.rate;
+      speechSynthesis.speak(u);
+    });
+    speechSynthesis.resume();
+  };
+  if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(run,60)}else run();
+}
+function stopSpeaking(){if(ttsOK)speechSynthesis.cancel()}
+
+/* ===== SPEECH RECOGNITION ===== */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+let micPerm="unknown";
+const Mic={
+  rec:null,
+  start(o){
+    if(!SR){o.onError("unsupported");return}
+    this.abort();stopSpeaking();
+    const r=new SR();
+    r.lang=S.settings.accent;
+    r.continuous=!!o.long;r.interimResults=true;r.maxAlternatives=1;
+    let text="",failed=false;
+    r.onresult=e=>{
+      /* Android Chrome repeats earlier words inside later results, so merge instead of joining */
+      let t="";
+      for(let i=0;i<e.results.length;i++){
+        const s=e.results[i][0].transcript.trim();
+        if(!s)continue;
+        const lt=t.toLowerCase(),ls=s.toLowerCase();
+        if(!t||ls.startsWith(lt))t=s;
+        else if(!lt.endsWith(ls))t+=" "+s;
+      }
+      text=t;o.onText(t);
+    };
+    r.onerror=e=>{
+      if(e.error==="aborted")return;
+      failed=true;
+      if(e.error==="not-allowed"||e.error==="service-not-allowed")setMicPerm("denied");
+      o.onError(e.error);
+    };
+    r.onend=()=>{if(this.rec===r)this.rec=null;if(!failed)o.onEnd(text)};
+    this.rec=r;
+    try{r.start();if(micPerm==="prompt"||micPerm==="unknown")setMicPerm("asked")}
+    catch(err){this.rec=null;failed=true;o.onError("start-failed")}
+  },
+  stop(){if(this.rec)this.rec.stop()},
+  abort(){
+    const r=this.rec;if(!r)return;
+    r.onresult=r.onend=r.onerror=null;
+    try{r.abort()}catch(e){}
+    this.rec=null;
+    $$(".mic-btn.rec").forEach(resetMicBtn);
+  }
+};
+function resetMicBtn(b){
+  b.classList.remove("rec");
+  b.innerHTML=ic("mic")+"<span>"+esc(b.dataset.idle||"Start speaking")+"</span>";
+}
+function setRec(b){b.classList.add("rec");b.innerHTML=ic("mic")+"<span>Stop</span>"}
+function micErrorText(code){
+  return({
+    "not-allowed":"Microphone permission is blocked. On Android Chrome: tap the icon to the left of the web address, open Permissions, and allow Microphone. On a computer: click the icon to the left of the address and allow Microphone. Then reload this page. You can type below until then.",
+    "service-not-allowed":"Your browser has blocked the speech service. Check the microphone permission for this site, or type below.",
+    "no-speech":"I did not hear anything. Press the button, then speak clearly, or type below.",
+    "audio-capture":"No working microphone was found. Check your microphone, or type below.",
+    "network":"Speech recognition needs an internet connection. Check your connection, or type below.",
+    "language-not-supported":"This browser does not support this English setting for speech. Change the accent in Progress, or type below.",
+    "unsupported":"This browser does not support speech recognition. Please type below, or open this page in Chrome.",
+    "start-failed":"The microphone could not start. Wait a moment and try again, or type below."
+  })[code]||"Speech recognition stopped. Please try again, or type below.";
+}
+function micStateHTML(){
+  if(!SR)return '<span class="mic-state no"><i></i>Speech recognition is not available here</span>';
+  if(micPerm==="denied")return '<span class="mic-state no"><i></i>Microphone blocked</span>';
+  if(micPerm==="granted")return '<span class="mic-state ok"><i></i>Microphone allowed</span>';
+  return '<span class="mic-state"><i></i>Your browser will ask for permission</span>';
+}
+function setMicPerm(v){micPerm=v;$$("[data-micstate]").forEach(el=>el.innerHTML=micStateHTML())}
+if(navigator.permissions&&navigator.permissions.query){
+  navigator.permissions.query({name:"microphone"}).then(p=>{
+    setMicPerm(p.state);
+    p.onchange=()=>setMicPerm(p.state);
+  }).catch(()=>{});
 }
 
-function startLevel(){
-mode="level";
-words=allWords.slice((level-1)*10,level*10);
-prepareLearn();
+/* ===== COMPARE SPOKEN SENTENCE WITH CORRECT SENTENCE ===== */
+const CONTRACT={"i'm":"i am","i've":"i have","i'll":"i will","i'd":"i would","you're":"you are","you've":"you have","you'll":"you will","we're":"we are","we've":"we have","we'll":"we will","they're":"they are","they've":"they have","they'll":"they will","he's":"he is","she's":"she is","it's":"it is","that's":"that is","what's":"what is","let's":"let us","there's":"there is","here's":"here is","can't":"can not","cannot":"can not","won't":"will not","shan't":"shall not","he'll":"he will","she'll":"she will"};
+const SOUND_SAME={their:"there","they're":"there",too:"to",two:"to",your:"you're",hear:"here",write:"right",no:"know",buy:"by",bye:"by",four:"for",ok:"okay",sea:"see",son:"sun",meat:"meet",weak:"week",one:"won",mister:"mr",whether:"weather",ate:"eight",some:"sum",wait:"weight"};
+const ONES=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const TENS=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function numWords(n){
+  if(n<20)return [ONES[n]];
+  if(n<100)return n%10?[TENS[Math.floor(n/10)],ONES[n%10]]:[TENS[n/10]];
+  if(n<1000)return n%100?[ONES[Math.floor(n/100)],"hundred"].concat(numWords(n%100)):[ONES[n/100],"hundred"];
+  return [String(n)];
+}
+function keysOf(word){
+  const out=[];
+  word.toLowerCase().replace(/[’‘`]/g,"'").split(/[-–—:\/]/).forEach(part=>{
+    let k=part.replace(/^[^a-z0-9%]+|[^a-z0-9%]+$/g,"").replace(/\./g,"");
+    if(!k)return;
+    const pct=k.endsWith("%");if(pct)k=k.slice(0,-1);
+    let list;
+    if(/^\d+$/.test(k))list=numWords(Number(k));
+    else if(CONTRACT[k])list=CONTRACT[k].split(" ");
+    else if(/n't$/.test(k))list=[k.slice(0,-3),"not"];
+    else list=[k];
+    if(pct)list=list.concat("percent");
+    list.forEach(w=>out.push(SOUND_SAME[w]||w));
+  });
+  return out;
+}
+function tokenize(s){
+  const raw=String(s).trim().split(/\s+/).filter(Boolean),toks=[];
+  raw.forEach((w,i)=>keysOf(w).forEach(k=>toks.push({k,i})));
+  return{raw,toks};
+}
+function compareText(target,said){
+  const A=tokenize(target),B=tokenize(said),a=A.toks,b=B.toks,n=a.length,m=b.length;
+  const dp=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)
+    dp[i][j]=a[i].k===b[j].k?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const ops=[];let i=0,j=0;
+  while(i<n||j<m){
+    if(i<n&&j<m&&a[i].k===b[j].k){ops.push({t:"ok"});i++;j++}
+    else if(i<n&&(j>=m||dp[i+1][j]>=dp[i][j+1]))ops.push({t:"miss",i:i++});
+    else ops.push({t:"extra",j:j++});
+  }
+  /* a missing word next to an extra word means one word was said wrongly */
+  const tState=new Array(A.raw.length).fill("ok"),sState=new Array(B.raw.length).fill("ok"),mistakes=[];
+  const rank={ok:0,extra:1,miss:2,bad:3};
+  const mark=(arr,idx,st)=>{if(rank[st]>rank[arr[idx]])arr[idx]=st};
+  let matched=0,p=0;
+  while(p<ops.length){
+    if(ops[p].t==="ok"){matched++;p++;continue}
+    const miss=[],ext=[];
+    while(p<ops.length&&ops[p].t!=="ok"){(ops[p].t==="miss"?miss:ext).push(ops[p]);p++}
+    const pairs=Math.min(miss.length,ext.length);
+    for(let q=0;q<pairs;q++){
+      const tw=A.raw[a[miss[q].i].i],sw=B.raw[b[ext[q].j].i];
+      mark(tState,a[miss[q].i].i,"bad");mark(sState,b[ext[q].j].i,"bad");
+      mistakes.push('You said "'+sw+'". The correct word is "'+tw+'".');
+    }
+    miss.slice(pairs).forEach(o=>{const r=a[o.i].i;mark(tState,r,"miss");mistakes.push('Missing word: "'+A.raw[r]+'".')});
+    ext.slice(pairs).forEach(o=>{const r=b[o.j].i;mark(sState,r,"extra");mistakes.push('Extra word: "'+B.raw[r]+'".')});
+  }
+  const score=n||m?Math.round(100*matched/Math.max(n,m)):0;
+  return{score,mistakes:Array.from(new Set(mistakes)),tRaw:A.raw,sRaw:B.raw,tState,sState};
+}
+function wordsHTML(raw,state){
+  const cls={ok:"w-ok",bad:"w-bad",miss:"w-miss",extra:"w-extra"};
+  return raw.map((w,i)=>'<span class="'+cls[state[i]]+'">'+esc(w)+"</span>").join(" ");
 }
 
-function startDaily(){
-mode="daily";
-const today=new Date().toDateString();
-const saved=localStorage.getItem("dailyDate");
-if(saved!==today){
-localStorage.setItem("dailyDate",today);
-localStorage.setItem("dailyWords","");
+/* ===== SPEAKING PRACTICE BOX (used in Speaking, Lessons, Office, Interview) ===== */
+function mountSpeak(host,o){
+  host.classList.add("speakbox");
+  host._sb=Object.assign({attempts:0},o);
+  host.innerHTML=
+    (o.hideTarget?"":'<div class="target">'+esc(o.target)+"</div>")+
+    (o.b&&!o.hideTarget?'<div class="mt">'+mean(o.b,o.h)+"</div>":"")+
+    '<div class="row mt"><button class="btn" data-act="sb-say">'+ic("speaker")+'Listen</button>'+
+    '<button class="btn" data-act="sb-slow">'+ic("slow")+"Slow</button></div>"+
+    '<div class="mic-row"><button class="mic-btn" data-act="sb-mic" data-idle="Start speaking"'+(SR?"":" disabled")+">"+ic("mic")+"<span>Start speaking</span></button>"+
+    '<span data-micstate>'+micStateHTML()+"</span></div>"+
+    '<div class="note warn mt sb-msg'+(SR?" hidden":"")+'" role="alert">'+(SR?"":esc(micErrorText("unsupported")))+"</div>"+
+    '<div class="heard empty sb-heard" aria-live="polite">Your spoken words will appear here.</div>'+
+    '<div class="type-row"><input class="input sb-input" aria-label="Type the sentence" placeholder="Or type the sentence here" autocomplete="off" autocapitalize="sentences" data-enter="sb-check">'+
+    '<button class="btn" data-act="sb-check">Check</button></div>'+
+    '<div class="result sb-result hidden" aria-live="polite"></div>';
 }
-let daily=JSON.parse(localStorage.getItem("dailyWords")||"[]");
-if(!daily.length){
-daily=allWords.sort(()=>0.5-Math.random()).slice(0,5);
-localStorage.setItem("dailyWords",JSON.stringify(daily));
+function sbOf(el){const h=el.closest(".speakbox");return{h,o:h._sb}}
+function sbMessage(h,text){
+  const m=$(".sb-msg",h);
+  m.textContent=text||"";m.classList.toggle("hidden",!text);
 }
-words=daily;
-prepareLearn();
+function sbMic(btn){
+  const{h,o}=sbOf(btn);
+  if(btn.classList.contains("rec")){Mic.stop();return}
+  sbMessage(h,"");$(".sb-result",h).classList.add("hidden");
+  const heard=$(".sb-heard",h);
+  heard.textContent="Listening... please speak now.";heard.classList.add("empty");
+  setRec(btn);
+  Mic.start({long:o.long,
+    onText:t=>{heard.textContent=t;heard.classList.toggle("empty",!t)},
+    onEnd:t=>{
+      resetMicBtn(btn);
+      if(t)sbGrade(h,t);
+      else{heard.textContent="Your spoken words will appear here.";sbMessage(h,micErrorText("no-speech"))}
+    },
+    onError:code=>{
+      resetMicBtn(btn);
+      heard.textContent="Your spoken words will appear here.";
+      sbMessage(h,micErrorText(code));
+      if(code==="not-allowed"||code==="service-not-allowed"||code==="audio-capture")$(".sb-input",h).focus();
+    }
+  });
+}
+function sbGrade(h,text){
+  const o=h._sb,r=compareText(o.target,text),res=$(".sb-result",h);
+  o.attempts++;
+  logAct("speak");logScore(o.area||"speaking",r.score);
+  if(o.area==="office")logAct("office");
+  if(o.area==="interview")logAct("interview");
+  const badge=r.score===100?"good":r.score>=70?"":r.score>=40?"warn":"bad";
+  const verdict=r.score===100?"Perfect match":r.score>=70?"Good, nearly there":r.score>=40?"Keep practising":"Try again, slowly";
+  $(".sb-heard",h).textContent=text;$(".sb-heard",h).classList.remove("empty");
+  res.innerHTML=
+    '<div class="row between"><span class="score-pill">'+r.score+'% match</span><span class="badge '+badge+'">'+verdict+"</span></div>"+
+    '<p class="small muted mt">Correct sentence</p><p>'+wordsHTML(r.tRaw,r.tState)+"</p>"+
+    '<p class="small muted mt">What you said</p><p>'+wordsHTML(r.sRaw,r.sState)+"</p>"+
+    (r.mistakes.length?'<ul class="mistakes">'+r.mistakes.slice(0,8).map(m=>"<li>"+esc(m)+"</li>").join("")+"</ul>":"")+
+    (r.mistakes.length?'<div class="legend"><span class="w-bad">wrong word</span><span class="w-miss">missing</span><span class="w-extra">extra</span></div>':"")+
+    '<p class="small muted mt">Attempt '+o.attempts+'. Words that sound the same, such as "there" and "their", count as correct.</p>'+
+    '<div class="row mt"><button class="btn primary" data-act="sb-retry">Try again</button></div>';
+  res.classList.remove("hidden");
+  if(o.onDone)o.onDone(r.score);
 }
 
-function prepareLearn(){
-index=0;score=0;
-hideAll();
-document.getElementById("learn").classList.remove("hidden");
-document.getElementById("list").innerHTML="";
-words.forEach(w=>{
-document.getElementById("list").innerHTML+=`<p><b>${w.e}</b> - ${w.b}</p>`;
+/* Free dictation into a text box, for the Tutor and Interview answers */
+function dictate(btn){
+  const ta=$(btn.dataset.into);
+  if(btn.classList.contains("rec")){Mic.stop();return}
+  if(!SR){toast(micErrorText("unsupported"));ta.focus();return}
+  const before=ta.value.trim();
+  setRec(btn);
+  Mic.start({long:true,
+    onText:t=>{ta.value=(before?before+" ":"")+t;ta.dataset.mic="1";ta.dispatchEvent(new Event("input",{bubbles:true}))},
+    onEnd:()=>resetMicBtn(btn),
+    onError:code=>{resetMicBtn(btn);const m=$("#mic-msg");if(m){m.textContent=micErrorText(code);m.classList.remove("hidden")}else toast(micErrorText(code));ta.focus()}
+  });
+}
+
+/* ===== QUIZ ENGINE (used by Lessons and Grammar) =====
+   questions: {q, b?, h?, opts, ans, why?} */
+function mountQuiz(host,qs,onFinish){
+  host.dataset.quiz="1";
+  host._q={qs,i:0,score:0,onFinish};
+  renderQuiz(host);
+}
+function renderQuiz(host){
+  const z=host._q,q=z.qs[z.i],order=shuffle(q.opts.map((t,i)=>({t,i})));
+  z.answered=false;
+  host.innerHTML=
+    '<div class="row between small muted"><span>Question '+(z.i+1)+" of "+z.qs.length+"</span><span>Score "+z.score+"</span></div>"+
+    '<div class="mt">'+barHTML(z.i/z.qs.length*100)+"</div>"+
+    '<h3 class="mt">'+esc(q.q)+"</h3>"+(q.b?'<div class="mt">'+mean(q.b,q.h)+"</div>":"")+
+    '<div class="mt">'+order.map(o=>'<button class="opt" data-act="q-opt" data-i="'+o.i+'">'+esc(o.t)+"</button>").join("")+"</div>"+
+    '<div class="q-why mt" aria-live="polite"></div>';
+}
+function quizAnswer(btn){
+  const host=btn.closest("[data-quiz]"),z=host._q,q=z.qs[z.i];
+  if(z.answered)return;
+  z.answered=true;
+  const pick=Number(btn.dataset.i),right=pick===q.ans;
+  if(right)z.score++;
+  $$(".opt",host).forEach(b=>{
+    b.disabled=true;
+    if(Number(b.dataset.i)===q.ans)b.classList.add("right");
+    else if(b===btn)b.classList.add("wrong");
+  });
+  const last=z.i===z.qs.length-1;
+  $(".q-why",host).innerHTML=
+    '<div class="note '+(right?"good":"bad")+'"><b>'+(right?"Correct.":"Not quite.")+"</b> "+esc(q.why||("The right answer is: "+q.opts[q.ans]))+"</div>"+
+    '<button class="btn primary block mt" data-act="q-next">'+(last?"See result":"Next question")+"</button>";
+  $("[data-act=q-next]",host).focus();
+}
+function quizNext(btn){
+  const host=btn.closest("[data-quiz]"),z=host._q;
+  z.i++;
+  if(z.i<z.qs.length)renderQuiz(host);
+  else z.onFinish(z.score,z.qs.length);
+}
+
+/* ===== NAVIGATION ===== */
+const NAV=[
+  ["dashboard","Dashboard","home"],["speaking","Speaking Practice","mic"],["lessons","Daily Lessons","book"],
+  ["tutor","AI Tutor Mode","chat"],["office","Office English","briefcase"],["vocabulary","Vocabulary","letters"],
+  ["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"]
+];
+const BOTTOM=[["dashboard","Home","home"],["speaking","Speak","mic"],["lessons","Lessons","book"],["vocabulary","Words","letters"]];
+function buildNav(){
+  $("#nav").innerHTML=NAV.map(n=>'<li><a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a></li>").join("");
+  $("#bottom-nav").innerHTML=BOTTOM.map(n=>'<a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a>").join("")+
+    '<button data-act="menu" aria-label="Open all sections">'+ic("menu")+"<span>More</span></button>";
+  $("#menu-btn").innerHTML=ic("menu");
+  $$(".brand-ic").forEach(el=>el.innerHTML=ic("mic"));
+}
+function parseRoute(){
+  const p=location.hash.replace(/^#\/?/,"").split("/").filter(Boolean);
+  return{page:PAGES[p[0]]?p[0]:"dashboard",sub:p[1]?decodeURIComponent(p[1]):null};
+}
+function render(){
+  Mic.abort();stopSpeaking();
+  document.body.classList.remove("menu-open");
+  const r=parseRoute();
+  $$("[data-nav]").forEach(a=>{if(a.dataset.nav===r.page)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  $("#top-title").textContent=(NAV.find(n=>n[0]===r.page)||NAV[0])[1];
+  LessonRun=null;
+  PAGES[r.page](r.sub);
+  window.scrollTo(0,0);
+  const h=$("#view h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}
+}
+function head(t,d){return '<div class="page-head"><h1>'+esc(t)+"</h1>"+(d?"<p>"+esc(d)+"</p>":"")+"</div>"}
+function setView(html){$("#view").innerHTML=html}
+
+/* ===== DASHBOARD ===== */
+const TASKS=[
+  ["lesson",1,"Finish 1 lesson","#/lessons"],
+  ["speak",5,"Speak 5 sentences","#/speaking"],
+  ["words",5,"Learn 5 new words","#/vocabulary"],
+  ["grammar",1,"Take 1 grammar quiz","#/grammar"],
+  ["tutor",3,"Answer 3 tutor questions","#/tutor"]
+];
+function greeting(){const h=new Date().getHours();return h<12?"Good morning":h<17?"Good afternoon":"Good evening"}
+function nextLesson(){
+  const list=LESSONS[S.settings.level];
+  return list.find(l=>!S.lessons[l.id])||ALL_LESSONS.find(l=>!S.lessons[l.id])||list[0];
+}
+function ringHTML(){
+  const mins=Math.floor(day().sec/60),t=S.settings.target,p=Math.min(1,mins/t),c=2*Math.PI*50;
+  return '<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="11"/>'+
+    (p>0?'<circle cx="60" cy="60" r="50" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+(c*p).toFixed(1)+" "+c.toFixed(1)+'"/>':"")+"</svg>"+
+    "<b>"+mins+"<small>of "+t+" min</small></b>";
+}
+function pageDashboard(){
+  const d=day(),done=TASKS.filter(t=>(d.act[t[0]]||0)>=t[1]).length,nl=nextLesson();
+  const w=WORDS[Math.floor(Date.now()/864e5)%WORDS.length];
+  const cards=[
+    ["target",S.settings.target+" min","Daily learning target"],
+    ["book",completedCount()+" / "+ALL_LESSONS.length,"Lessons completed"],
+    ["flame",streak()+(streak()===1?" day":" days"),"Learning streak"],
+    ["letters",learnedCount()+" / "+WORDS.length,"Vocabulary learned"]
+  ];
+  setView(
+  '<div class="card hero"><div class="ring" id="ring" role="img" aria-label="Minutes practised today">'+ringHTML()+'</div>'+
+    '<div class="grow"><h1>'+greeting()+", "+esc(S.settings.name)+"</h1><p>"+(streak()>0?"Keep your streak going today.":"A short practice every day builds confidence.")+"</p>"+
+    '<div class="row mt"><a class="btn primary" href="#/lessons/'+nl.id+'">'+ic("book")+'Next lesson</a><a class="btn ghost" href="#/speaking">'+ic("mic")+"Start speaking</a></div></div></div>"+
+  '<div class="grid g4 section">'+cards.map(c=>'<div class="card stat"><div class="stat-ic">'+ic(c[0])+"</div><b>"+c[1]+"</b><span>"+c[2]+"</span></div>").join("")+"</div>"+
+  '<div class="grid g2 section"><div class="card"><div class="row between"><h2>Today\'s practice</h2><span class="badge">'+done+" of "+TASKS.length+" done</span></div>"+
+    '<div class="mt">'+barHTML(done/TASKS.length*100,"good")+'</div><div class="mt">'+
+    TASKS.map(t=>{
+      const n=d.act[t[0]]||0,ok=n>=t[1];
+      return '<a class="check-item'+(ok?" done":"")+'" href="'+t[3]+'"><span class="check-dot">'+(ok?ic("check"):"")+'</span><span class="grow">'+t[2]+'</span><span class="small muted">'+Math.min(n,t[1])+"/"+t[1]+"</span></a>";
+    }).join("")+'</div></div>'+
+    '<div class="stack"><div class="card"><div class="row between"><h2>Word of the day</h2>'+sayBtn(w.e,"Listen to "+w.e)+'</div><h3 class="mt" style="font-size:1.3rem">'+esc(w.e)+'</h3><p class="small muted">'+esc(w.p)+'</p><div class="mt">'+mean(w.b,w.h)+'</div><p class="small muted mt">'+esc(w.x)+"</p></div>"+
+    '<div class="card"><label class="field">Daily learning target<select class="input" data-chg="target">'+[10,15,20,30,45,60].map(v=>"<option value="+v+(v===S.settings.target?" selected":"")+">"+v+" minutes a day</option>").join("")+"</select></label>"+
+    '<p class="small muted mt">Time counts while you are using the app.</p></div></div></div>'+
+  '<div class="section"><h2>Keep learning</h2><div class="grid g3">'+NAV.slice(1,8).map(n=>'<a class="card quick" href="#/'+n[0]+'"><span class="stat-ic">'+ic(n[2])+"</span><span><b>"+n[1]+"</b></span></a>").join("")+"</div></div>"
+  );
+}
+
+/* ===== SPEAKING PRACTICE ===== */
+function speakSets(){
+  const fromLessons=lv=>[].concat.apply([],LESSONS[lv].map(l=>l.lines.map(x=>({e:x[1],b:x[2],h:x[3]}))));
+  const office=[].concat.apply([],Object.values(OFFICE).map(c=>c.phrases.map(p=>({e:p[0],b:p[1],h:p[2]}))));
+  return{Beginner:fromLessons("Beginner"),Intermediate:fromLessons("Intermediate"),Advanced:fromLessons("Advanced"),Office:office};
+}
+let speakSet=null;
+function pageSpeaking(){
+  const sets=speakSets();
+  if(!speakSet)speakSet=S.settings.level;
+  const list=sets[speakSet],i=(S.speakPos[speakSet]||0)%list.length,it=list[i],av=areaAverage("speaking"),t=day().act.speak||0;
+  setView(head("English Speaking Practice","Listen, speak, and see which words matched.")+
+    '<div class="tabs" role="tablist">'+Object.keys(sets).map(k=>'<button class="tab" role="tab" aria-selected="'+(k===speakSet)+'" data-act="speak-set" data-v="'+k+'">'+k+"</button>").join("")+"</div>"+
+    '<div class="card"><div class="row between"><span class="small muted">Sentence '+(i+1)+" of "+list.length+'</span><span class="small muted">Today: '+t+" spoken"+(av?" · Average "+av.avg+"%":"")+'</span></div><div class="mt" id="sb"></div>'+
+    '<div class="row mt"><button class="btn" data-act="speak-move" data-d="-1">'+ic("prev")+'Previous</button><button class="btn" data-act="speak-random">'+ic("shuffle")+'Random</button><button class="btn primary" data-act="speak-move" data-d="1">Next'+ic("next")+"</button></div></div>"+
+    '<div class="note mt">'+ic("info").replace('class="ic"','class="ic" style="vertical-align:-4px;margin-right:6px"')+"Speech recognition is done by your browser, and Chrome uses an online service for it, so you need internet. This app does not record or save your voice. Chrome on Android and on a computer works best.</div>");
+  mountSpeak($("#sb"),{target:it.e,b:it.b,h:it.h,area:"speaking"});
+}
+
+/* ===== DAILY LESSONS ===== */
+let LessonRun=null;
+function pageLessons(id){
+  if(id){const l=ALL_LESSONS.find(x=>x.id===id);if(l)return lessonDetail(l)}
+  const lv=S.settings.level,list=LESSONS[lv],dn=list.filter(l=>S.lessons[l.id]).length;
+  setView(head("Daily English Lessons","Each lesson takes about 10 minutes: listen, speak, then a short quiz.")+
+    '<div class="tabs" role="tablist">'+Object.keys(LESSONS).map(k=>'<button class="tab" role="tab" aria-selected="'+(k===lv)+'" data-act="lesson-level" data-v="'+k+'">'+k+"</button>").join("")+"</div>"+
+    '<div class="card"><div class="row between"><h2>'+lv+' lessons</h2><span class="small muted">'+dn+" of "+list.length+' completed</span></div><div class="mt">'+barHTML(dn/list.length*100)+"</div></div>"+
+    '<div class="grid g2 section">'+list.map((l,i)=>{
+      const r=S.lessons[l.id];
+      return '<a class="card quick" href="#/lessons/'+l.id+'"><span class="stat-ic">'+(r?ic("checkc"):"<b>"+(i+1)+"</b>")+'</span><span class="grow"><b>'+esc(l.t)+"</b><p>"+esc(l.goal)+"</p></span>"+(r?'<span class="badge good">'+r.score+"%</span>":'<span class="badge">'+ic("clock")+"10 min</span>")+"</a>";
+    }).join("")+"</div>");
+}
+function lessonQuiz(l){
+  return shuffle(l.lines).slice(0,4).map(x=>{
+    const others=shuffle(l.lines.filter(y=>y!==x)).slice(0,3).map(y=>y[1]);
+    return{q:"Which English sentence has this meaning?",b:x[2],h:x[3],opts:[x[1]].concat(others),ans:0,why:x[1]};
+  });
+}
+function lessonDetail(l){
+  LessonRun={l,step:0,sp:0,left:600};
+  const r=S.lessons[l.id];
+  setView('<div class="row between page-head"><div class="grow"><a class="small" href="#/lessons">Back to lessons</a><h1>'+esc(l.t)+"</h1><p>"+esc(l.goal)+'</p></div><span class="badge" id="lesson-timer">'+ic("clock")+"<span>10:00</span></span></div>"+
+    (r?'<div class="note good">You completed this lesson. Best score '+r.score+"%. You can practise it again.</div>":"")+
+    '<div class="tabs mt" role="tablist">'+["1. Listen","2. Speak","3. Quiz"].map((t,i)=>'<button class="tab" role="tab" data-act="lesson-step" data-v="'+i+'">'+t+"</button>").join("")+"</div>"+
+    '<div id="lesson-body"></div>');
+  lessonStep(0);
+}
+function lessonStep(s){
+  const R=LessonRun,l=R.l;R.step=s;
+  $$(".tab[data-act=lesson-step]").forEach((b,i)=>b.setAttribute("aria-selected",String(i===s)));
+  const body=$("#lesson-body");
+  stopSpeaking();Mic.abort();
+  if(s===0){
+    body.innerHTML='<div class="card"><div class="row between"><h2>Daily conversation</h2><button class="btn" data-act="lesson-play">'+ic("speaker")+"Play all</button></div>"+
+      '<div class="mt">'+l.lines.map(x=>'<div class="phrase"><div class="grow"><div class="speaker">'+esc(x[0])+'</div><div class="en">'+esc(x[1])+"</div>"+mean(x[2],x[3])+"</div>"+sayBtn(x[1],"Listen")+"</div>").join("")+"</div>"+
+      '<button class="btn primary block mt" data-act="lesson-step" data-v="1">Next: Speak these sentences</button></div>';
+  }else if(s===1){
+    const x=l.lines[R.sp];
+    body.innerHTML='<div class="card"><div class="row between"><h2>Speak sentence '+(R.sp+1)+" of "+l.lines.length+'</h2></div><div class="mt">'+barHTML((R.sp+1)/l.lines.length*100)+'</div><div class="mt" id="sb"></div>'+
+      '<div class="row mt"><button class="btn" data-act="lesson-sp" data-d="-1"'+(R.sp===0?" disabled":"")+">"+ic("prev")+"Previous</button>"+
+      (R.sp<l.lines.length-1?'<button class="btn primary" data-act="lesson-sp" data-d="1">Next sentence'+ic("next")+"</button>":'<button class="btn primary" data-act="lesson-step" data-v="2">Go to quiz'+ic("next")+"</button>")+"</div></div>";
+    mountSpeak($("#sb"),{target:x[1],b:x[2],h:x[3],area:"speaking"});
+  }else{
+    body.innerHTML='<div class="card" id="lesson-quiz"></div>';
+    mountQuiz($("#lesson-quiz"),lessonQuiz(l),(score,total)=>{
+      const p=Math.round(score/total*100),old=S.lessons[l.id],first=!old;
+      S.lessons[l.id]={score:Math.max(p,old?old.score:0),date:todayKey()};
+      logAct("lesson");logScore("lessons",p);
+      const list=ALL_LESSONS,nx=list[(list.indexOf(l)+1)%list.length];
+      $("#lesson-quiz").innerHTML='<h2>'+(first?"Lesson completed":"Lesson practised again")+'</h2><p class="score-pill mt">Quiz score: '+score+" of "+total+" ("+p+'%)</p><div class="mt">'+barHTML(p,"good")+"</div>"+
+        '<div class="row mt"><a class="btn primary" href="#/lessons/'+nx.id+'">Next lesson'+ic("next")+'</a><button class="btn" data-act="lesson-step" data-v="2">Retake quiz</button><a class="btn" href="#/lessons">All lessons</a></div>';
+    });
+  }
+}
+
+/* ===== AI TUTOR MODE ===== */
+const VERB_S={go:"goes",do:"does",have:"has",work:"works",like:"likes",live:"lives",want:"wants",study:"studies",eat:"eats",come:"comes",play:"plays",know:"knows",need:"needs",make:"makes",take:"takes",watch:"watches",teach:"teaches",read:"reads",write:"writes",speak:"speaks",send:"sends"};
+const BASE={went:"go",ate:"eat",saw:"see",came:"come",gave:"give",took:"take",bought:"buy",did:"do",made:"make",sent:"send",wrote:"write",told:"tell",got:"get",said:"say",knew:"know"};
+const PP={went:"gone",ate:"eaten",came:"come",did:"done",saw:"seen",gave:"given",took:"taken",wrote:"written",spoke:"spoken",go:"gone",do:"done",see:"seen",give:"given",take:"taken",eat:"eaten",write:"written",speak:"spoken",send:"sent"};
+const NOT_THIRD=["did","does","do","will","would","can","could","should","must","may","might","shall","let","make","makes","made","help","helps","helped","see","saw","hear","heard","watch"];
+function keepCase(from,to){return /^[A-Z]/.test(from)?to.charAt(0).toUpperCase()+to.slice(1):to}
+/* Each rule: [pattern, replacement (text or function), plain explanation] */
+const RULES=[
+[/\bi am (work|live|study|go|want|need|know|like|come|play)\b/gi,(m,a)=>"I "+a.toLowerCase(),"Do not put am before a simple verb. Say I work, or I am working."],
+[/\bi am (agree|disagree)\b/gi,(m,a)=>"I "+a.toLowerCase(),"Agree is already a verb, so do not add am."],
+[/\bi am (understanding|knowing|wanting|liking)\b/gi,(m,a)=>"I "+({understanding:"understand",knowing:"know",wanting:"want",liking:"like"})[a.toLowerCase()],"These verbs do not normally use the -ing form."],
+[/\bi am having (a |an |one |two |three |four |\d+ )?(car|bike|phone|laptop|brother|sister|brothers|sisters|son|daughter|house)\b/gi,(m,a,b)=>"I have "+(a||"")+b,"For things you own and family, use have."],
+[/\bi am working\b(.{0,40}?)\bsince\b/gi,(m,a)=>"I have been working"+a+"since","With since, use have been + -ing."],
+[/\bsince (\d+|one|two|three|four|five|six|seven|eight|nine|ten) (years?|months?|weeks?|days?|hours?)\b/gi,(m,a,b)=>"for "+a+" "+b,"Use for with a length of time."],
+[/\bdiscuss about\b/gi,m=>keepCase(m,"discuss"),"Discuss does not take about."],
+[/\bmarried with\b/gi,m=>keepCase(m,"married to"),"We say married to."],
+[/\b(did not|didn't)\s+(went|ate|saw|came|gave|took|bought|did|made|sent|wrote|told|got|said|knew)\b/gi,(m,a,b)=>a+" "+BASE[b.toLowerCase()],"After did not, use the base verb."],
+[/\b(have|has|had)\s+(went|ate|came|did|saw|gave|took|wrote|spoke|go|do|see|give|take|eat|write|speak|send)\b/gi,(m,a,b)=>a+" "+PP[b.toLowerCase()],"After have, has or had, use the past participle."],
+[/\b(he|she|it)\s+(don't|do not)\b/gi,(m,a,b)=>a+(b.toLowerCase()==="don't"?" doesn't":" does not"),"With he, she and it, use does not."],
+[/\b(we|they|you)\s+was\b/gi,(m,a)=>a+" were","With we, they and you, use were."],
+[/\bmore (better|easier|faster|bigger|smaller|cheaper)\b/gi,(m,a)=>a,"Do not use more with a word ending in -er."],
+[/\btoday morning\b/gi,m=>keepCase(m,"this morning"),"We say this morning."],
+[/\btoday evening\b/gi,m=>keepCase(m,"this evening"),"We say this evening."],
+[/\byesterday night\b/gi,m=>keepCase(m,"last night"),"We say last night."],
+[/\bcousin (brother|sister)\b/gi,m=>keepCase(m,"cousin"),"In English, just say cousin."],
+[/\brevert back\b/gi,m=>keepCase(m,"reply"),"Reply is clearer. Revert means go back to an earlier state."],
+[/\breturn back\b/gi,m=>keepCase(m,"return"),"Return already means go back."],
+[/\brepeat again\b/gi,m=>keepCase(m,"repeat"),"Repeat already means say again."],
+[/\bcope up\b/gi,m=>keepCase(m,"cope"),"We say cope with."],
+[/\bdo the needful\b/gi,m=>keepCase(m,"please take the necessary action"),"Do the needful sounds old-fashioned. Say exactly what you need."],
+[/\bout of station\b/gi,()=>"out of town","We say out of town."],
+[/\bpassed out from\b/gi,m=>keepCase(m,"graduated from"),"Passed out means fainted. Say graduated from."],
+[/\bmy good name\b/gi,m=>keepCase(m,"my name"),"Just say my name."],
+[/\byour good name\b/gi,m=>keepCase(m,"your name"),"Just say your name."],
+[/\b[Mm]yself (?=[A-Z])/g,()=>"I am ","To introduce yourself, say I am or My name is."],
+[/\bone of my (friend|colleague|brother|sister|manager)\b/gi,(m,a)=>"one of my "+a+"s","After one of my, use a plural noun."],
+[/\b(informations|furnitures|equipments|softwares|advices|luggages|sceneries)\b/gi,(m,a)=>a.slice(0,-1).replace(/ie$/,"y"),"This noun has no plural form."],
+[/\breach(ed|es)? (to|at) (office|home|the office)\b/gi,(m,a,b,c)=>"reach"+(a||"")+" "+(c.toLowerCase()==="home"?"home":"the office"),"Reach does not take to or at."],
+[/\bgo to home\b/gi,m=>keepCase(m,"go home"),"We say go home, without to."],
+[/\ba (hour|hours|honest|MIS)\b/g,(m,a)=>"an "+a,"Use an before a vowel sound."],
+[/\ba ([aeiou][a-z]*)\b/gi,(m,a)=>/^(one|once|uni|use|usu|uti|eu|ur)/i.test(a)?m:keepCase(m,"an")+" "+a,"Use an before a vowel sound."],
+[/\b(he|she|it) (go|do|have|work|like|live|want|study|eat|come|play|know|need|make|take|watch|teach|read|write|speak|send)\b/gi,(m,a,b,off,str)=>{
+  const before=str.slice(0,off).trim().split(/\s+/).pop().toLowerCase();
+  return NOT_THIRD.indexOf(before)>=0?m:a+" "+VERB_S[b.toLowerCase()];
+},"With he, she and it, add -s to the verb."]
+];
+function ruleCheck(text,typed){
+  const fixes=[];let better=text;
+  RULES.forEach(r=>{
+    better=better.replace(r[0],function(){
+      const m=arguments[0],out=typeof r[1]==="function"?r[1].apply(null,arguments):r[1];
+      if(out!==m)fixes.push({bad:m,good:out,why:r[2]});
+      return out;
+    });
+  });
+  if(typed){
+    if(/\bi\b/.test(better)){better=better.replace(/\bi\b/g,"I");fixes.push({bad:"i",good:"I",why:"The word I is always a capital letter."})}
+    if(/^[a-z]/.test(better)){const c=better.charAt(0).toUpperCase()+better.slice(1);fixes.push({bad:better.slice(0,12),good:c.slice(0,12),why:"Start a sentence with a capital letter."});better=c}
+    if(!/[.!?]\s*$/.test(better)){better=better.trim()+".";fixes.push({bad:"(no full stop)",good:".",why:"End a sentence with a full stop."})}
+  }
+  return{fixes,better,short:text.trim().split(/\s+/).length<4};
+}
+function tutorHTML(m){
+  if(m.r==="coach")return '<div class="msg coach"><div class="who"><span>Tutor</span></div>'+esc(m.t)+'<div class="mt">'+sayBtn(m.t,"Listen to question")+"</div></div>";
+  if(m.r==="user")return '<div class="msg user"><div class="who"><span>You'+(m.spoken?" (spoken)":" (typed)")+"</span></div>"+esc(m.t)+"</div>";
+  const fx=m.fixes||[];
+  return '<div class="msg check"><div class="who"><span class="badge warn">Rule check, not AI</span></div>'+
+    (fx.length?fx.map(f=>'<div class="fix"><del>'+esc(f.bad)+"</del> → <ins>"+esc(f.good)+'</ins><div class="small muted">'+esc(f.why)+"</div></div>").join("")+'<div class="fix"><b>Suggested:</b> '+esc(m.better)+"</div>":
+      '<div class="small">The fixed rules found no common mistakes. This does not prove the answer is perfect.</div>')+
+    (m.short?'<div class="fix small">Try a longer answer next time: a full sentence with a reason or example.</div>':"")+"</div>";
+}
+function claudeText(){
+  const T=S.tutor,parts=[];
+  T.msgs.forEach(m=>{if(m.r==="coach")parts.push("Tutor: "+m.t);if(m.r==="user")parts.push("Me: "+m.t)});
+  return "You are my English speaking coach. I speak Bengali and Hindi and I work in an office as an MIS executive. Below is my English practice conversation.\n\nPlease:\n1. Correct each of my answers.\n2. Explain each mistake in simple English, and add the Bengali meaning where it helps.\n3. Show a more natural way to say each answer.\n4. Tell me the one thing I should practise next.\n\nConversation:\n"+parts.join("\n");
+}
+function pageTutor(){
+  const T=S.tutor;
+  const honest='<div class="note warn honest">'+ic("info")+"<div><b>Good to know:</b> questions and corrections here come from fixed rules, not from AI. They catch common mistakes only. For real AI feedback, copy your conversation to Claude using the buttons below.</div></div>";
+  if(!T.topic){
+    setView(head("AI Tutor Mode","Answer one question at a time, by speaking or typing.")+honest+
+      '<div class="section"><h2>Choose a topic</h2><div class="grid g2">'+Object.keys(TUTOR_TOPICS).map(k=>{
+        const t=TUTOR_TOPICS[k];
+        return '<button class="card quick btn-card" style="text-align:left;cursor:pointer;font:inherit" data-act="tutor-start" data-v="'+k+'"><span class="stat-ic">'+ic("chat")+"</span><span><b>"+esc(t.t)+"</b><p>"+t.qs.length+" questions</p></span></button>";
+      }).join("")+"</div></div>");
+    return;
+  }
+  const topic=TUTOR_TOPICS[T.topic],total=topic.qs.length;
+  setView(head("AI Tutor Mode",topic.t)+honest+
+    '<div class="card mt"><div class="row between small muted"><span>Question '+Math.min(T.idx+1,total)+" of "+total+'</span><button class="btn" data-act="tutor-reset">Change topic</button></div>'+
+    '<div class="mt">'+barHTML((T.done?total:T.idx)/total*100)+'</div><div class="chat mt" id="chat" aria-live="polite">'+T.msgs.map(tutorHTML).join("")+"</div>"+
+    (T.done?'<div class="note good mt">Conversation finished. Copy it to Claude for AI feedback, or start again.</div>':
+    '<div class="mt"><label class="field" for="tutor-ans">Your answer</label><textarea class="input mt" id="tutor-ans" placeholder="Speak or type your answer" data-inp="tutor-typed"></textarea>'+
+    '<div class="note warn mt hidden" id="mic-msg" role="alert"></div>'+
+    '<div class="mic-row"><button class="mic-btn" data-act="dictate" data-into="#tutor-ans" data-idle="Speak answer"'+(SR?"":" disabled")+">"+ic("mic")+'<span>Speak answer</span></button><button class="btn primary" data-act="tutor-send">Send answer'+ic("next")+"</button><span data-micstate>"+micStateHTML()+"</span></div></div>")+
+    "</div>"+
+    '<div class="card"><h2>Get AI feedback from Claude</h2><p class="small muted">Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.</p>'+
+    '<div class="row mt"><button class="btn primary" data-act="tutor-copy"'+(T.msgs.some(m=>m.r==="user")?"":" disabled")+">"+ic("copy")+'Copy conversation</button><a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener noreferrer">'+ic("ext")+"Open Claude</a>"+
+    (T.done?'<button class="btn" data-act="tutor-again">Start again</button>':"")+"</div>"+
+    '<details class="mt"><summary class="small">See the text that will be copied</summary><textarea class="input mt" readonly rows="8" id="tutor-export">'+esc(claudeText())+"</textarea></details></div>");
+  const c=$("#chat");if(c&&c.lastElementChild&&T.msgs.length>1)c.lastElementChild.scrollIntoView({block:"nearest"});
+}
+function tutorAsk(){
+  const T=S.tutor,q=TUTOR_TOPICS[T.topic].qs[T.idx];
+  T.msgs.push({r:"coach",t:q});save();
+}
+function tutorSend(){
+  const ta=$("#tutor-ans"),text=ta.value.trim();
+  if(!text){toast("Please speak or type your answer first.");ta.focus();return}
+  Mic.abort();
+  const spoken=ta.dataset.mic==="1",T=S.tutor,res=ruleCheck(text,!spoken);
+  T.msgs.push({r:"user",t:text,spoken});
+  T.msgs.push({r:"check",fixes:res.fixes,better:res.better,short:res.short});
+  logAct("tutor");
+  T.idx++;
+  if(T.idx<TUTOR_TOPICS[T.topic].qs.length)tutorAsk();else{T.done=true;save()}
+  pageTutor();
+  const last=T.msgs[T.msgs.length-1];
+  if(!T.done&&S.settings.autoRead&&last.r==="coach")say(last.t);
+  const box=$("#tutor-ans");if(box)box.scrollIntoView({block:"center"});
+}
+
+/* ===== OFFICE ENGLISH ===== */
+function phraseRows(list,area){
+  return list.map(p=>'<div class="phrase" style="flex-wrap:wrap"><div class="grow"><div class="en">'+esc(p[0])+"</div>"+mean(p[1],p[2])+'</div><div class="actions">'+sayBtn(p[0],"Listen")+
+    '<button class="icon-btn" data-act="practise" data-e="'+esc(p[0])+'" data-b="'+esc(p[1])+'" data-h="'+esc(p[2])+'" data-area="'+area+'" aria-label="Practise speaking" title="Practise speaking">'+ic("mic")+'</button></div><div class="practice-slot"></div></div>').join("");
+}
+function pageOffice(sub){
+  const key=OFFICE[sub]?sub:"daily",c=OFFICE[key];
+  let body="";
+  if(key==="vocab"){
+    const list=WORDS.filter(w=>w.c==="Office");
+    body='<div class="grid g2">'+list.map(wordCard).join("")+"</div>";
+  }else{
+    body='<div class="card">'+phraseRows(c.phrases,"office")+"</div>";
+    if(key==="email")body+='<div class="section"><h2>Email templates</h2><p class="small muted">Copy one, then replace the words in [brackets].</p>'+EMAILS.map((m,i)=>
+      '<div class="card mt"><div class="row between"><h3>'+esc(m.t)+'</h3><div class="actions">'+sayBtn(m.b,"Listen to email")+'<button class="icon-btn" data-act="email-copy" data-i="'+i+'" aria-label="Copy email" title="Copy email">'+ic("copy")+'</button></div></div><p class="small mt"><b>Subject:</b> '+esc(m.s)+'</p><div class="email mt">'+esc(m.b)+"</div></div>").join("")+"</div>";
+  }
+  setView(head("Office English",c.d)+
+    '<div class="tabs" role="tablist">'+Object.keys(OFFICE).map(k=>'<a class="tab" style="text-decoration:none" role="tab" aria-selected="'+(k===key)+'" href="#/office/'+k+'">'+esc(OFFICE[k].t)+"</a>").join("")+"</div>"+body);
+}
+function togglePractice(btn){
+  const row=btn.closest(".phrase, .card"),slot=$(".practice-slot",row),open=slot.children.length>0;
+  $$(".practice-slot").forEach(s=>{s.innerHTML="";s.classList.remove("speakbox")});
+  $$("[data-act=practise].on").forEach(b=>b.classList.remove("on"));
+  Mic.abort();
+  if(open)return;
+  btn.classList.add("on");
+  const host=document.createElement("div");slot.appendChild(host);
+  mountSpeak(host,{target:btn.dataset.e,area:btn.dataset.area,hideTarget:true});
+}
+
+/* ===== VOCABULARY AND WORD GAME ===== */
+const V={q:"",f:"all",c:"all"};
+function wordCard(w){
+  const fav=!!S.fav[w.e],lr=!!S.learned[w.e];
+  return '<div class="card word-card" data-word="'+esc(w.e)+'"><div class="row between"><div class="grow"><h3>'+esc(w.e)+'</h3><div class="pron">'+esc(w.p)+'</div></div><div class="actions">'+sayBtn(w.e,"Pronounce "+w.e)+
+    '<button class="icon-btn'+(fav?" fav-on":"")+'" data-act="fav" data-w="'+esc(w.e)+'" aria-pressed="'+fav+'" aria-label="Favourite '+esc(w.e)+'" title="Favourite">'+ic("star")+"</button></div></div>"+
+    '<div class="mt">'+mean(w.b,w.h)+'</div><div class="ex row between"><span class="grow">'+esc(w.x)+"</span>"+sayBtn(w.x,"Listen to example")+"</div>"+
+    '<button class="btn block mt" data-act="learned" data-w="'+esc(w.e)+'" aria-pressed="'+lr+'">'+(lr?ic("checkc")+"Learned":"Mark as learned")+"</button></div>";
+}
+function filteredWords(){
+  const q=V.q.trim().toLowerCase();
+  return WORDS.filter(w=>{
+    if(V.f==="fav"&&!S.fav[w.e])return false;
+    if(V.f==="learned"&&!S.learned[w.e])return false;
+    if(V.f==="new"&&S.learned[w.e])return false;
+    if(V.c!=="all"&&w.c!==V.c)return false;
+    return !q||w.e.indexOf(q)>=0||w.b.indexOf(q)>=0||w.h.indexOf(q)>=0;
+  });
+}
+function renderWords(){
+  const list=filteredWords();
+  $("#word-count").textContent=list.length+(list.length===1?" word":" words");
+  $("#word-list").innerHTML=list.length?list.map(wordCard).join(""):'<div class="card muted">No words found. Try a different search or filter.</div>';
+}
+function pageVocabulary(sub){
+  const tabs='<div class="tabs" role="tablist"><a class="tab" style="text-decoration:none" role="tab" aria-selected="'+(sub!=="game")+'" href="#/vocabulary">Word list</a><a class="tab" style="text-decoration:none" role="tab" aria-selected="'+(sub==="game")+'" href="#/vocabulary/game">'+"Word game</a></div>";
+  if(sub==="game"){
+    setView(head("Vocabulary Game","Learn the words, choose the meaning, then spell them.")+tabs+'<div class="card" id="game"></div>');
+    G.stage="home";renderGame();return;
+  }
+  const n=learnedCount();
+  setView(head("Vocabulary",WORDS.length+" words with Bengali and Hindi meanings.")+tabs+
+    '<div class="card"><div class="row between small muted"><span>'+n+" of "+WORDS.length+" learned</span><span>"+Object.keys(S.fav).length+' favourites</span></div><div class="mt">'+barHTML(n/WORDS.length*100)+"</div></div>"+
+    '<div class="section"><div class="search">'+ic("search")+'<input class="input" type="search" placeholder="Search in English, Bengali or Hindi" aria-label="Search words" data-inp="word-search" value="'+esc(V.q)+'"></div>'+
+    '<div class="tabs mt" id="word-filters">'+[["all","All"],["fav","Favourites"],["learned","Learned"],["new","Not learned"]].map(x=>'<button class="tab" data-act="word-filter" data-v="'+x[0]+'" aria-selected="'+(V.f===x[0])+'">'+x[1]+"</button>").join("")+
+    '<select class="input" style="width:auto;min-height:40px;flex:none" aria-label="Category" data-chg="word-cat">'+[["all","All categories"],["General","General"],["Office","Office"]].map(x=>'<option value="'+x[0]+'"'+(V.c===x[0]?" selected":"")+">"+x[1]+"</option>").join("")+"</select></div>"+
+    '<p class="small muted" id="word-count"></p></div><div class="grid g2 mt" id="word-list"></div>');
+  renderWords();
+}
+function markLearned(e,on){
+  if(on&&!S.learned[e]){S.learned[e]=todayKey();logAct("words")}
+  else if(!on&&S.learned[e]){delete S.learned[e]}
+  save();
+}
+/* Same flow as the original game: learn the list, then for each word a meaning question and a spelling test.
+   Each word has 2 points, and a level of 10 words passes at 8 points. */
+const MAX_LEVEL=Math.ceil(WORDS.length/10);
+const G={stage:"home",mode:"level",words:[],i:0,score:0,lvl:1,mcqRight:false,answered:false};
+function levelWords(l){return WORDS.slice((l-1)*10,l*10)}
+function gameStats(){return "Level: "+Math.min(S.game.level,MAX_LEVEL)+" of "+MAX_LEVEL+" | Best Score: "+S.game.best+" | Attempts: "+S.game.attempts}
+function renderGame(){
+  const box=$("#game");if(!box)return;
+  const W=G.words[G.i],bar=G.words.length?'<div class="mt">'+barHTML(G.i/G.words.length*100)+"</div>":"";
+  const back='<button class="btn block mt" data-act="game-home">'+ic("prev")+"Back to game menu</button>";
+  if(G.stage==="home"){
+    const cur=S.game.level,allDone=cur>MAX_LEVEL;
+    box.innerHTML='<p class="small muted">'+esc(gameStats())+"</p>"+
+      (allDone?'<div class="note good mt">You have passed every level. Choose any level below to practise again.</div>':"")+
+      '<div class="grid g2 mt"><button class="btn primary" data-act="game-level" data-v="'+Math.min(cur,MAX_LEVEL)+'"'+(allDone?" disabled":"")+">"+ic("game")+'Start Level</button><button class="btn" data-act="game-daily">'+ic("clock")+"Daily Practice</button></div>"+
+      '<h3 class="section">Levels</h3><div class="tabs mt">'+Array.from({length:MAX_LEVEL},(_,i)=>i+1).map(n=>'<button class="tab" data-act="game-level" data-v="'+n+'"'+(n>cur?" disabled":"")+' aria-selected="'+(n===cur)+'">'+n+"</button>").join("")+"</div>";
+  }else if(G.stage==="learn"){
+    box.innerHTML='<h2>Learn Words</h2><p class="small muted">'+(G.mode==="daily"?"Today's 5 words":"Level "+G.lvl)+"</p>"+
+      G.words.map(w=>'<div class="phrase"><div class="grow"><div class="en">'+esc(w.e)+"</div>"+mean(w.b,w.h)+"</div>"+sayBtn(w.e,"Pronounce "+w.e)+"</div>").join("")+
+      '<button class="btn primary block mt" data-act="game-test">Start Test</button>'+back;
+  }else if(G.stage==="mcq"){
+    const pool=shuffle(WORDS.filter(x=>x.b!==W.b)).reduce((a,x)=>{if(a.indexOf(x.b)<0&&a.length<3)a.push(x.b);return a},[]);
+    G.answered=false;
+    box.innerHTML='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar+
+      '<div class="game-word">'+esc(W.e)+'</div><div class="row" style="justify-content:center"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button></div>"+
+      '<p class="mt small muted">Choose the Bengali meaning</p>'+shuffle(pool.concat(W.b)).map(b=>'<button class="opt" lang="bn" data-act="game-opt" data-v="'+esc(b)+'">'+esc(b)+"</button>").join("")+
+      '<button class="btn primary block mt hidden" id="game-next" data-act="game-tospell">Next</button>'+back;
+  }else if(G.stage==="spell"){
+    G.answered=false;
+    box.innerHTML='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar+
+      '<div class="mt">'+mean(W.b,W.h)+'</div><label class="field mt">Type the English word<input class="input" id="spell" autocomplete="off" autocapitalize="none" spellcheck="false" data-enter="game-spell"></label>'+
+      '<div id="spell-msg" class="mt" aria-live="polite"></div><button class="btn primary block mt" id="spell-btn" data-act="game-spell">Check</button>'+back;
+    $("#spell").focus();
+  }else{
+    const r=G.result;
+    box.innerHTML='<h2>'+esc(r.title)+'</h2><p class="score-pill mt">Score '+G.score+" of "+G.words.length*2+'</p><div class="mt">'+barHTML(G.score/(G.words.length*2)*100,"good")+'</div><p class="small muted mt">'+esc(gameStats())+"</p>"+
+      '<button class="btn primary block mt" data-act="game-home">Continue</button>';
+  }
+}
+function gameStart(mode,words,lvl){
+  G.mode=mode;G.words=words;G.lvl=lvl||0;G.i=0;G.score=0;G.stage="learn";renderGame();
+}
+function gameDaily(){
+  const today=new Date().toDateString(),dl=S.game.daily;
+  if(dl.date!==today||!dl.words.length){
+    S.game.daily={date:today,words:shuffle(WORDS).slice(0,5).map(w=>w.e)};save();
+  }
+  gameStart("daily",S.game.daily.words.map(e=>WORDS.find(w=>w.e===e)).filter(Boolean));
+}
+function gameFinish(){
+  S.game.attempts++;
+  S.game.best=Math.max(S.game.best,G.score);
+  const total=G.words.length*2;let title="Score "+G.score+" of "+total;
+  if(G.mode==="level"){
+    if(G.score>=8&&G.lvl===S.game.level){S.game.level++;title="Passed! Next level unlocked."}
+    else if(G.score>=8)title="Passed!";
+    else title="Not passed yet. You need 8 points.";
+  }else title="Daily practice finished";
+  logAct("game");logScore("vocabulary",Math.round(G.score/total*100));save();
+  G.result={title};G.stage="result";renderGame();
+}
+
+/* ===== GRAMMAR ===== */
+function pageGrammar(sub){
+  const g=GRAMMAR[sub];
+  if(!g){
+    setView(head("Grammar","Simple rules with Bengali and Hindi notes, and a quiz for each topic.")+
+      '<div class="grid g2">'+Object.keys(GRAMMAR).map(k=>{
+        const t=GRAMMAR[k],r=S.grammar[k];
+        return '<a class="card quick" href="#/grammar/'+k+'"><span class="stat-ic">'+ic(t.icon)+'</span><span class="grow"><b>'+t.t+"</b><p>"+t.d+"</p>"+(r?'<div class="mt">'+barHTML(r.best)+"</div>":"")+"</span>"+(r?'<span class="badge good">Best '+r.best+"%</span>":'<span class="badge">'+t.quiz.length+" questions</span>")+"</a>";
+      }).join("")+"</div>");
+    return;
+  }
+  setView('<div class="page-head"><a class="small" href="#/grammar">Back to grammar</a><h1>'+esc(g.t)+"</h1><p>"+esc(g.d)+"</p></div>"+
+    g.sections.map(s=>'<div class="card"><h2>'+esc(s.h)+'</h2><p class="mt">'+esc(s.en)+'</p><div class="mt">'+mean(s.bn,s.hi)+"</div>"+
+      (s.table?'<div class="tbl-wrap mt"><table><thead><tr><th>Form</th><th>Example</th><th>Example</th></tr></thead><tbody>'+s.table.map(r=>"<tr><td><b>"+esc(r[0])+"</b></td><td>"+esc(r[1])+"</td><td>"+esc(r[2])+"</td></tr>").join("")+"</tbody></table></div>":"")+
+      (s.ex?'<ul class="ex-list">'+s.ex.map(x=>"<li>"+sayBtn(x,"Listen")+"<span>"+esc(x)+"</span></li>").join("")+"</ul>":"")+"</div>").join("")+
+    '<div class="card" id="grammar-quiz"><h2>'+esc(g.t)+' quiz</h2><p class="muted mt">'+g.quiz.length+' questions, with an explanation after each answer.</p><button class="btn primary mt" data-act="grammar-quiz" data-v="'+sub+'">Start quiz</button></div>');
+}
+function grammarQuiz(k){
+  const g=GRAMMAR[k],host=$("#grammar-quiz");
+  mountQuiz(host,shuffle(g.quiz).map(x=>({q:x[0],opts:x[1],ans:x[2],why:x[3]})),(score,total)=>{
+    const p=Math.round(score/total*100),r=S.grammar[k]||{best:0,attempts:0};
+    r.best=Math.max(r.best,p);r.last=p;r.attempts++;S.grammar[k]=r;
+    logAct("grammar");logScore("grammar",p);
+    host.innerHTML='<h2>Quiz result</h2><p class="score-pill mt">'+score+" of "+total+" correct ("+p+'%)</p><div class="mt">'+barHTML(p,"good")+'</div><p class="small muted mt">Best score: '+r.best+'%</p><div class="row mt"><button class="btn primary" data-act="grammar-quiz" data-v="'+k+'">Try again</button><a class="btn" href="#/grammar">All topics</a></div>';
+  });
+  host.scrollIntoView({block:"start"});
+}
+
+/* ===== INTERVIEW PREPARATION ===== */
+function pageInterview(sub){
+  const i=INTERVIEW.findIndex(q=>q.id===sub);
+  if(i<0){
+    const dn=INTERVIEW.filter(q=>S.interview[q.id]&&S.interview[q.id].n).length;
+    setView(head("Interview Preparation","Common HR questions with sample answers and speaking practice.")+
+      '<div class="card"><div class="row between"><h2>Questions practised</h2><span class="small muted">'+dn+" of "+INTERVIEW.length+'</span></div><div class="mt">'+barHTML(dn/INTERVIEW.length*100)+"</div></div>"+
+      '<div class="grid g2 section">'+INTERVIEW.map((q,n)=>{
+        const r=S.interview[q.id];
+        return '<a class="card quick" href="#/interview/'+q.id+'"><span class="stat-ic">'+(r&&r.n?ic("checkc"):"<b>"+(n+1)+"</b>")+'</span><span class="grow"><b>'+esc(q.q)+"</b></span>"+(r&&r.best!=null?'<span class="badge good">'+r.best+"%</span>":"")+"</a>";
+      }).join("")+"</div>");
+    return;
+  }
+  const q=INTERVIEW[i],r=S.interview[q.id]||{},pv=INTERVIEW[i-1],nx=INTERVIEW[i+1];
+  setView('<div class="page-head"><a class="small" href="#/interview">Back to all questions</a><p class="small">Question '+(i+1)+" of "+INTERVIEW.length+"</p><h1>"+esc(q.q)+"</h1></div>"+
+    '<div class="card"><div class="row between"><div class="grow">'+mean(q.b,q.h)+"</div>"+sayBtn(q.q,"Listen to question")+'</div><div class="note mt"><b>Tip:</b> '+esc(q.tip)+"</div></div>"+
+    '<div class="card"><h2>Your own answer</h2><p class="small muted">Answer in your own words first. It is saved on this device.</p><textarea class="input mt" id="iv-ans" data-inp="iv-count" rows="5" placeholder="Speak or type your answer">'+esc(r.ans||"")+'</textarea>'+
+    '<div class="note warn mt hidden" id="mic-msg" role="alert"></div>'+
+    '<p class="small muted mt" id="iv-count"></p><div class="mic-row"><button class="mic-btn" data-act="dictate" data-into="#iv-ans" data-idle="Speak answer"'+(SR?"":" disabled")+">"+ic("mic")+'<span>Speak answer</span></button><button class="btn primary" data-act="iv-save" data-v="'+q.id+'">Save answer</button><button class="btn" data-act="iv-listen">'+ic("speaker")+'Hear my answer</button><span data-micstate>'+micStateHTML()+"</span></div></div>"+
+    '<div class="card"><div class="row between"><h2>Sample answer</h2><button class="btn" data-act="iv-show">Show sample</button></div>'+
+    '<div id="iv-sample" class="hidden"><p class="mt">'+esc(q.a)+'</p><div class="section"><h3>Practise saying the sample</h3><div class="mt" id="sb"></div></div></div></div>'+
+    '<div class="row between mt">'+(pv?'<a class="btn" href="#/interview/'+pv.id+'">'+ic("prev")+"Previous</a>":"<span></span>")+(nx?'<a class="btn primary" href="#/interview/'+nx.id+'">Next'+ic("next")+"</a>":"")+"</div>");
+  ivCount();
+  mountSpeak($("#sb"),{target:q.a,area:"interview",hideTarget:true,long:true,onDone:p=>{
+    const o=S.interview[q.id]||{};o.n=(o.n||0)+1;o.best=Math.max(o.best||0,p);S.interview[q.id]=o;save();
+  }});
+}
+const FILLERS=/\b(um+|uh+|actually|basically|you know)\b/gi;
+function ivCount(){
+  const ta=$("#iv-ans"),el=$("#iv-count");if(!ta||!el)return;
+  const t=ta.value.trim(),n=t?t.split(/\s+/).length:0,f=(t.match(FILLERS)||[]).length;
+  el.textContent=n?n+" words, about "+Math.max(1,Math.round(n/130*60))+" seconds to speak. Filler words: "+f+".":"";
+}
+
+/* ===== PROGRESS REPORT ===== */
+function pageProgress(){
+  const days=[];for(let i=6;i>=0;i--){const k=daysAgo(i);days.push({k,m:S.history[k]?Math.floor(S.history[k].sec/60):0})}
+  const target=S.settings.target,peak=Math.max(...days.map(d=>d.m)),top=Math.max(target,peak,1)*1.15;
+  const keys=Object.keys(S.history).filter(isActive).sort().reverse().slice(0,30);
+  const areas=[["Speaking","speaking"],["Lessons","lessons"],["Grammar","grammar"],["Vocabulary game","vocabulary"],["Office English","office"],["Interview","interview"]];
+  const totalMin=Math.round(Object.values(S.history).reduce((a,d)=>a+d.sec,0)/60);
+  const doneL=ALL_LESSONS.filter(l=>S.lessons[l.id]).sort((a,b)=>S.lessons[b.id].date.localeCompare(S.lessons[a.id].date));
+  const byLv=Object.keys(LESSONS).map(k=>[k,LESSONS[k].filter(l=>S.lessons[l.id]).length,LESSONS[k].length]);
+  const cards=[["clock",totalMin+" min","Total practice"],["flame",streak()+" / "+bestStreak(),"Streak now / best"],["book",completedCount()+" / "+ALL_LESSONS.length,"Lessons completed"],["letters",learnedCount()+" / "+WORDS.length,"Words learned"]];
+  const s=S.settings;
+  setView(head("Progress Report","Your practice, scores and vocabulary. Saved in this browser on this device.")+
+    '<div class="grid g4">'+cards.map(c=>'<div class="card stat"><div class="stat-ic">'+ic(c[0])+"</div><b>"+c[1]+"</b><span>"+c[2]+"</span></div>").join("")+"</div>"+
+    '<div class="card section"><h2>Minutes practised, last 7 days</h2><div class="chart" role="img" aria-label="Bar chart of minutes practised in the last 7 days. The table below has the same data.">'+
+      '<div class="goal-line" style="bottom:'+(target/top*100)+'%"><span>Target '+target+" min</span></div>"+
+      days.map((d,i)=>'<div class="col'+(i===6?" today":"")+'" tabindex="0"><i style="height:'+(d.m/top*100)+'%"></i>'+(d.m&&(i===6||d.m===peak)?'<b style="bottom:calc('+(d.m/top*100)+'% + 2px)">'+d.m+"</b>":"")+'<span class="tip">'+esc(niceDate(d.k))+": "+d.m+" min</span></div>").join("")+
+    '</div><div class="chart-x">'+days.map((d,i)=>"<span>"+(i===6?"Today":new Date(d.k+"T12:00:00").toLocaleDateString("en-IN",{weekday:"short"}))+"</span>").join("")+"</div></div>"+
+    '<div class="grid g2 section"><div class="card"><h2>Learning scores</h2><p class="small muted">Average of all your attempts.</p>'+areas.map(a=>{
+      const r=areaAverage(a[1]);
+      return '<div class="mt"><div class="row between small"><span>'+a[0]+"</span><span>"+(r?r.avg+"% ("+r.n+")":"No attempts yet")+"</span></div>"+barHTML(r?r.avg:0)+"</div>";
+    }).join("")+"</div>"+
+    '<div class="card"><h2>Vocabulary progress</h2><div class="mt">'+[["General","General"],["Office","Office"]].map(c=>{
+      const all=WORDS.filter(w=>w.c===c[0]),n=all.filter(w=>S.learned[w.e]).length;
+      return '<div class="mt"><div class="row between small"><span>'+c[1]+" words</span><span>"+n+" of "+all.length+"</span></div>"+barHTML(n/all.length*100)+"</div>";
+    }).join("")+'</div><p class="small muted mt">Favourites: '+Object.keys(S.fav).length+" | Game level: "+Math.min(S.game.level,MAX_LEVEL)+" of "+MAX_LEVEL+" | Best game score: "+S.game.best+"</p>"+
+    '<a class="btn mt" href="#/vocabulary">Open vocabulary</a></div></div>'+
+    '<div class="card section"><h2>Daily practice history</h2>'+(keys.length?'<div class="tbl-wrap mt"><table><thead><tr><th>Date</th><th class="num">Minutes</th><th class="num">Lessons</th><th class="num">Spoken</th><th class="num">Words</th><th class="num">Quizzes</th><th class="num">Tutor</th><th class="num">Score</th></tr></thead><tbody>'+
+      keys.map(k=>{const d=S.history[k],a=d.act,av=dayAverage(d);return "<tr><td>"+esc(niceDate(k))+'</td><td class="num">'+Math.floor(d.sec/60)+'</td><td class="num">'+(a.lesson||0)+'</td><td class="num">'+(a.speak||0)+'</td><td class="num">'+(a.words||0)+'</td><td class="num">'+(a.grammar||0)+'</td><td class="num">'+(a.tutor||0)+'</td><td class="num">'+(av==null?"-":av+"%")+"</td></tr>"}).join("")+
+      '</tbody></table></div>':'<p class="muted mt">No practice recorded yet. Finish your first activity and it will appear here.</p>')+"</div>"+
+    '<div class="card"><h2>Completed lessons</h2><div class="mt">'+byLv.map(b=>'<div class="mt"><div class="row between small"><span>'+b[0]+"</span><span>"+b[1]+" of "+b[2]+"</span></div>"+barHTML(b[1]/b[2]*100)+"</div>").join("")+"</div>"+
+      (doneL.length?'<div class="tbl-wrap mt"><table><thead><tr><th>Lesson</th><th>Date</th><th class="num">Best score</th></tr></thead><tbody>'+doneL.map(l=>'<tr><td><a href="#/lessons/'+l.id+'">'+esc(l.t)+"</a></td><td>"+esc(niceDate(S.lessons[l.id].date))+'</td><td class="num">'+S.lessons[l.id].score+"%</td></tr>").join("")+"</tbody></table></div>":"")+"</div>"+
+    '<div class="card section"><h2>Settings</h2><div class="grid g2 mt">'+
+      '<label class="field">Your name<input class="input" data-chg="name" maxlength="30" value="'+esc(s.name)+'"></label>'+
+      '<label class="field">Speech accent<select class="input" data-chg="accent">'+[["en-IN","Indian English"],["en-GB","British English"],["en-US","American English"]].map(a=>'<option value="'+a[0]+'"'+(a[0]===s.accent?" selected":"")+">"+a[1]+"</option>").join("")+"</select></label>"+
+      '<label class="field">Speaking speed<select class="input" data-chg="rate">'+[[.8,"Slow"],[1,"Normal"],[1.15,"Fast"]].map(a=>'<option value="'+a[0]+'"'+(a[0]===s.rate?" selected":"")+">"+a[1]+"</option>").join("")+"</select></label>"+
+      '<label class="field">Tutor reads questions aloud<select class="input" data-chg="autoRead"><option value="1"'+(s.autoRead?" selected":"")+'>Yes</option><option value="0"'+(s.autoRead?"":" selected")+">No</option></select></label>"+
+    '</div><div class="row mt"><button class="btn" data-act="test-voice">'+ic("speaker")+'Test voice</button><button class="btn danger" data-act="reset">Reset all progress</button></div></div>');
+}
+
+const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
+
+/* ===== BUTTON ACTIONS ===== */
+const ACT={
+  menu(){document.body.classList.toggle("menu-open")},
+  "close-menu"(){document.body.classList.remove("menu-open")},
+  say(b){say(b.dataset.text)},
+  "sb-say"(b){say(sbOf(b).o.target)},
+  "sb-slow"(b){say(sbOf(b).o.target,.7)},
+  "sb-mic":sbMic,
+  "sb-check"(b){
+    const{h}=sbOf(b),inp=$(".sb-input",h),t=inp.value.trim();
+    if(!t){toast("Please speak or type the sentence first.");inp.focus();return}
+    Mic.abort();sbGrade(h,t);
+  },
+  "sb-retry"(b){
+    const{h}=sbOf(b);
+    $(".sb-result",h).classList.add("hidden");$(".sb-input",h).value="";
+    const hd=$(".sb-heard",h);hd.textContent="Your spoken words will appear here.";hd.classList.add("empty");
+    sbMessage(h,"");
+    const m=$(".mic-btn",h);(m.disabled?$(".sb-input",h):m).focus();
+  },
+  dictate,
+  "q-opt":quizAnswer,
+  "q-next":quizNext,
+  "speak-set"(b){speakSet=b.dataset.v;pageSpeaking()},
+  "speak-move"(b){
+    const n=speakSets()[speakSet].length,d=Number(b.dataset.d);
+    S.speakPos[speakSet]=((S.speakPos[speakSet]||0)+d+n)%n;save();Mic.abort();stopSpeaking();pageSpeaking();
+  },
+  "speak-random"(){
+    const n=speakSets()[speakSet].length,cur=S.speakPos[speakSet]||0;
+    S.speakPos[speakSet]=(cur+1+Math.floor(Math.random()*(n-1)))%n;save();Mic.abort();stopSpeaking();pageSpeaking();
+  },
+  "lesson-level"(b){S.settings.level=b.dataset.v;save();pageLessons()},
+  "lesson-step"(b){lessonStep(Number(b.dataset.v))},
+  "lesson-play"(){say(LessonRun.l.lines.map(x=>x[1]))},
+  "lesson-sp"(b){LessonRun.sp+=Number(b.dataset.d);lessonStep(1)},
+  "tutor-start"(b){
+    S.tutor={topic:b.dataset.v,idx:0,msgs:[],done:false};tutorAsk();pageTutor();
+    if(S.settings.autoRead)say(S.tutor.msgs[0].t);
+  },
+  "tutor-send":tutorSend,
+  "tutor-reset"(){
+    if(S.tutor.msgs.some(m=>m.r==="user")&&!confirm("Leave this conversation? Your answers here will be cleared."))return;
+    S.tutor=defaults().tutor;save();pageTutor();
+  },
+  "tutor-again"(){const k=S.tutor.topic;S.tutor={topic:k,idx:0,msgs:[],done:false};tutorAsk();pageTutor()},
+  async "tutor-copy"(){
+    const ok=await copyText(claudeText());
+    if(ok)toast("Copied. Now open Claude and paste it.");
+    else{$("details").open=true;$("#tutor-export").select();toast("Could not copy automatically. Please copy the text shown.")}
+  },
+  practise:togglePractice,
+  async "email-copy"(b){
+    const m=EMAILS[Number(b.dataset.i)],ok=await copyText("Subject: "+m.s+"\n\n"+m.b);
+    toast(ok?"Email copied.":"Could not copy. Please select the text by hand.");
+  },
+  fav(b){
+    const e=b.dataset.w,on=!S.fav[e];
+    if(on)S.fav[e]=1;else delete S.fav[e];save();
+    b.classList.toggle("fav-on",on);b.setAttribute("aria-pressed",String(on));
+    toast(on?"Added to favourites.":"Removed from favourites.");
+    if(V.f==="fav"&&$("#word-list"))renderWords();
+  },
+  learned(b){
+    const e=b.dataset.w,on=!S.learned[e];markLearned(e,on);
+    b.setAttribute("aria-pressed",String(on));b.innerHTML=on?ic("checkc")+"Learned":"Mark as learned";
+    if(V.f!=="all"&&$("#word-list"))renderWords();
+  },
+  "word-filter"(b){
+    V.f=b.dataset.v;
+    $$("#word-filters .tab").forEach(t=>t.setAttribute("aria-selected",String(t===b)));renderWords();
+  },
+  "game-home"(){stopSpeaking();G.stage="home";renderGame()},
+  "game-level"(b){const n=Number(b.dataset.v),w=levelWords(n);if(w.length)gameStart("level",w,n)},
+  "game-daily":gameDaily,
+  "game-test"(){G.stage="mcq";renderGame()},
+  "game-opt"(b){
+    if(G.answered)return;G.answered=true;
+    const W=G.words[G.i],right=b.dataset.v===W.b;
+    G.mcqRight=right;if(right)G.score++;
+    $$("#game .opt").forEach(o=>{o.disabled=true;if(o.dataset.v===W.b)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
+    $("#game-next").classList.remove("hidden");$("#game-next").focus();
+  },
+  "game-tospell"(){G.stage="spell";renderGame()},
+  "game-spell"(){
+    const W=G.words[G.i],inp=$("#spell"),btn=$("#spell-btn");
+    if(G.answered){
+      G.i++;
+      if(G.i<G.words.length){G.stage="mcq";renderGame()}else gameFinish();
+      return;
+    }
+    const v=inp.value.trim().toLowerCase();
+    if(!v){toast("Please type the English word.");inp.focus();return}
+    G.answered=true;
+    const right=v===W.e;
+    if(right)G.score++;
+    if(right&&G.mcqRight)markLearned(W.e,true);
+    inp.disabled=true;
+    $("#spell-msg").innerHTML='<div class="note '+(right?"good":"bad")+'">'+(right?"Correct.":"The correct spelling is <b>"+esc(W.e)+"</b>.")+"</div>";
+    btn.textContent=G.i<G.words.length-1?"Next":"See result";btn.focus();
+    say(W.e);
+  },
+  "grammar-quiz"(b){grammarQuiz(b.dataset.v)},
+  "iv-show"(b){
+    const el=$("#iv-sample"),open=el.classList.toggle("hidden");
+    b.textContent=open?"Show sample":"Hide sample";
+    if(open)Mic.abort();
+  },
+  "iv-save"(b){
+    const o=S.interview[b.dataset.v]||{},had=!!o.ans;
+    o.ans=$("#iv-ans").value;o.n=(o.n||0)+1;S.interview[b.dataset.v]=o;
+    logAct("interview");save();toast(had?"Answer updated.":"Answer saved.");
+  },
+  "iv-listen"(){const t=$("#iv-ans").value.trim();if(t)say(t);else toast("Write or speak your answer first.")},
+  "test-voice"(){say("Hello "+S.settings.name+". This is how I will read English to you.")},
+  reset(){
+    if(!confirm("Delete all your progress, scores, favourites and saved answers? This cannot be undone."))return;
+    S=defaults();S.migrated=true;save();speakSet=null;V.q="";V.f="all";V.c="all";
+    toast("All progress has been reset.");render();
+  }
+};
+const CHG={
+  target(v){S.settings.target=Number(v);save();pageDashboard()},
+  "word-cat"(v){V.c=v;renderWords()},
+  name(v){S.settings.name=v.trim()||"Friend";save();toast("Name saved.")},
+  accent(v){S.settings.accent=v;save();toast("Accent saved.")},
+  rate(v){S.settings.rate=Number(v);save();toast("Speed saved.")},
+  autoRead(v){S.settings.autoRead=v==="1";save();toast("Setting saved.")}
+};
+const INP={
+  "word-search"(v){V.q=v;renderWords()},
+  "iv-count":ivCount,
+  "tutor-typed"(v,el,e){if(e.isTrusted)el.dataset.mic=""}
+};
+
+/* ===== EVENTS AND START ===== */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");
+  if(b&&!b.disabled&&ACT[b.dataset.act])ACT[b.dataset.act](b,e);
 });
-}
+document.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.chg;if(k&&CHG[k])CHG[k](e.target.value)});
+document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.inp;if(k&&INP[k])INP[k](e.target.value,e.target,e)});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")document.body.classList.remove("menu-open");
+  const k=e.target.dataset&&e.target.dataset.enter;
+  if(k&&e.key==="Enter"&&ACT[k]){e.preventDefault();ACT[k](e.target,e)}
+});
+window.addEventListener("hashchange",render);
 
-function startTest(){
-hideAll();
-document.getElementById("mcqBox").classList.remove("hidden");
-loadMCQ();
-}
+/* Practice time: counts only while the page is open and in use */
+let lastInput=Date.now();
+["pointerdown","keydown","scroll","touchstart"].forEach(n=>window.addEventListener(n,()=>{lastInput=Date.now()},{passive:true,capture:true}));
+let tickN=0;
+setInterval(()=>{
+  const busy=Mic.rec||(ttsOK&&speechSynthesis.speaking);
+  if(LessonRun&&!document.hidden){
+    LessonRun.left=Math.max(0,LessonRun.left-1);
+    const t=$("#lesson-timer span");
+    if(t)t.textContent=LessonRun.left?String(Math.floor(LessonRun.left/60)).padStart(2,"0")+":"+String(LessonRun.left%60).padStart(2,"0"):"10 min done";
+  }
+  if(document.hidden||(!busy&&Date.now()-lastInput>60000))return;
+  tickN++;
+  if(tickN%5===0){
+    day().sec+=5;save();
+    const r=$("#ring");if(r)r.innerHTML=ringHTML();
+  }
+},1000);
+window.addEventListener("pagehide",save);
+if(ttsOK)speechSynthesis.getVoices();
 
-function loadMCQ(){
-document.getElementById("eng").innerText=words[index].e;
-document.getElementById("bar").style.width=(index/words.length*100)+"%";
-let mcq=document.getElementById("mcq");
-mcq.innerHTML="";
-words.forEach(w=>mcq.innerHTML+=`<option>${w.b}</option>`);
+buildNav();
+save();
+if(!storageOK){
+  const w=$("#store-warn");w.textContent="Progress cannot be saved in this browser mode. It will be lost when you close this page.";w.classList.remove("hidden");
 }
+render();
 
-function speak(){
-speechSynthesis.speak(new SpeechSynthesisUtterance(words[index].e));
-}
-
-function mcqNext(){
-if(mcq.value===words[index].b)score++;
-hideAll();
-document.getElementById("spellBox").classList.remove("hidden");
-document.getElementById("bn").innerText=words[index].b;
-}
-
-function spellNext(){
-if(spell.value.toLowerCase()===words[index].e)score++;
-spell.value="";
-index++;
-if(index<words.length){
-hideAll();
-document.getElementById("mcqBox").classList.remove("hidden");
-loadMCQ();
-}else finish();
-}
-
-function finish(){
-attempts++;
-localStorage.setItem("attempts",attempts);
-best=Math.max(best,score);
-localStorage.setItem("best",best);
-hideAll();
-document.getElementById("result").classList.remove("hidden");
-
-if(mode==="level" && score>=8){
-level++; localStorage.setItem("level",level);
-document.getElementById("resultText").innerText=
-`🎉 Passed! Score ${score}/${words.length}`;
-}else{
-document.getElementById("resultText").innerText=
-`❌ Score ${score}/${words.length}`;
-}
-updateStats();
-}
-
-function continueGame(){location.reload();}
-function goBack(){location.reload();}
+})();
 </script>
-
 </body>
 </html>
