@@ -1480,6 +1480,7 @@ function markLearned(e,on){
    Each word has 2 points, and a level of 10 words passes at 8 points. */
 const MAX_LEVEL=Math.ceil(WORDS.length/10);
 const G={stage:"home",mode:"level",words:[],i:0,score:0,lvl:1,mcqRight:false,answered:false};
+function blankWord(W){return W.x.replace(new RegExp("\\b"+W.e+"\\w*","i"),"_____")}
 function levelWords(l){return WORDS.slice((l-1)*10,l*10)}
 function gameStats(){return "Level: "+Math.min(S.game.level,MAX_LEVEL)+" of "+MAX_LEVEL+" | Best Score: "+S.game.best+" | Attempts: "+S.game.attempts}
 function renderGame(){
@@ -1491,24 +1492,36 @@ function renderGame(){
     box.innerHTML='<p class="small muted">'+esc(gameStats())+"</p>"+
       (allDone?'<div class="note good mt">You have passed every level. Choose any level below to practise again.</div>':"")+
       '<div class="grid g2 mt"><button class="btn primary" data-act="game-level" data-v="'+Math.min(cur,MAX_LEVEL)+'"'+(allDone?" disabled":"")+">"+ic("game")+'Start Level</button><button class="btn" data-act="game-daily">'+ic("clock")+"Daily Practice</button></div>"+
+      '<label class="field section">Your language<select class="input" data-chg="my-lang"><option value="">Bengali and Hindi only</option>'+langOptions(S.settings.lang,["en","bn","hi"])+"</select></label>"+
+      (S.settings.lang?'<p class="small muted mt">For '+esc(langName(S.settings.lang))+', the test uses English sentences and listening, so it needs no stored translation. After each answer you can open the meaning in Google Translate.</p>':'<p class="small muted mt">The test uses Bengali meanings.</p>')+
       '<h3 class="section">Levels</h3><div class="tabs mt">'+Array.from({length:MAX_LEVEL},(_,i)=>i+1).map(n=>'<button class="tab" data-act="game-level" data-v="'+n+'"'+(n>cur?" disabled":"")+' aria-selected="'+(n===cur)+'">'+n+"</button>").join("")+"</div>";
   }else if(G.stage==="learn"){
     box.innerHTML='<h2>Learn Words</h2><p class="small muted">'+(G.mode==="daily"?"Today's 5 words":"Level "+G.lvl)+"</p>"+
       G.words.map(w=>'<div class="phrase"><div class="grow"><div class="en">'+esc(w.e)+"</div>"+mean(w.b,w.h)+(S.settings.lang?'<div class="mt">'+gtBtn(w.e,"Meaning in "+langName(S.settings.lang))+"</div>":"")+"</div>"+sayBtn(w.e,"Pronounce "+w.e)+"</div>").join("")+
       '<button class="btn primary block mt" data-act="game-test">Start Test</button>'+back;
   }else if(G.stage==="mcq"){
-    const pool=shuffle(WORDS.filter(x=>x.b!==W.b)).reduce((a,x)=>{if(a.indexOf(x.b)<0&&a.length<3)a.push(x.b);return a},[]);
+    const lang=S.settings.lang,head='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar;
+    const next='<button class="btn primary block mt hidden" id="game-next" data-act="game-tospell">Next</button>'+back;
     G.answered=false;
-    box.innerHTML='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar+
-      '<div class="game-word">'+esc(W.e)+'</div><div class="row" style="justify-content:center"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button></div>"+
-      '<p class="mt small muted">Choose the Bengali meaning</p>'+shuffle(pool.concat(W.b)).map(b=>'<button class="opt" lang="bn" data-act="game-opt" data-v="'+esc(b)+'">'+esc(b)+"</button>").join("")+
-      '<button class="btn primary block mt hidden" id="game-next" data-act="game-tospell">Next</button>'+back;
+    if(lang){
+      G.answer=W.e;
+      const pool=shuffle(WORDS.filter(x=>x.b!==W.b)).slice(0,3).map(x=>x.e);
+      box.innerHTML=head+'<p class="mt small muted">Choose the missing word</p><p class="target mt">'+esc(blankWord(W))+"</p>"+
+        shuffle(pool.concat(W.e)).map(e=>'<button class="opt" data-act="game-opt" data-v="'+esc(e)+'">'+esc(e)+"</button>").join("")+
+        '<div class="row mt hidden" id="game-after"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button>"+gtBtn(W.e,"Meaning in "+langName(lang))+"</div>"+next;
+    }else{
+      G.answer=W.b;
+      const pool=shuffle(WORDS.filter(x=>x.b!==W.b)).reduce((a,x)=>{if(a.indexOf(x.b)<0&&a.length<3)a.push(x.b);return a},[]);
+      box.innerHTML=head+'<div class="game-word">'+esc(W.e)+'</div><div class="row" style="justify-content:center"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button></div>"+
+        '<p class="mt small muted">Choose the Bengali meaning</p>'+shuffle(pool.concat(W.b)).map(b=>'<button class="opt" lang="bn" data-act="game-opt" data-v="'+esc(b)+'">'+esc(b)+"</button>").join("")+next;
+    }
   }else if(G.stage==="spell"){
     G.answered=false;
     box.innerHTML='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar+
-      '<div class="mt">'+mean(W.b,W.h)+'</div><label class="field mt">Type the English word<input class="input" id="spell" autocomplete="off" autocapitalize="none" spellcheck="false" data-enter="game-spell"></label>'+
+      (S.settings.lang?'<p class="mt small muted">Listen, then type the word</p><p class="target mt">'+esc(blankWord(W))+'</p><button class="btn mt" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Listen again</button>":'<div class="mt">'+mean(W.b,W.h)+"</div>")+'<label class="field mt">Type the English word<input class="input" id="spell" autocomplete="off" autocapitalize="none" spellcheck="false" data-enter="game-spell"></label>'+
       '<div id="spell-msg" class="mt" aria-live="polite"></div><button class="btn primary block mt" id="spell-btn" data-act="game-spell">Check</button>'+back;
     $("#spell").focus();
+    if(S.settings.lang)say(W.e);
   }else{
     const r=G.result;
     box.innerHTML='<h2>'+esc(r.title)+'</h2><p class="score-pill mt">Score '+G.score+" of "+G.words.length*2+'</p><div class="mt">'+barHTML(G.score/(G.words.length*2)*100,"good")+'</div><p class="small muted mt">'+esc(gameStats())+"</p>"+
@@ -1754,9 +1767,10 @@ const ACT={
   "game-test"(){G.stage="mcq";renderGame()},
   "game-opt"(b){
     if(G.answered)return;G.answered=true;
-    const W=G.words[G.i],right=b.dataset.v===W.b;
+    const right=b.dataset.v===G.answer;
     G.mcqRight=right;if(right)G.score++;
-    $$("#game .opt").forEach(o=>{o.disabled=true;if(o.dataset.v===W.b)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
+    $$("#game .opt").forEach(o=>{o.disabled=true;if(o.dataset.v===G.answer)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
+    const after=$("#game-after");if(after)after.classList.remove("hidden");
     $("#game-next").classList.remove("hidden");$("#game-next").focus();
   },
   "game-tospell"(){G.stage="spell";renderGame()},
@@ -1813,7 +1827,7 @@ const CHG={
   "word-cat"(v){V.c=v;renderWords()},
   "tr-from"(v){TR.from=v;trRefresh()},
   "tr-to"(v){TR.to=v;trRefresh()},
-  "my-lang"(v){S.settings.lang=v;save();renderWords();toast(v?"Language set to "+langName(v)+".":"Showing Bengali and Hindi only.")},
+  "my-lang"(v){S.settings.lang=v;save();if($("#word-list"))renderWords();if($("#game"))renderGame();toast(v?"Language set to "+langName(v)+".":"Showing Bengali and Hindi only.")},
   name(v){S.settings.name=v.trim()||"Friend";save();toast("Name saved.")},
   accent(v){S.settings.accent=v;save();toast("Accent saved.")},
   rate(v){S.settings.rate=Number(v);save();toast("Speed saved.")},
