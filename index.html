@@ -689,7 +689,7 @@ let storageOK=true;
 function readLS(k){try{return localStorage.getItem(k)}catch(e){storageOK=false;return null}}
 function writeLS(k,v){try{localStorage.setItem(k,v);return true}catch(e){storageOK=false;return false}}
 function defaults(){return{
-  settings:{name:"Rajesh",target:15,level:"Beginner",accent:"en-IN",rate:1,autoRead:true},
+  settings:{name:"Rajesh",target:15,level:"Beginner",accent:"en-IN",rate:1,autoRead:true,lang:""},
   history:{},lessons:{},learned:{},fav:{},grammar:{},interview:{},
   game:{level:1,best:0,attempts:0,daily:{date:"",words:[]}},
   tutor:{topic:null,idx:0,msgs:[],done:false},
@@ -1418,6 +1418,18 @@ function togglePractice(btn){
   mountSpeak(host,{target:btn.dataset.e,area:btn.dataset.area,hideTarget:true});
 }
 
+/* ===== LANGUAGES (Google Translate codes) ===== */
+const LANGS=[["ar","Arabic"],["as","Assamese"],["bn","Bengali"],["bho","Bhojpuri"],["my","Burmese"],["zh-CN","Chinese (Simplified)"],["zh-TW","Chinese (Traditional)"],["doi","Dogri"],["nl","Dutch"],["en","English"],["tl","Filipino"],["fr","French"],["de","German"],["el","Greek"],["gu","Gujarati"],["iw","Hebrew"],["hi","Hindi"],["id","Indonesian"],["it","Italian"],["ja","Japanese"],["kn","Kannada"],["km","Khmer"],["gom","Konkani"],["ko","Korean"],["mai","Maithili"],["ms","Malay"],["ml","Malayalam"],["mr","Marathi"],["ne","Nepali"],["or","Odia"],["fa","Persian"],["pl","Polish"],["pt","Portuguese"],["pa","Punjabi"],["ru","Russian"],["sa","Sanskrit"],["sd","Sindhi"],["si","Sinhala"],["es","Spanish"],["sw","Swahili"],["ta","Tamil"],["te","Telugu"],["th","Thai"],["tr","Turkish"],["uk","Ukrainian"],["ur","Urdu"],["vi","Vietnamese"]];
+function langName(c){const l=LANGS.find(x=>x[0]===c);return l?l[1]:""}
+function langOptions(sel,skip){return LANGS.filter(l=>skip.indexOf(l[0])<0).map(l=>'<option value="'+l[0]+'"'+(l[0]===sel?" selected":"")+">"+l[1]+"</option>").join("")}
+function gtURL(from,to,text){
+  const t=String(text||"").trim();
+  return "https://translate.google.co.in/?sl="+from+"&tl="+to+(t?"&text="+encodeURIComponent(t):"")+"&op=translate";
+}
+function gtBtn(text,label){
+  return '<a class="btn" target="_blank" rel="noopener noreferrer" href="'+esc(gtURL("en",S.settings.lang,text))+'">'+ic("translate")+esc(label)+ic("ext")+"</a>";
+}
+
 /* ===== VOCABULARY AND WORD GAME ===== */
 const V={q:"",f:"all",c:"all"};
 function wordCard(w){
@@ -1425,6 +1437,7 @@ function wordCard(w){
   return '<div class="card word-card" data-word="'+esc(w.e)+'"><div class="row between"><div class="grow"><h3>'+esc(w.e)+'</h3><div class="pron">'+esc(w.p)+'</div></div><div class="actions">'+sayBtn(w.e,"Pronounce "+w.e)+
     '<button class="icon-btn'+(fav?" fav-on":"")+'" data-act="fav" data-w="'+esc(w.e)+'" aria-pressed="'+fav+'" aria-label="Favourite '+esc(w.e)+'" title="Favourite">'+ic("star")+"</button></div></div>"+
     '<div class="mt">'+mean(w.b,w.h)+'</div><div class="ex row between"><span class="grow">'+esc(w.x)+"</span>"+sayBtn(w.x,"Listen to example")+"</div>"+
+    (S.settings.lang?'<div class="row mt">'+gtBtn(w.e,"Meaning in "+langName(S.settings.lang))+gtBtn(w.x,"Example in "+langName(S.settings.lang))+"</div>":"")+
     '<button class="btn block mt" data-act="learned" data-w="'+esc(w.e)+'" aria-pressed="'+lr+'">'+(lr?ic("checkc")+"Learned":"Mark as learned")+"</button></div>";
 }
 function filteredWords(){
@@ -1451,6 +1464,7 @@ function pageVocabulary(sub){
   const n=learnedCount();
   setView(head("Vocabulary",WORDS.length+" words with Bengali and Hindi meanings.")+tabs+
     '<div class="card"><div class="row between small muted"><span>'+n+" of "+WORDS.length+" learned</span><span>"+Object.keys(S.fav).length+' favourites</span></div><div class="mt">'+barHTML(n/WORDS.length*100)+"</div></div>"+
+    '<div class="card section"><label class="field">Your language<select class="input" data-chg="my-lang"><option value="">Bengali and Hindi only</option>'+langOptions(S.settings.lang,["en","bn","hi"])+'</select></label><p class="small muted mt">Bengali and Hindi meanings are always shown. Choose another language to add Google Translate buttons to every word.</p></div>'+
     '<div class="section"><div class="search">'+ic("search")+'<input class="input" type="search" placeholder="Search in English, Bengali or Hindi" aria-label="Search words" data-inp="word-search" value="'+esc(V.q)+'"></div>'+
     '<div class="tabs mt" id="word-filters">'+[["all","All"],["fav","Favourites"],["learned","Learned"],["new","Not learned"]].map(x=>'<button class="tab" data-act="word-filter" data-v="'+x[0]+'" aria-selected="'+(V.f===x[0])+'">'+x[1]+"</button>").join("")+
     '<select class="input" style="width:auto;min-height:40px;flex:none" aria-label="Category" data-chg="word-cat">'+[["all","All categories"],["General","General"],["Office","Office"]].map(x=>'<option value="'+x[0]+'"'+(V.c===x[0]?" selected":"")+">"+x[1]+"</option>").join("")+"</select></div>"+
@@ -1480,7 +1494,7 @@ function renderGame(){
       '<h3 class="section">Levels</h3><div class="tabs mt">'+Array.from({length:MAX_LEVEL},(_,i)=>i+1).map(n=>'<button class="tab" data-act="game-level" data-v="'+n+'"'+(n>cur?" disabled":"")+' aria-selected="'+(n===cur)+'">'+n+"</button>").join("")+"</div>";
   }else if(G.stage==="learn"){
     box.innerHTML='<h2>Learn Words</h2><p class="small muted">'+(G.mode==="daily"?"Today's 5 words":"Level "+G.lvl)+"</p>"+
-      G.words.map(w=>'<div class="phrase"><div class="grow"><div class="en">'+esc(w.e)+"</div>"+mean(w.b,w.h)+"</div>"+sayBtn(w.e,"Pronounce "+w.e)+"</div>").join("")+
+      G.words.map(w=>'<div class="phrase"><div class="grow"><div class="en">'+esc(w.e)+"</div>"+mean(w.b,w.h)+(S.settings.lang?'<div class="mt">'+gtBtn(w.e,"Meaning in "+langName(S.settings.lang))+"</div>":"")+"</div>"+sayBtn(w.e,"Pronounce "+w.e)+"</div>").join("")+
       '<button class="btn primary block mt" data-act="game-test">Start Test</button>'+back;
   }else if(G.stage==="mcq"){
     const pool=shuffle(WORDS.filter(x=>x.b!==W.b)).reduce((a,x)=>{if(a.indexOf(x.b)<0&&a.length<3)a.push(x.b);return a},[]);
@@ -1526,12 +1540,8 @@ function gameFinish(){
 
 /* ===== TRANSLATE =====
    Google Translate cannot run inside another page, so the text opens in Google Translate in a new tab. */
-const TR={text:"",pair:"en-bn"};
-const TR_PAIRS={"en-bn":["en","bn","English to Bengali"],"en-hi":["en","hi","English to Hindi"],"bn-en":["bn","en","Bengali to English"],"hi-en":["hi","en","Hindi to English"]};
-function translateURL(){
-  const p=TR_PAIRS[TR.pair],t=TR.text.trim();
-  return "https://translate.google.co.in/?sl="+p[0]+"&tl="+p[1]+(t?"&text="+encodeURIComponent(t):"")+"&op=translate";
-}
+const TR={text:"",from:"en",to:"bn"};
+function translateURL(){return gtURL(TR.from,TR.to,TR.text)}
 function trMatches(){
   const t=TR.text.trim(),q=t.toLowerCase(),clean=s=>s.toLowerCase().replace(/[.,!?।]/g,"").trim();
   if(!q)return[];
@@ -1551,13 +1561,14 @@ function trRefresh(){
   box.classList.toggle("hidden",!m.length);
 }
 function pageTranslate(){
-  setView(head("Translate","Translate English, Bengali and Hindi using Google Translate.")+
-    '<div class="card"><label class="field">Language<select class="input" data-chg="tr-pair">'+Object.keys(TR_PAIRS).map(k=>'<option value="'+k+'"'+(k===TR.pair?" selected":"")+">"+TR_PAIRS[k][2]+"</option>").join("")+"</select></label>"+
+  setView(head("Translate","Translate between English and many languages using Google Translate.")+
+    '<div class="card"><div class="grid g2"><label class="field">From<select class="input" data-chg="tr-from">'+langOptions(TR.from,[])+'</select></label><label class="field">To<select class="input" data-chg="tr-to">'+langOptions(TR.to,[])+"</select></label></div>"+
+    '<button class="btn mt" data-act="tr-swap">'+ic("shuffle")+"Swap languages</button>"+
     '<label class="field mt">Your text<textarea class="input" id="tr-text" maxlength="4000" rows="5" placeholder="Type a word or sentence" data-inp="tr-text">'+esc(TR.text)+"</textarea></label>"+
     '<div class="note warn mt hidden" id="mic-msg" role="alert"></div>'+
     '<div class="row mt"><a class="btn primary" id="tr-go" target="_blank" rel="noopener noreferrer" href="'+esc(translateURL())+'">'+ic("translate")+"Translate in Google"+ic("ext")+"</a>"+
     '<button class="btn" data-act="tr-say">'+ic("speaker")+'Listen</button><button class="mic-btn" data-act="dictate" data-into="#tr-text" data-idle="Speak English">'+ic("mic")+'<span>Speak English</span></button><button class="btn" data-act="tr-clear">Clear</button></div>'+
-    '<p class="small muted mt">Google Translate opens in a new tab. The text you type is sent to Google. Speak and Listen work in English only.</p></div>'+
+    '<p class="small muted mt">Google Translate opens in a new tab, where you can also pick any other language it offers. The text you type is sent to Google. Speak and Listen work in English only.</p></div>'+
     '<div class="card hidden" id="tr-local"></div>');
   trRefresh();
 }
@@ -1774,9 +1785,10 @@ const ACT={
   },
   "tr-say"(){
     if(!TR.text.trim()){toast("Type some text first.");$("#tr-text").focus();return}
-    if(TR.pair.indexOf("en-")!==0){toast("Listen works for English text only.");return}
+    if(TR.from!=="en"){toast("Listen works for English text only.");return}
     say(TR.text);
   },
+  "tr-swap"(){const f=TR.from;TR.from=TR.to;TR.to=f;pageTranslate()},
   "tr-clear"(){Mic.abort();TR.text="";$("#tr-text").value="";trRefresh();$("#tr-text").focus()},
   "iv-show"(b){
     const el=$("#iv-sample"),open=el.classList.toggle("hidden");
@@ -1799,7 +1811,9 @@ const ACT={
 const CHG={
   target(v){S.settings.target=Number(v);save();pageDashboard()},
   "word-cat"(v){V.c=v;renderWords()},
-  "tr-pair"(v){TR.pair=v;trRefresh()},
+  "tr-from"(v){TR.from=v;trRefresh()},
+  "tr-to"(v){TR.to=v;trRefresh()},
+  "my-lang"(v){S.settings.lang=v;save();renderWords();toast(v?"Language set to "+langName(v)+".":"Showing Bengali and Hindi only.")},
   name(v){S.settings.name=v.trim()||"Friend";save();toast("Name saved.")},
   accent(v){S.settings.accent=v;save();toast("Accent saved.")},
   rate(v){S.settings.rate=Number(v);save();toast("Speed saved.")},
