@@ -272,7 +272,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 <aside class="sidebar" aria-label="Main navigation">
   <div class="brand"><span class="brand-mark brand-ic"></span><span>Personal English<small>Speaking Coach</small></span></div>
   <ul class="nav" id="nav"></ul>
-  <div class="side-foot">Works free in your browser.<br>No login or API key.</div>
+  <div class="side-foot">Works free in your browser.<br>No login or API key.<br><a href="https://rajeshanimasingh-rgb.github.io/vocab-game/" target="_blank" rel="noopener noreferrer">Open app link</a></div>
 </aside>
 <div class="scrim" data-act="close-menu"></div>
 <div class="main">
@@ -1143,6 +1143,7 @@ function head(t,d){return '<div class="page-head"><h1>'+esc(t)+"</h1>"+(d?"<p>"+
 function setView(html){$("#view").innerHTML=html}
 
 /* ===== DASHBOARD ===== */
+const APP_URL="https://rajeshanimasingh-rgb.github.io/vocab-game/";
 const TASKS=[
   ["lesson",1,"Finish 1 lesson","#/lessons"],
   ["speak",5,"Speak 5 sentences","#/speaking"],
@@ -1184,7 +1185,9 @@ function pageDashboard(){
     '<div class="stack"><div class="card"><div class="row between"><h2>Word of the day</h2>'+sayBtn(w.e,"Listen to "+w.e)+'</div><h3 class="mt" style="font-size:1.3rem">'+esc(w.e)+'</h3><p class="small muted">'+esc(w.p)+'</p><div class="mt">'+mean(w.b,w.h)+'</div><p class="small muted mt">'+esc(w.x)+"</p></div>"+
     '<div class="card"><label class="field">Daily learning target<select class="input" data-chg="target">'+[10,15,20,30,45,60].map(v=>"<option value="+v+(v===S.settings.target?" selected":"")+">"+v+" minutes a day</option>").join("")+"</select></label>"+
     '<p class="small muted mt">Time counts while you are using the app.</p></div></div></div>'+
-  '<div class="section"><h2>Keep learning</h2><div class="grid g3">'+NAV.filter(n=>n[0]!=="dashboard"&&n[0]!=="progress").map(n=>'<a class="card quick" href="#/'+n[0]+'"><span class="stat-ic">'+ic(n[2])+"</span><span><b>"+n[1]+"</b></span></a>").join("")+"</div></div>"
+  '<div class="section"><h2>Keep learning</h2><div class="grid g3">'+NAV.filter(n=>n[0]!=="dashboard"&&n[0]!=="progress").map(n=>'<a class="card quick" href="#/'+n[0]+'"><span class="stat-ic">'+ic(n[2])+"</span><span><b>"+n[1]+"</b></span></a>").join("")+"</div></div>"+
+  '<div class="card section"><h2>Share this app</h2><p class="mt small" style="overflow-wrap:anywhere"><a href="'+APP_URL+'" target="_blank" rel="noopener noreferrer">'+APP_URL+'</a></p>'+
+    '<div class="row mt"><button class="btn primary" data-act="share-copy">'+ic("copy")+"Copy link</button></div></div>"
   );
 }
 
@@ -1765,6 +1768,10 @@ const ACT={
     say(W.e);
   },
   "grammar-quiz"(b){grammarQuiz(b.dataset.v)},
+  async "share-copy"(){
+    const ok=await copyText(APP_URL);
+    toast(ok?"Link copied. You can paste it anywhere.":"Could not copy. Please select the link by hand.");
+  },
   "tr-say"(){
     if(!TR.text.trim()){toast("Type some text first.");$("#tr-text").focus();return}
     if(TR.pair.indexOf("en-")!==0){toast("Listen works for English text only.");return}
