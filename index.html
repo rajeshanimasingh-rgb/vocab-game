@@ -232,6 +232,22 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .toast.show{opacity:1;transform:translateX(-50%)}
 .store-warn{background:var(--warn-bg);color:#6b3d00;padding:8px 16px;font-size:.88rem;text-align:center}
 
+/* language */
+.nav-lang{padding:4px 12px 10px}
+.nav-lang label{font-size:.8rem;color:var(--ink-2)}
+.nav-lang select{min-height:38px;padding:5px 8px;font-size:.9rem}
+.tr-copy{display:none;font-size:.95rem;color:var(--ink-2)}
+body.lang-other .tr-copy{display:block}
+body.lang-other .mean [lang]{display:none}
+body.lang-bn .mean [lang=hi],body.lang-hi .mean [lang=bn]{display:none}
+#harvest{position:fixed;inset:0;z-index:90;background:var(--bg);display:grid;place-items:center;padding:16px}
+#hv-box{max-width:480px;width:100%}
+#hv-list{white-space:pre-wrap}
+#gt-box{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+iframe.skiptranslate,.goog-te-banner-frame,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}
+body{top:0!important}
+.goog-text-highlight{background:none!important;box-shadow:none!important}
+
 /* responsive */
 @media (max-width:980px){
   .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -272,7 +288,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 <aside class="sidebar" aria-label="Main navigation">
   <div class="brand"><span class="brand-mark brand-ic"></span><span>Personal English<small>Speaking Coach</small></span></div>
   <ul class="nav" id="nav"></ul>
-  <div class="side-foot">Works free in your browser.<br>No login or API key.<br><a href="https://rajeshanimasingh-rgb.github.io/vocab-game/" target="_blank" rel="noopener noreferrer">Open app link</a></div>
+  <div class="side-foot"><span id="gt-note">Works free in your browser.</span><br>No login or API key.<br><a href="https://rajeshanimasingh-rgb.github.io/vocab-game/" target="_blank" rel="noopener noreferrer">Open app link</a></div>
 </aside>
 <div class="scrim" data-act="close-menu"></div>
 <div class="main">
@@ -284,6 +300,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   <main class="view" id="view"></main>
 </div>
 <nav class="bottom-nav" id="bottom-nav" aria-label="Quick navigation"></nav>
+<div id="gt-box" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <noscript><p style="padding:20px">Please turn on JavaScript to use this app.</p></noscript>
 <script>
@@ -799,7 +816,11 @@ translate:'<path d="M4 5h9"/><path d="M8 3v2"/><path d="M11 5c-1 4-3 7-7 9"/><pa
 info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>'
 };
 function ic(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+(ICONS[n]||"")+"</svg>"}
-function mean(b,h){return '<div class="mean"><span lang="bn" data-l="বাং">'+esc(b)+'</span><span lang="hi" data-l="हिं">'+esc(h)+"</span></div>"}
+function mean(b,h,e){return '<div class="mean"><span class="notranslate" lang="bn" data-l="বাং">'+esc(b)+'</span><span class="notranslate" lang="hi" data-l="हिं">'+esc(h)+"</span>"+trCopy(e)+"</div>"}
+/* Hidden unless a language other than Bengali or Hindi is chosen; Google translates this copy */
+function trCopy(e){return e?'<div class="tr-copy">'+esc(e)+"</div>":""}
+/* English that must stay English, with its translated copy below it */
+function enLine(e){return '<span class="notranslate">'+esc(e)+"</span>"+trCopy(e)}
 function sayBtn(text,label){return '<button class="icon-btn" data-act="say" data-text="'+esc(text)+'" aria-label="'+esc(label||"Listen")+'" title="Listen">'+ic("speaker")+"</button>"}
 function barHTML(p,cls){return '<div class="bar '+(cls||"")+'" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(p)+'"><i style="width:'+Math.min(100,p)+'%"></i></div>'}
 let toastTimer=0;
@@ -995,14 +1016,14 @@ function mountSpeak(host,o){
   host.classList.add("speakbox");
   host._sb=Object.assign({attempts:0},o);
   host.innerHTML=
-    (o.hideTarget?"":'<div class="target">'+esc(o.target)+"</div>")+
-    (o.b&&!o.hideTarget?'<div class="mt">'+mean(o.b,o.h)+"</div>":"")+
+    (o.hideTarget?"":'<div class="target notranslate">'+esc(o.target)+"</div>")+
+    (o.b&&!o.hideTarget?'<div class="mt">'+mean(o.b,o.h,o.target)+"</div>":"")+
     '<div class="row mt"><button class="btn" data-act="sb-say">'+ic("speaker")+'Listen</button>'+
     '<button class="btn" data-act="sb-slow">'+ic("slow")+"Slow</button></div>"+
     '<div class="mic-row"><button class="mic-btn" data-act="sb-mic" data-idle="Start speaking"'+(SR?"":" disabled")+">"+ic("mic")+"<span>Start speaking</span></button>"+
     '<span data-micstate>'+micStateHTML()+"</span></div>"+
     '<div class="note warn mt sb-msg'+(SR?" hidden":"")+'" role="alert">'+(SR?"":esc(micErrorText("unsupported")))+"</div>"+
-    '<div class="heard empty sb-heard" aria-live="polite">Your spoken words will appear here.</div>'+
+    '<div class="heard empty sb-heard notranslate" aria-live="polite">Your spoken words will appear here.</div>'+
     '<div class="type-row"><input class="input sb-input" aria-label="Type the sentence" placeholder="Or type the sentence here" autocomplete="off" autocapitalize="sentences" data-enter="sb-check">'+
     '<button class="btn" data-act="sb-check">Check</button></div>'+
     '<div class="result sb-result hidden" aria-live="polite"></div>';
@@ -1045,9 +1066,9 @@ function sbGrade(h,text){
   $(".sb-heard",h).textContent=text;$(".sb-heard",h).classList.remove("empty");
   res.innerHTML=
     '<div class="row between"><span class="score-pill">'+r.score+'% match</span><span class="badge '+badge+'">'+verdict+"</span></div>"+
-    '<p class="small muted mt">Correct sentence</p><p>'+wordsHTML(r.tRaw,r.tState)+"</p>"+
-    '<p class="small muted mt">What you said</p><p>'+wordsHTML(r.sRaw,r.sState)+"</p>"+
-    (r.mistakes.length?'<ul class="mistakes">'+r.mistakes.slice(0,8).map(m=>"<li>"+esc(m)+"</li>").join("")+"</ul>":"")+
+    '<p class="small muted mt">Correct sentence</p><p class="notranslate">'+wordsHTML(r.tRaw,r.tState)+"</p>"+
+    '<p class="small muted mt">What you said</p><p class="notranslate">'+wordsHTML(r.sRaw,r.sState)+"</p>"+
+    (r.mistakes.length?'<ul class="mistakes notranslate">'+r.mistakes.slice(0,8).map(m=>"<li>"+esc(m)+"</li>").join("")+"</ul>":"")+
     (r.mistakes.length?'<div class="legend"><span class="w-bad">wrong word</span><span class="w-miss">missing</span><span class="w-extra">extra</span></div>':"")+
     '<p class="small muted mt">Attempt '+o.attempts+'. Words that sound the same, such as "there" and "their", count as correct.</p>'+
     '<div class="row mt"><button class="btn primary" data-act="sb-retry">Try again</button></div>';
@@ -1082,8 +1103,8 @@ function renderQuiz(host){
   host.innerHTML=
     '<div class="row between small muted"><span>Question '+(z.i+1)+" of "+z.qs.length+"</span><span>Score "+z.score+"</span></div>"+
     '<div class="mt">'+barHTML(z.i/z.qs.length*100)+"</div>"+
-    '<h3 class="mt">'+esc(q.q)+"</h3>"+(q.b?'<div class="mt">'+mean(q.b,q.h)+"</div>":"")+
-    '<div class="mt">'+order.map(o=>'<button class="opt" data-act="q-opt" data-i="'+o.i+'">'+esc(o.t)+"</button>").join("")+"</div>"+
+    '<h3 class="mt'+(q.nt?" notranslate":"")+'">'+esc(q.q)+"</h3>"+(q.b?'<div class="mt">'+mean(q.b,q.h,q.e)+"</div>":"")+
+    '<div class="mt">'+order.map(o=>'<button class="opt notranslate" data-act="q-opt" data-i="'+o.i+'">'+esc(o.t)+"</button>").join("")+"</div>"+
     '<div class="q-why mt" aria-live="polite"></div>';
 }
 function quizAnswer(btn){
@@ -1118,7 +1139,7 @@ const NAV=[
 ];
 const BOTTOM=[["dashboard","Home","home"],["speaking","Speak","mic"],["lessons","Lessons","book"],["vocabulary","Words","letters"]];
 function buildNav(){
-  $("#nav").innerHTML=NAV.map(n=>'<li><a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a></li>").join("");
+  $("#nav").innerHTML=NAV.map(n=>'<li><a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a></li>"+(n[0]==="dashboard"?'<li class="nav-lang"><label class="field">Language'+langSelect()+"</label></li>":"")).join("");
   $("#bottom-nav").innerHTML=BOTTOM.map(n=>'<a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a>").join("")+
     '<button data-act="menu" aria-label="Open all sections">'+ic("menu")+"<span>More</span></button>";
   $("#menu-btn").innerHTML=ic("menu");
@@ -1173,8 +1194,9 @@ function pageDashboard(){
   ];
   setView(
   '<div class="card hero"><div class="ring" id="ring" role="img" aria-label="Minutes practised today">'+ringHTML()+'</div>'+
-    '<div class="grow"><h1>'+greeting()+", "+esc(S.settings.name)+"</h1><p>"+(streak()>0?"Keep your streak going today.":"A short practice every day builds confidence.")+"</p>"+
+    '<div class="grow"><h1><span>'+greeting()+'</span>, <span class="notranslate">'+esc(S.settings.name)+"</span></h1><p>"+(streak()>0?"Keep your streak going today.":"A short practice every day builds confidence.")+"</p>"+
     '<div class="row mt"><a class="btn primary" href="#/lessons/'+nl.id+'">'+ic("book")+'Next lesson</a><a class="btn ghost" href="#/speaking">'+ic("mic")+"Start speaking</a></div></div></div>"+
+  '<div class="card section"><label class="field">Choose your language'+langSelect()+'</label><p class="small muted mt">All menus and pages change to your language. English practice sentences stay in English, with the meaning below them. Translated by Google, so some meanings may not be perfect.</p></div>'+
   '<div class="grid g4 section">'+cards.map(c=>'<div class="card stat"><div class="stat-ic">'+ic(c[0])+"</div><b>"+c[1]+"</b><span>"+c[2]+"</span></div>").join("")+"</div>"+
   '<div class="grid g2 section"><div class="card"><div class="row between"><h2>Today\'s practice</h2><span class="badge">'+done+" of "+TASKS.length+" done</span></div>"+
     '<div class="mt">'+barHTML(done/TASKS.length*100,"good")+'</div><div class="mt">'+
@@ -1182,7 +1204,7 @@ function pageDashboard(){
       const n=d.act[t[0]]||0,ok=n>=t[1];
       return '<a class="check-item'+(ok?" done":"")+'" href="'+t[3]+'"><span class="check-dot">'+(ok?ic("check"):"")+'</span><span class="grow">'+t[2]+'</span><span class="small muted">'+Math.min(n,t[1])+"/"+t[1]+"</span></a>";
     }).join("")+'</div></div>'+
-    '<div class="stack"><div class="card"><div class="row between"><h2>Word of the day</h2>'+sayBtn(w.e,"Listen to "+w.e)+'</div><h3 class="mt" style="font-size:1.3rem">'+esc(w.e)+'</h3><p class="small muted">'+esc(w.p)+'</p><div class="mt">'+mean(w.b,w.h)+'</div><p class="small muted mt">'+esc(w.x)+"</p></div>"+
+    '<div class="stack"><div class="card"><div class="row between"><h2>Word of the day</h2>'+sayBtn(w.e,"Listen to "+w.e)+'</div><h3 class="mt notranslate" style="font-size:1.3rem">'+esc(w.e)+'</h3><p class="small muted notranslate">'+esc(w.p)+'</p><div class="mt">'+mean(w.b,w.h,w.e)+'</div><p class="small muted mt">'+enLine(w.x)+"</p></div>"+
     '<div class="card"><label class="field">Daily learning target<select class="input" data-chg="target">'+[10,15,20,30,45,60].map(v=>"<option value="+v+(v===S.settings.target?" selected":"")+">"+v+" minutes a day</option>").join("")+"</select></label>"+
     '<p class="small muted mt">Time counts while you are using the app.</p></div></div></div>'+
   '<div class="section"><h2>Keep learning</h2><div class="grid g3">'+NAV.filter(n=>n[0]!=="dashboard"&&n[0]!=="progress").map(n=>'<a class="card quick" href="#/'+n[0]+'"><span class="stat-ic">'+ic(n[2])+"</span><span><b>"+n[1]+"</b></span></a>").join("")+"</div></div>"+
@@ -1226,13 +1248,13 @@ function pageLessons(id){
 function lessonQuiz(l){
   return shuffle(l.lines).slice(0,4).map(x=>{
     const others=shuffle(l.lines.filter(y=>y!==x)).slice(0,3).map(y=>y[1]);
-    return{q:"Which English sentence has this meaning?",b:x[2],h:x[3],opts:[x[1]].concat(others),ans:0,why:x[1]};
+    return{q:"Which English sentence has this meaning?",b:x[2],h:x[3],e:x[1],opts:[x[1]].concat(others),ans:0,why:x[1]};
   });
 }
 function lessonDetail(l){
   LessonRun={l,step:0,sp:0,left:600};
   const r=S.lessons[l.id];
-  setView('<div class="row between page-head"><div class="grow"><a class="small" href="#/lessons">Back to lessons</a><h1>'+esc(l.t)+"</h1><p>"+esc(l.goal)+'</p></div><span class="badge" id="lesson-timer">'+ic("clock")+"<span>10:00</span></span></div>"+
+  setView('<div class="row between page-head"><div class="grow"><a class="small" href="#/lessons">Back to lessons</a><h1>'+esc(l.t)+"</h1><p>"+esc(l.goal)+'</p></div><span class="badge notranslate" id="lesson-timer">'+ic("clock")+"<span>10:00</span></span></div>"+
     (r?'<div class="note good">You completed this lesson. Best score '+r.score+"%. You can practise it again.</div>":"")+
     '<div class="tabs mt" role="tablist">'+["1. Listen","2. Speak","3. Quiz"].map((t,i)=>'<button class="tab" role="tab" data-act="lesson-step" data-v="'+i+'">'+t+"</button>").join("")+"</div>"+
     '<div id="lesson-body"></div>');
@@ -1245,7 +1267,7 @@ function lessonStep(s){
   stopSpeaking();Mic.abort();
   if(s===0){
     body.innerHTML='<div class="card"><div class="row between"><h2>Daily conversation</h2><button class="btn" data-act="lesson-play">'+ic("speaker")+"Play all</button></div>"+
-      '<div class="mt">'+l.lines.map(x=>'<div class="phrase"><div class="grow"><div class="speaker">'+esc(x[0])+'</div><div class="en">'+esc(x[1])+"</div>"+mean(x[2],x[3])+"</div>"+sayBtn(x[1],"Listen")+"</div>").join("")+"</div>"+
+      '<div class="mt">'+l.lines.map(x=>'<div class="phrase"><div class="grow"><div class="speaker">'+esc(x[0])+'</div><div class="en notranslate">'+esc(x[1])+"</div>"+mean(x[2],x[3],x[1])+"</div>"+sayBtn(x[1],"Listen")+"</div>").join("")+"</div>"+
       '<button class="btn primary block mt" data-act="lesson-step" data-v="1">Next: Speak these sentences</button></div>';
   }else if(s===1){
     const x=l.lines[R.sp];
@@ -1329,11 +1351,11 @@ function ruleCheck(text,typed){
   return{fixes,better,short:text.trim().split(/\s+/).length<4};
 }
 function tutorHTML(m){
-  if(m.r==="coach")return '<div class="msg coach"><div class="who"><span>Tutor</span></div>'+esc(m.t)+'<div class="mt">'+sayBtn(m.t,"Listen to question")+"</div></div>";
-  if(m.r==="user")return '<div class="msg user"><div class="who"><span>You'+(m.spoken?" (spoken)":" (typed)")+"</span></div>"+esc(m.t)+"</div>";
+  if(m.r==="coach")return '<div class="msg coach"><div class="who"><span>Tutor</span></div>'+enLine(m.t)+'<div class="mt">'+sayBtn(m.t,"Listen to question")+"</div></div>";
+  if(m.r==="user")return '<div class="msg user"><div class="who"><span>You'+(m.spoken?" (spoken)":" (typed)")+'</span></div><span class="notranslate">'+esc(m.t)+"</span></div>";
   const fx=m.fixes||[];
   return '<div class="msg check"><div class="who"><span class="badge warn">Rule check, not AI</span></div>'+
-    (fx.length?fx.map(f=>'<div class="fix"><del>'+esc(f.bad)+"</del> → <ins>"+esc(f.good)+'</ins><div class="small muted">'+esc(f.why)+"</div></div>").join("")+'<div class="fix"><b>Suggested:</b> '+esc(m.better)+"</div>":
+    (fx.length?fx.map(f=>'<div class="fix"><span class="notranslate"><del>'+esc(f.bad)+"</del> → <ins>"+esc(f.good)+'</ins></span><div class="small muted">'+esc(f.why)+"</div></div>").join("")+'<div class="fix"><b>Suggested:</b> <span class="notranslate">'+esc(m.better)+"</span></div>":
       '<div class="small">The fixed rules found no common mistakes. This does not prove the answer is perfect.</div>')+
     (m.short?'<div class="fix small">Try a longer answer next time: a full sentence with a reason or example.</div>':"")+"</div>";
 }
@@ -1390,7 +1412,7 @@ function tutorSend(){
 
 /* ===== OFFICE ENGLISH ===== */
 function phraseRows(list,area){
-  return list.map(p=>'<div class="phrase" style="flex-wrap:wrap"><div class="grow"><div class="en">'+esc(p[0])+"</div>"+mean(p[1],p[2])+'</div><div class="actions">'+sayBtn(p[0],"Listen")+
+  return list.map(p=>'<div class="phrase" style="flex-wrap:wrap"><div class="grow"><div class="en notranslate">'+esc(p[0])+"</div>"+mean(p[1],p[2],p[0])+'</div><div class="actions">'+sayBtn(p[0],"Listen")+
     '<button class="icon-btn" data-act="practise" data-e="'+esc(p[0])+'" data-b="'+esc(p[1])+'" data-h="'+esc(p[2])+'" data-area="'+area+'" aria-label="Practise speaking" title="Practise speaking">'+ic("mic")+'</button></div><div class="practice-slot"></div></div>').join("");
 }
 function pageOffice(sub){
@@ -1402,7 +1424,7 @@ function pageOffice(sub){
   }else{
     body='<div class="card">'+phraseRows(c.phrases,"office")+"</div>";
     if(key==="email")body+='<div class="section"><h2>Email templates</h2><p class="small muted">Copy one, then replace the words in [brackets].</p>'+EMAILS.map((m,i)=>
-      '<div class="card mt"><div class="row between"><h3>'+esc(m.t)+'</h3><div class="actions">'+sayBtn(m.b,"Listen to email")+'<button class="icon-btn" data-act="email-copy" data-i="'+i+'" aria-label="Copy email" title="Copy email">'+ic("copy")+'</button></div></div><p class="small mt"><b>Subject:</b> '+esc(m.s)+'</p><div class="email mt">'+esc(m.b)+"</div></div>").join("")+"</div>";
+      '<div class="card mt"><div class="row between"><h3>'+esc(m.t)+'</h3><div class="actions">'+sayBtn(m.b,"Listen to email")+'<button class="icon-btn" data-act="email-copy" data-i="'+i+'" aria-label="Copy email" title="Copy email">'+ic("copy")+'</button></div></div><p class="small mt"><b>Subject:</b> '+esc(m.s)+'</p><div class="email mt notranslate">'+esc(m.b)+'</div><div class="tr-copy email mt">'+esc(m.b)+"</div></div>").join("")+"</div>";
   }
   setView(head("Office English",c.d)+
     '<div class="tabs" role="tablist">'+Object.keys(OFFICE).map(k=>'<a class="tab" style="text-decoration:none" role="tab" aria-selected="'+(k===key)+'" href="#/office/'+k+'">'+esc(OFFICE[k].t)+"</a>").join("")+"</div>"+body);
@@ -1420,24 +1442,173 @@ function togglePractice(btn){
 
 /* ===== LANGUAGES (Google Translate codes) ===== */
 const LANGS=[["ar","Arabic"],["as","Assamese"],["bn","Bengali"],["bho","Bhojpuri"],["my","Burmese"],["zh-CN","Chinese (Simplified)"],["zh-TW","Chinese (Traditional)"],["doi","Dogri"],["nl","Dutch"],["en","English"],["tl","Filipino"],["fr","French"],["de","German"],["el","Greek"],["gu","Gujarati"],["iw","Hebrew"],["hi","Hindi"],["id","Indonesian"],["it","Italian"],["ja","Japanese"],["kn","Kannada"],["km","Khmer"],["gom","Konkani"],["ko","Korean"],["mai","Maithili"],["ms","Malay"],["ml","Malayalam"],["mr","Marathi"],["ne","Nepali"],["or","Odia"],["fa","Persian"],["pl","Polish"],["pt","Portuguese"],["pa","Punjabi"],["ru","Russian"],["sa","Sanskrit"],["sd","Sindhi"],["si","Sinhala"],["es","Spanish"],["sw","Swahili"],["ta","Tamil"],["te","Telugu"],["th","Thai"],["tr","Turkish"],["uk","Ukrainian"],["ur","Urdu"],["vi","Vietnamese"]];
-function langName(c){const l=LANGS.find(x=>x[0]===c);return l?l[1]:""}
 function langOptions(sel,skip){return LANGS.filter(l=>skip.indexOf(l[0])<0).map(l=>'<option value="'+l[0]+'"'+(l[0]===sel?" selected":"")+">"+l[1]+"</option>").join("")}
 function gtURL(from,to,text){
   const t=String(text||"").trim();
   return "https://translate.google.co.in/?sl="+from+"&tl="+to+(t?"&text="+encodeURIComponent(t):"")+"&op=translate";
 }
-function gtBtn(text,label){
-  return '<a class="btn" target="_blank" rel="noopener noreferrer" href="'+esc(gtURL("en",S.settings.lang,text))+'">'+ic("translate")+esc(label)+ic("ext")+"</a>";
+/* Whole-app translation uses Google's website translator. Text marked notranslate stays English. */
+function langOther(){return document.body.classList.contains("lang-other")}
+function langSelect(){return '<select class="input notranslate" data-chg="ui-lang" aria-label="Choose your language"><option value="">English</option>'+langOptions(S.settings.lang,["en"])+"</select>"}
+function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"}
+/* Google's translator is used once per language to prepare all app text, which is then saved on the device.
+   After that a small walker swaps English text for the saved text, so screens change instantly. */
+const DICT_V=1;
+let DICT=null;
+const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
+function loadDict(l){
+  try{const o=JSON.parse(readLS("pesc_dict_"+l)||"null");return o&&o.v===DICT_V?o.d:null}catch(e){return null}
+}
+function trText(k){
+  if(DICT[k])return DICT[k];
+  if(!/\d/.test(k))return null;
+  const e=DICT["#"+k.replace(/\d+/g,"#")],now=k.match(/\d+/g);
+  if(!e||e[1].length!==now.length)return null;
+  let out=e[0],ok=true;
+  const mark=i=>String.fromCharCode(0xE000+i);
+  e[1].forEach((n,i)=>{
+    const rx=new RegExp("(^|\\D)"+n+"(?!\\d)");
+    if(rx.test(out))out=out.replace(rx,(m,a)=>a+mark(i));else ok=false;
+  });
+  if(!ok)return null;
+  now.forEach((n,i)=>{out=out.replace(mark(i),n)});
+  return out;
+}
+function trSkip(el){return !el||!!el.closest(".notranslate,script,style,textarea,#harvest")}
+function trNode(n){
+  const k=n.nodeValue.trim();
+  if(!k||!/[A-Za-z]/.test(k)||trSkip(n.parentElement))return;
+  const v=trText(k);
+  if(v&&v!==k)n.nodeValue=n.nodeValue.replace(k,()=>v);
+}
+function trTree(root){
+  if(root.nodeType===3){trNode(root);return}
+  if(root.nodeType!==1)return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  let n;while((n=w.nextNode()))trNode(n);
+  $$("[placeholder]",root).forEach(e=>{const v=DICT[e.getAttribute("placeholder")];if(v)e.setAttribute("placeholder",v)});
+}
+function startDict(){
+  trTree(document.body);
+  if(DICT[document.title])document.title=DICT[document.title];
+  new MutationObserver(ms=>ms.forEach(m=>{
+    if(m.type==="characterData")trNode(m.target);else m.addedNodes.forEach(trTree);
+  })).observe(document.body,{childList:true,subtree:true,characterData:true});
+}
+/* Every English text the app can show that is not marked notranslate */
+function collectStrings(){
+  const set=new Set(),add=t=>{t=String(t||"").trim();if(t&&/[A-Za-z]/.test(t))set.add(t)};
+  EXTRA_UI.forEach(add);
+  ["not-allowed","service-not-allowed","no-speech","audio-capture","network","language-not-supported","unsupported","start-failed","other"].forEach(c=>add(micErrorText(c)));
+  const scan=()=>{
+    const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    let n;while((n=w.nextNode()))if(!trSkip(n.parentElement))add(n.nodeValue);
+    $$("[placeholder]").forEach(e=>add(e.getAttribute("placeholder")));
+  };
+  const routes=[["dashboard"],["speaking"],["lessons"],["tutor"],["vocabulary"],["game"],["translate"],["grammar"],["interview"],["progress"]];
+  Object.keys(OFFICE).forEach(k=>routes.push(["office",k]));
+  Object.keys(GRAMMAR).forEach(k=>routes.push(["grammar",k]));
+  INTERVIEW.forEach(q=>routes.push(["interview",q.id]));
+  routes.forEach(r=>{try{PAGES[r[0]](r[1]);scan()}catch(e){}});
+  try{lessonDetail(ALL_LESSONS[0]);scan();lessonStep(1);scan();LessonRun=null}catch(e){}
+  ALL_LESSONS.forEach(l=>{add(l.t);add(l.goal);l.lines.forEach(x=>add(x[1]))});
+  Object.values(OFFICE).forEach(o=>{add(o.t);add(o.d);o.phrases.forEach(x=>add(x[0]))});
+  EMAILS.forEach(m=>{add(m.t);add(m.s);add(m.b)});
+  WORDS.forEach(w=>{add(w.e);add(w.x)});
+  Object.values(GRAMMAR).forEach(g=>{add(g.t);add(g.d);g.sections.forEach(x=>{add(x.h);add(x.en);(x.ex||[]).forEach(add)});g.quiz.forEach(x=>add(x[3]))});
+  INTERVIEW.forEach(q=>{add(q.q);add(q.a);add(q.tip)});
+  Object.values(TUTOR_TOPICS).forEach(t=>{add(t.t);t.qs.forEach(add)});
+  RULES.forEach(r=>add(r[2]));
+  return Array.from(set);
+}
+function plainDigits(t){
+  return t.replace(/[०-९]/g,c=>c.charCodeAt(0)-0x966).replace(/[০-৯]/g,c=>c.charCodeAt(0)-0x9E6)
+    .replace(/[٠-٩]/g,c=>c.charCodeAt(0)-0x660).replace(/[۰-۹]/g,c=>c.charCodeAt(0)-0x6F0);
+}
+function harvestPanel(html){$("#hv-box").innerHTML=html}
+/* Google's translator stops after about 200 pieces per page load, so the text is prepared in
+   batches over several quick reloads. Progress is saved after each batch. */
+function runHarvest(l){
+  const key="pesc_part_"+l;
+  let part;
+  try{part=JSON.parse(readLS(key)||"null")}catch(e){part=null}
+  if(!part||part.v!==DICT_V)part={v:DICT_V,d:{},zero:0};
+  const box=document.createElement("div");
+  box.id="harvest";
+  box.innerHTML='<div class="card notranslate" id="hv-box"></div>';
+  document.body.appendChild(box);
+  const all=collectStrings(),left=all.filter(t=>!(t in part.d)),total=all.length;
+  const shown=n=>{
+    harvestPanel('<h1>Preparing your language</h1><p class="mt">This happens only the first time, and takes one to two minutes. Please keep this page open on your screen.</p><div class="mt">'+barHTML(n/total*100)+'</div><p class="small muted mt">'+Math.round(n/total*100)+"%</p>");
+  };
+  const fail=()=>{
+    setGtCookie("");
+    harvestPanel('<h1>Could not prepare this language</h1><p class="mt">Please check your internet connection, keep this page on your screen, and try again. Your progress is saved.</p><div class="row mt"><button class="btn primary" data-act="hv-retry">Try again</button><button class="btn" data-act="hv-english">Back to English</button></div>');
+  };
+  const complete=()=>{
+    const d={};
+    Object.keys(part.d).forEach(en=>{
+      const v=plainDigits(part.d[en]),nums=en.match(/\d+/g);
+      if(nums&&new Set(nums).size===nums.length)d["#"+en.replace(/\d+/g,"#")]=[v,nums];
+      d[en]=v;
+    });
+    Object.keys(localStorage).filter(k=>k.indexOf("pesc_dict_")===0).forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});
+    const ok=writeLS("pesc_dict_"+l,JSON.stringify({v:DICT_V,d}));
+    try{localStorage.removeItem(key)}catch(e){}
+    if(!ok){fail();return}
+    setGtCookie("");
+    location.reload();
+  };
+  shown(total-left.length);
+  if(!left.length){complete();return}
+  const batch=left.slice(0,150);
+  $("#view").innerHTML='<div id="hv-list"></div>';
+  const list=$("#hv-list");
+  batch.forEach(t=>{const p=document.createElement("p");p.textContent=t;list.appendChild(p)});
+  setGtCookie(l);
+  window.gtInit=()=>{new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"gt-box")};
+  const js=document.createElement("script");
+  js.src="https://translate.google.com/translate_a/element.js?cb=gtInit";
+  document.head.appendChild(js);
+  const ps=$$("p",list);
+  let last=0,lastAt=Date.now();
+  const tick=setInterval(()=>{
+    const done=ps.filter(p=>p.querySelector("font")).length;
+    if(done!==last){last=done;lastAt=Date.now()}
+    shown(total-left.length+done);
+    const idle=Date.now()-lastAt;
+    if(done<batch.length&&idle<(done?2500:15000))return;
+    clearInterval(tick);
+    ps.forEach((p,i)=>{if(p.querySelector("font"))part.d[batch[i]]=p.innerText.trim()});
+    part.zero=done?0:part.zero+1;
+    /* Nothing new twice: stop, and keep what is ready if it is nearly everything */
+    if(part.zero>=2){
+      if(Object.keys(part.d).length>=total*.9)complete();else{part.zero=0;writeLS(key,JSON.stringify(part));fail()}
+      return;
+    }
+    if(!writeLS(key,JSON.stringify(part))){fail();return}
+    location.reload();
+  },300);
+}
+/* Returns true when the normal page should not be drawn yet */
+function startLanguage(){
+  const l=S.settings.lang;
+  setGtCookie("");
+  if(!l)return false;
+  document.body.classList.add(l==="bn"||l==="hi"?"lang-"+l:"lang-other");
+  DICT=loadDict(l);
+  if(DICT){startDict();return false}
+  runHarvest(l);
+  return true;
 }
 
 /* ===== VOCABULARY AND WORD GAME ===== */
 const V={q:"",f:"all",c:"all"};
 function wordCard(w){
   const fav=!!S.fav[w.e],lr=!!S.learned[w.e];
-  return '<div class="card word-card" data-word="'+esc(w.e)+'"><div class="row between"><div class="grow"><h3>'+esc(w.e)+'</h3><div class="pron">'+esc(w.p)+'</div></div><div class="actions">'+sayBtn(w.e,"Pronounce "+w.e)+
+  return '<div class="card word-card" data-word="'+esc(w.e)+'"><div class="row between"><div class="grow"><h3 class="notranslate">'+esc(w.e)+'</h3><div class="pron notranslate">'+esc(w.p)+'</div></div><div class="actions">'+sayBtn(w.e,"Pronounce "+w.e)+
     '<button class="icon-btn'+(fav?" fav-on":"")+'" data-act="fav" data-w="'+esc(w.e)+'" aria-pressed="'+fav+'" aria-label="Favourite '+esc(w.e)+'" title="Favourite">'+ic("star")+"</button></div></div>"+
-    '<div class="mt">'+mean(w.b,w.h)+'</div><div class="ex row between"><span class="grow">'+esc(w.x)+"</span>"+sayBtn(w.x,"Listen to example")+"</div>"+
-    (S.settings.lang?'<div class="row mt">'+gtBtn(w.e,"Meaning in "+langName(S.settings.lang))+gtBtn(w.x,"Example in "+langName(S.settings.lang))+"</div>":"")+
+    '<div class="mt">'+mean(w.b,w.h,w.e)+'</div><div class="ex row between"><span class="grow">'+enLine(w.x)+"</span>"+sayBtn(w.x,"Listen to example")+"</div>"+
     '<button class="btn block mt" data-act="learned" data-w="'+esc(w.e)+'" aria-pressed="'+lr+'">'+(lr?ic("checkc")+"Learned":"Mark as learned")+"</button></div>";
 }
 function filteredWords(){
@@ -1464,7 +1635,6 @@ function pageVocabulary(sub){
   const n=learnedCount();
   setView(head("Vocabulary",WORDS.length+" words with Bengali and Hindi meanings.")+tabs+
     '<div class="card"><div class="row between small muted"><span>'+n+" of "+WORDS.length+" learned</span><span>"+Object.keys(S.fav).length+' favourites</span></div><div class="mt">'+barHTML(n/WORDS.length*100)+"</div></div>"+
-    '<div class="card section"><label class="field">Your language<select class="input" data-chg="my-lang"><option value="">Bengali and Hindi only</option>'+langOptions(S.settings.lang,["en","bn","hi"])+'</select></label><p class="small muted mt">Bengali and Hindi meanings are always shown. Choose another language to add Google Translate buttons to every word.</p></div>'+
     '<div class="section"><div class="search">'+ic("search")+'<input class="input" type="search" placeholder="Search in English, Bengali or Hindi" aria-label="Search words" data-inp="word-search" value="'+esc(V.q)+'"></div>'+
     '<div class="tabs mt" id="word-filters">'+[["all","All"],["fav","Favourites"],["learned","Learned"],["new","Not learned"]].map(x=>'<button class="tab" data-act="word-filter" data-v="'+x[0]+'" aria-selected="'+(V.f===x[0])+'">'+x[1]+"</button>").join("")+
     '<select class="input" style="width:auto;min-height:40px;flex:none" aria-label="Category" data-chg="word-cat">'+[["all","All categories"],["General","General"],["Office","Office"]].map(x=>'<option value="'+x[0]+'"'+(V.c===x[0]?" selected":"")+">"+x[1]+"</option>").join("")+"</select></div>"+
@@ -1480,7 +1650,6 @@ function markLearned(e,on){
    Each word has 2 points, and a level of 10 words passes at 8 points. */
 const MAX_LEVEL=Math.ceil(WORDS.length/10);
 const G={stage:"home",mode:"level",words:[],i:0,score:0,lvl:1,mcqRight:false,answered:false};
-function blankWord(W){return W.x.replace(new RegExp("\\b"+W.e+"\\w*","i"),"_____")}
 function levelWords(l){return WORDS.slice((l-1)*10,l*10)}
 function gameStats(){return "Level: "+Math.min(S.game.level,MAX_LEVEL)+" of "+MAX_LEVEL+" | Best Score: "+S.game.best+" | Attempts: "+S.game.attempts}
 function renderGame(){
@@ -1492,36 +1661,26 @@ function renderGame(){
     box.innerHTML='<p class="small muted">'+esc(gameStats())+"</p>"+
       (allDone?'<div class="note good mt">You have passed every level. Choose any level below to practise again.</div>':"")+
       '<div class="grid g2 mt"><button class="btn primary" data-act="game-level" data-v="'+Math.min(cur,MAX_LEVEL)+'"'+(allDone?" disabled":"")+">"+ic("game")+'Start Level</button><button class="btn" data-act="game-daily">'+ic("clock")+"Daily Practice</button></div>"+
-      '<label class="field section">Your language<select class="input" data-chg="my-lang"><option value="">Bengali and Hindi only</option>'+langOptions(S.settings.lang,["en","bn","hi"])+"</select></label>"+
-      (S.settings.lang?'<p class="small muted mt">For '+esc(langName(S.settings.lang))+', the test uses English sentences and listening, so it needs no stored translation. After each answer you can open the meaning in Google Translate.</p>':'<p class="small muted mt">The test uses Bengali meanings.</p>')+
       '<h3 class="section">Levels</h3><div class="tabs mt">'+Array.from({length:MAX_LEVEL},(_,i)=>i+1).map(n=>'<button class="tab" data-act="game-level" data-v="'+n+'"'+(n>cur?" disabled":"")+' aria-selected="'+(n===cur)+'">'+n+"</button>").join("")+"</div>";
   }else if(G.stage==="learn"){
     box.innerHTML='<h2>Learn Words</h2><p class="small muted">'+(G.mode==="daily"?"Today's 5 words":"Level "+G.lvl)+"</p>"+
-      G.words.map(w=>'<div class="phrase"><div class="grow"><div class="en">'+esc(w.e)+"</div>"+mean(w.b,w.h)+(S.settings.lang?'<div class="mt">'+gtBtn(w.e,"Meaning in "+langName(S.settings.lang))+"</div>":"")+"</div>"+sayBtn(w.e,"Pronounce "+w.e)+"</div>").join("")+
+      G.words.map(w=>'<div class="phrase"><div class="grow"><div class="en notranslate">'+esc(w.e)+"</div>"+mean(w.b,w.h,w.e)+"</div>"+sayBtn(w.e,"Pronounce "+w.e)+"</div>").join("")+
       '<button class="btn primary block mt" data-act="game-test">Start Test</button>'+back;
   }else if(G.stage==="mcq"){
-    const lang=S.settings.lang,head='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar;
-    const next='<button class="btn primary block mt hidden" id="game-next" data-act="game-tospell">Next</button>'+back;
-    G.answered=false;
-    if(lang){
-      G.answer=W.e;
-      const pool=shuffle(WORDS.filter(x=>x.b!==W.b)).slice(0,3).map(x=>x.e);
-      box.innerHTML=head+'<p class="mt small muted">Choose the missing word</p><p class="target mt">'+esc(blankWord(W))+"</p>"+
-        shuffle(pool.concat(W.e)).map(e=>'<button class="opt" data-act="game-opt" data-v="'+esc(e)+'">'+esc(e)+"</button>").join("")+
-        '<div class="row mt hidden" id="game-after"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button>"+gtBtn(W.e,"Meaning in "+langName(lang))+"</div>"+next;
-    }else{
-      G.answer=W.b;
-      const pool=shuffle(WORDS.filter(x=>x.b!==W.b)).reduce((a,x)=>{if(a.indexOf(x.b)<0&&a.length<3)a.push(x.b);return a},[]);
-      box.innerHTML=head+'<div class="game-word">'+esc(W.e)+'</div><div class="row" style="justify-content:center"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button></div>"+
-        '<p class="mt small muted">Choose the Bengali meaning</p>'+shuffle(pool.concat(W.b)).map(b=>'<button class="opt" lang="bn" data-act="game-opt" data-v="'+esc(b)+'">'+esc(b)+"</button>").join("")+next;
-    }
+    const lang=S.settings.lang,other=langOther()&&DICT&&!!DICT[W.e],label=other?"e":lang==="hi"?"h":"b";
+    const pool=shuffle(WORDS.filter(x=>x.b!==W.b&&(!other||DICT[x.e]))).reduce((a,x)=>{if(a.indexOf(x[label])<0&&a.length<3)a.push(x[label]);return a},[]);
+    G.answered=false;G.answer=W[label];
+    box.innerHTML='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar+
+      '<div class="game-word notranslate">'+esc(W.e)+'</div><div class="row" style="justify-content:center"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button></div>"+
+      '<p class="mt small muted">'+(lang?"Choose the meaning":"Choose the Bengali meaning")+"</p>"+
+      shuffle(pool.concat(G.answer)).map(v=>'<button class="opt'+(other?"":" notranslate")+'" data-act="game-opt" data-v="'+esc(v)+'"'+(other?"":' lang="'+(label==="h"?"hi":"bn")+'"')+">"+esc(v)+"</button>").join("")+
+      '<button class="btn primary block mt hidden" id="game-next" data-act="game-tospell">Next</button>'+back;
   }else if(G.stage==="spell"){
     G.answered=false;
     box.innerHTML='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar+
-      (S.settings.lang?'<p class="mt small muted">Listen, then type the word</p><p class="target mt">'+esc(blankWord(W))+'</p><button class="btn mt" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Listen again</button>":'<div class="mt">'+mean(W.b,W.h)+"</div>")+'<label class="field mt">Type the English word<input class="input" id="spell" autocomplete="off" autocapitalize="none" spellcheck="false" data-enter="game-spell"></label>'+
+      '<div class="mt">'+mean(W.b,W.h,W.e)+"</div>"+'<label class="field mt">Type the English word<input class="input" id="spell" autocomplete="off" autocapitalize="none" spellcheck="false" data-enter="game-spell"></label>'+
       '<div id="spell-msg" class="mt" aria-live="polite"></div><button class="btn primary block mt" id="spell-btn" data-act="game-spell">Check</button>'+back;
     $("#spell").focus();
-    if(S.settings.lang)say(W.e);
   }else{
     const r=G.result;
     box.innerHTML='<h2>'+esc(r.title)+'</h2><p class="score-pill mt">Score '+G.score+" of "+G.words.length*2+'</p><div class="mt">'+barHTML(G.score/(G.words.length*2)*100,"good")+'</div><p class="small muted mt">'+esc(gameStats())+"</p>"+
@@ -1570,7 +1729,7 @@ function trRefresh(){
   const a=$("#tr-go"),box=$("#tr-local");if(!a||!box)return;
   a.href=translateURL();
   const m=trMatches();
-  box.innerHTML=m.length?'<h3>Found in this app</h3>'+m.map(x=>'<div class="phrase"><div class="grow"><div class="en">'+esc(x.e)+"</div>"+mean(x.b,x.h)+"</div>"+sayBtn(x.e,"Listen")+"</div>").join(""):"";
+  box.innerHTML=m.length?'<h3>Found in this app</h3>'+m.map(x=>'<div class="phrase"><div class="grow"><div class="en notranslate">'+esc(x.e)+"</div>"+mean(x.b,x.h,x.e)+"</div>"+sayBtn(x.e,"Listen")+"</div>").join(""):"";
   box.classList.toggle("hidden",!m.length);
 }
 function pageTranslate(){
@@ -1599,13 +1758,13 @@ function pageGrammar(sub){
   }
   setView('<div class="page-head"><a class="small" href="#/grammar">Back to grammar</a><h1>'+esc(g.t)+"</h1><p>"+esc(g.d)+"</p></div>"+
     g.sections.map(s=>'<div class="card"><h2>'+esc(s.h)+'</h2><p class="mt">'+esc(s.en)+'</p><div class="mt">'+mean(s.bn,s.hi)+"</div>"+
-      (s.table?'<div class="tbl-wrap mt"><table><thead><tr><th>Form</th><th>Example</th><th>Example</th></tr></thead><tbody>'+s.table.map(r=>"<tr><td><b>"+esc(r[0])+"</b></td><td>"+esc(r[1])+"</td><td>"+esc(r[2])+"</td></tr>").join("")+"</tbody></table></div>":"")+
-      (s.ex?'<ul class="ex-list">'+s.ex.map(x=>"<li>"+sayBtn(x,"Listen")+"<span>"+esc(x)+"</span></li>").join("")+"</ul>":"")+"</div>").join("")+
+      (s.table?'<div class="tbl-wrap mt"><table class="notranslate"><thead><tr><th>Form</th><th>Example</th><th>Example</th></tr></thead><tbody>'+s.table.map(r=>"<tr><td><b>"+esc(r[0])+"</b></td><td>"+esc(r[1])+"</td><td>"+esc(r[2])+"</td></tr>").join("")+"</tbody></table></div>":"")+
+      (s.ex?'<ul class="ex-list">'+s.ex.map(x=>"<li>"+sayBtn(x,"Listen")+"<span>"+enLine(x)+"</span></li>").join("")+"</ul>":"")+"</div>").join("")+
     '<div class="card" id="grammar-quiz"><h2>'+esc(g.t)+' quiz</h2><p class="muted mt">'+g.quiz.length+' questions, with an explanation after each answer.</p><button class="btn primary mt" data-act="grammar-quiz" data-v="'+sub+'">Start quiz</button></div>');
 }
 function grammarQuiz(k){
   const g=GRAMMAR[k],host=$("#grammar-quiz");
-  mountQuiz(host,shuffle(g.quiz).map(x=>({q:x[0],opts:x[1],ans:x[2],why:x[3]})),(score,total)=>{
+  mountQuiz(host,shuffle(g.quiz).map(x=>({q:x[0],opts:x[1],ans:x[2],why:x[3],nt:true})),(score,total)=>{
     const p=Math.round(score/total*100),r=S.grammar[k]||{best:0,attempts:0};
     r.best=Math.max(r.best,p);r.last=p;r.attempts++;S.grammar[k]=r;
     logAct("grammar");logScore("grammar",p);
@@ -1628,13 +1787,13 @@ function pageInterview(sub){
     return;
   }
   const q=INTERVIEW[i],r=S.interview[q.id]||{},pv=INTERVIEW[i-1],nx=INTERVIEW[i+1];
-  setView('<div class="page-head"><a class="small" href="#/interview">Back to all questions</a><p class="small">Question '+(i+1)+" of "+INTERVIEW.length+"</p><h1>"+esc(q.q)+"</h1></div>"+
-    '<div class="card"><div class="row between"><div class="grow">'+mean(q.b,q.h)+"</div>"+sayBtn(q.q,"Listen to question")+'</div><div class="note mt"><b>Tip:</b> '+esc(q.tip)+"</div></div>"+
+  setView('<div class="page-head"><a class="small" href="#/interview">Back to all questions</a><p class="small">Question '+(i+1)+" of "+INTERVIEW.length+"</p><h1 class=\"notranslate\">"+esc(q.q)+"</h1></div>"+
+    '<div class="card"><div class="row between"><div class="grow">'+mean(q.b,q.h,q.q)+"</div>"+sayBtn(q.q,"Listen to question")+'</div><div class="note mt"><b>Tip:</b> '+esc(q.tip)+"</div></div>"+
     '<div class="card"><h2>Your own answer</h2><p class="small muted">Answer in your own words first. It is saved on this device.</p><textarea class="input mt" id="iv-ans" data-inp="iv-count" rows="5" placeholder="Speak or type your answer">'+esc(r.ans||"")+'</textarea>'+
     '<div class="note warn mt hidden" id="mic-msg" role="alert"></div>'+
     '<p class="small muted mt" id="iv-count"></p><div class="mic-row"><button class="mic-btn" data-act="dictate" data-into="#iv-ans" data-idle="Speak answer"'+(SR?"":" disabled")+">"+ic("mic")+'<span>Speak answer</span></button><button class="btn primary" data-act="iv-save" data-v="'+q.id+'">Save answer</button><button class="btn" data-act="iv-listen">'+ic("speaker")+'Hear my answer</button><span data-micstate>'+micStateHTML()+"</span></div></div>"+
     '<div class="card"><div class="row between"><h2>Sample answer</h2><button class="btn" data-act="iv-show">Show sample</button></div>'+
-    '<div id="iv-sample" class="hidden"><p class="mt">'+esc(q.a)+'</p><div class="section"><h3>Practise saying the sample</h3><div class="mt" id="sb"></div></div></div></div>'+
+    '<div id="iv-sample" class="hidden"><p class="mt">'+enLine(q.a)+'</p><div class="section"><h3>Practise saying the sample</h3><div class="mt" id="sb"></div></div></div></div>'+
     '<div class="row between mt">'+(pv?'<a class="btn" href="#/interview/'+pv.id+'">'+ic("prev")+"Previous</a>":"<span></span>")+(nx?'<a class="btn primary" href="#/interview/'+nx.id+'">Next'+ic("next")+"</a>":"")+"</div>");
   ivCount();
   mountSpeak($("#sb"),{target:q.a,area:"interview",hideTarget:true,long:true,onDone:p=>{
@@ -1770,7 +1929,6 @@ const ACT={
     const right=b.dataset.v===G.answer;
     G.mcqRight=right;if(right)G.score++;
     $$("#game .opt").forEach(o=>{o.disabled=true;if(o.dataset.v===G.answer)o.classList.add("right");else if(o===b)o.classList.add("wrong")});
-    const after=$("#game-after");if(after)after.classList.remove("hidden");
     $("#game-next").classList.remove("hidden");$("#game-next").focus();
   },
   "game-tospell"(){G.stage="spell";renderGame()},
@@ -1788,11 +1946,13 @@ const ACT={
     if(right)G.score++;
     if(right&&G.mcqRight)markLearned(W.e,true);
     inp.disabled=true;
-    $("#spell-msg").innerHTML='<div class="note '+(right?"good":"bad")+'">'+(right?"Correct.":"The correct spelling is <b>"+esc(W.e)+"</b>.")+"</div>";
+    $("#spell-msg").innerHTML='<div class="note '+(right?"good":"bad")+'">'+(right?"Correct.":"The correct spelling is <b class=\"notranslate\">"+esc(W.e)+"</b>.")+"</div>";
     btn.textContent=G.i<G.words.length-1?"Next":"See result";btn.focus();
     say(W.e);
   },
   "grammar-quiz"(b){grammarQuiz(b.dataset.v)},
+  "hv-retry"(){location.reload()},
+  "hv-english"(){S.settings.lang="";save();location.reload()},
   async "share-copy"(){
     const ok=await copyText(APP_URL);
     toast(ok?"Link copied. You can paste it anywhere.":"Could not copy. Please select the link by hand.");
@@ -1827,7 +1987,7 @@ const CHG={
   "word-cat"(v){V.c=v;renderWords()},
   "tr-from"(v){TR.from=v;trRefresh()},
   "tr-to"(v){TR.to=v;trRefresh()},
-  "my-lang"(v){S.settings.lang=v;save();if($("#word-list"))renderWords();if($("#game"))renderGame();toast(v?"Language set to "+langName(v)+".":"Showing Bengali and Hindi only.")},
+  "ui-lang"(v){S.settings.lang=v;save();location.reload()},
   name(v){S.settings.name=v.trim()||"Friend";save();toast("Name saved.")},
   accent(v){S.settings.accent=v;save();toast("Accent saved.")},
   rate(v){S.settings.rate=Number(v);save();toast("Speed saved.")},
@@ -1869,7 +2029,7 @@ setInterval(()=>{
   tickN++;
   if(tickN%5===0){
     day().sec+=5;save();
-    const r=$("#ring");if(r)r.innerHTML=ringHTML();
+    const r=$("#ring"),h=ringHTML();if(r&&r.dataset.h!==h){r.dataset.h=h;r.innerHTML=h}
   }
 },1000);
 window.addEventListener("pagehide",save);
@@ -1880,7 +2040,7 @@ save();
 if(!storageOK){
   const w=$("#store-warn");w.textContent="Progress cannot be saved in this browser mode. It will be lost when you close this page.";w.classList.remove("hidden");
 }
-render();
+if(!startLanguage())render();
 
 })();
 </script>
