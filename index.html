@@ -700,6 +700,164 @@ reporting:{t:"Explaining a report",qs:["What does your main report show?","Did s
 opinions:{t:"Sharing opinions",qs:["Do you prefer working from home or from the office? Why?","Is online shopping better than shopping in a store? Why?","What makes a good manager?","Which skill is the most useful for your career?","What advice would you give to a new employee?"]}
 };
 
+/* ===== CONTENT: MORE GRAMMAR TOPICS (original lessons) ===== */
+Object.assign(GRAMMAR,{
+perfect:{t:"Present perfect or past simple",icon:"clock",d:"Choose between I have done and I did.",sections:[
+{h:"Present perfect",en:"Use have or has + past participle when the time is not finished or not given, and the result matters now.",bn:"সময় শেষ হয়নি বা বলা নেই, আর ফলাফল এখনও গুরুত্বপূর্ণ হলে have/has + past participle ব্যবহার করুন।",hi:"जब समय ख़त्म नहीं हुआ या बताया नहीं गया, और नतीजा अभी मायने रखता है, तब have/has + past participle लगाएँ।",ex:["I have finished the sales report.","She has worked here for two years.","Have you ever visited Goa?"]},
+{h:"Past simple",en:"Use the past simple when the time is finished: yesterday, last week, two days ago, in 2024.",bn:"সময় শেষ হয়ে গেলে (yesterday, last week, two days ago) Past Simple ব্যবহার করুন।",hi:"समय ख़त्म हो चुका हो (yesterday, last week, two days ago) तो Past Simple लगाएँ।",ex:["I finished the report yesterday.","We met the area manager last week."]},
+{h:"Helpful words",en:"Just, already, yet, ever, never, for and since usually go with the present perfect. Yesterday, ago and last usually go with the past simple.",bn:"just, already, yet, ever, never, for, since সাধারণত Present Perfect-এর সাথে; yesterday, ago, last সাধারণত Past Simple-এর সাথে বসে।",hi:"just, already, yet, ever, never, for, since आमतौर पर Present Perfect के साथ; yesterday, ago, last आमतौर पर Past Simple के साथ आते हैं।",
+table:[["Present perfect","I have just sent the file.","Has the customer replied yet?"],["Past simple","I sent the file two hours ago.","The customer replied yesterday."]]}
+],quiz:[
+["I ___ the file yesterday.",["have sent","sent","have send","am sending"],1,"Yesterday is a finished time, so use the past simple."],
+["She ___ in this company since 2021.",["worked","works","has worked","is work"],2,"Since 2021 joins the past and now, so use the present perfect."],
+["___ you ever ___ to Delhi?",["Did / go","Have / been","Are / going","Do / went"],1,"Ever asks about any time up to now, so use the present perfect."],
+["I ___ lunch, so I am not hungry now.",["have already had","already have","had already have","am already had"],0,"The result matters now, so use have + past participle."],
+["We ___ our target last month.",["have achieved","achieve","achieved","have achieve"],2,"Last month is a finished time, so use the past simple."],
+["The manager hasn't replied ___.",["already","yet","ago","since"],1,"Use yet in negative sentences and questions."]
+]},
+ppc:{t:"Present perfect continuous",icon:"clock",d:"Talk about actions that started earlier and are still going on.",sections:[
+{h:"Form and use",en:"Use have or has been + -ing for an action that started in the past and is still going on, often with for or since.",bn:"অতীতে শুরু হয়ে এখনও চলছে এমন কাজের জন্য have/has been + -ing, প্রায়ই for বা since-এর সাথে।",hi:"जो काम अतीत में शुरू होकर अभी भी चल रहा है, उसके लिए have/has been + -ing, अक्सर for या since के साथ।",ex:["I have been working on this report since morning.","It has been raining for two hours.","How long have you been learning English?"]},
+{h:"Continuous or simple",en:"The continuous form tells us how long. The simple form tells us how many, or that the work is complete.",bn:"Continuous রূপ বলে কতক্ষণ ধরে; Simple রূপ বলে কতগুলো, বা কাজটি শেষ হয়েছে।",hi:"Continuous रूप बताता है कितनी देर से; Simple रूप बताता है कितने, या काम पूरा हो गया।",
+table:[["Continuous","I have been writing emails all day.","She has been waiting for an hour."],["Simple","I have written ten emails.","She has finished the file."]]},
+{h:"Verbs without -ing",en:"Verbs like know, like, believe, own and understand do not usually take -ing. Use the present perfect simple with them.",bn:"know, like, believe, own, understand সাধারণত -ing নেয় না; এদের সাথে Present Perfect Simple ব্যবহার করুন।",hi:"know, like, believe, own, understand आमतौर पर -ing नहीं लेते; इनके साथ Present Perfect Simple लगाएँ।",ex:["I have known him for five years.","She has owned this shop since 2019."]}
+],quiz:[
+["I ___ for you for thirty minutes.",["am waiting","have been waiting","waited","wait"],1,"The waiting started earlier and is still going on: have been + -ing."],
+["She ___ here since January.",["has been working","is working","works","worked since"],0,"Since January, and still going on: present perfect continuous."],
+["I ___ him for ten years.",["have been knowing","know","have known","am knowing"],2,"Know does not normally take -ing."],
+["How long ___ English?",["are you learning","have you been learning","do you learn","you learn"],1,"How long + still going on: have you been + -ing."],
+["I ___ three reports today.",["have been writing","have written","am writing","write"],1,"Three reports is a finished number, so use the present perfect simple."],
+["Your shoes are wet. ___ you ___ in the rain?",["Have / been walking","Did / walk","Are / walk","Do / walking"],0,"A result you can see now from a recent activity: have been + -ing."]
+]},
+future:{t:"Future forms",icon:"target",d:"Use will, going to and the present for the future.",sections:[
+{h:"Will",en:"Use will for a decision made at the moment of speaking, for promises and offers, and for predictions based on your opinion.",bn:"বলার মুহূর্তে নেওয়া সিদ্ধান্ত, প্রতিশ্রুতি, প্রস্তাব এবং মতামতভিত্তিক ভবিষ্যদ্বাণীর জন্য will।",hi:"बोलते समय लिया गया फ़ैसला, वादा, पेशकश और अपनी राय पर आधारित अनुमान के लिए will।",ex:["I will call the customer now.","Don't worry, I will help you.","I think sales will go up next month."]},
+{h:"Going to",en:"Use going to for plans you have already made, and for predictions based on what you can see now.",bn:"আগে থেকে ঠিক করা পরিকল্পনা এবং এখন যা দেখছেন তার ভিত্তিতে ভবিষ্যদ্বাণীর জন্য going to।",hi:"पहले से तय योजना और अभी जो दिख रहा है उसके आधार पर अनुमान के लिए going to।",ex:["I am going to apply for a new job.","Look at those clouds. It is going to rain."]},
+{h:"Present forms for the future",en:"Use the present continuous for fixed arrangements with a time or place. Use the present simple for timetables.",bn:"সময় বা জায়গা ঠিক হয়ে থাকা ব্যবস্থার জন্য Present Continuous; সময়সূচির জন্য Present Simple।",hi:"समय या जगह तय हो चुकी व्यवस्था के लिए Present Continuous; समय-सारणी के लिए Present Simple।",ex:["I am meeting the area manager at four.","The train leaves at six tomorrow morning."]}
+],quiz:[
+["The phone is ringing. I ___ answer it.",["will","am going to","answer","am answering"],0,"A decision made right now: will."],
+["I have bought the paint. I ___ paint my room this weekend.",["will","am going to","paint","would"],1,"A plan made before: going to."],
+["I ___ my manager at three tomorrow. It is in my calendar.",["meet","will meeting","am meeting","met"],2,"A fixed arrangement: present continuous."],
+["The flight ___ at seven tomorrow morning.",["leave","leaves","is leave","will leaving"],1,"Timetables use the present simple."],
+["Look at the sky! It ___ rain.",["will","is going to","rains","is raining to"],1,"A prediction from what you can see now: going to."],
+["I promise I ___ tell anyone.",["won't","am not going","don't","not will"],0,"Promises use will or won't."]
+]},
+modals:{t:"Modal verbs",icon:"check",d:"Use can, could, must, should, may and might.",sections:[
+{h:"Ability and requests",en:"Use can for ability now and could for ability in the past. Could you is also a polite way to ask for something.",bn:"এখনকার সামর্থ্যের জন্য can, অতীতের জন্য could। Could you দিয়ে ভদ্রভাবে অনুরোধও করা যায়।",hi:"अभी की क्षमता के लिए can, अतीत की क्षमता के लिए could। Could you से विनम्रता से अनुरोध भी किया जाता है।",ex:["I can speak three languages.","When I was young, I could run very fast.","Could you send me the file, please?"]},
+{h:"Necessary or not",en:"Must and have to show that something is necessary. Mustn't means it is not allowed. Don't have to means it is not necessary. Should gives advice.",bn:"must ও have to দিয়ে প্রয়োজন বোঝায়। mustn't মানে অনুমতি নেই, don't have to মানে দরকার নেই। should দিয়ে পরামর্শ দেওয়া হয়।",hi:"must और have to ज़रूरत बताते हैं। mustn't का मतलब है अनुमति नहीं, don't have to का मतलब है ज़रूरत नहीं। should सलाह देता है।",ex:["You must wear your ID card in the office.","I have to submit the report by six.","You don't have to come on Sunday.","You should take a short break."]},
+{h:"Possibility",en:"Use may, might or could when something is possible but you are not sure.",bn:"কিছু সম্ভব কিন্তু নিশ্চিত নন, তখন may, might বা could।",hi:"जब कुछ संभव हो पर पक्का न हो, तब may, might या could।",ex:["He may be in a meeting.","It might rain later."]},
+{h:"Remember",en:"After a modal verb, use the base verb without to, and never add -s.",bn:"modal verb-এর পরে to ছাড়া ক্রিয়ার মূল রূপ বসে, আর -s যোগ হয় না।",hi:"modal verb के बाद to के बिना क्रिया का मूल रूप आता है, और -s नहीं लगता।",ex:["She can drive.","He must go now."]}
+],quiz:[
+["She ___ speak English very well.",["can","cans","can to","is can"],0,"Modal verbs never add -s."],
+["You ___ smoke in the office. It is not allowed.",["mustn't","don't have to","shouldn't to","needn't to"],0,"Mustn't means it is not allowed."],
+["You ___ come tomorrow. It is a holiday.",["mustn't","don't have to","can't to","must"],1,"Don't have to means it is not necessary."],
+["He is not answering his phone. He ___ be busy.",["might","must to","should to","can to"],0,"Might shows a possibility."],
+["You look tired. You ___ go home early.",["should","must to","could to","are should"],0,"Should gives advice."],
+["___ I use your phone, please?",["May","Must","Should","Will to"],0,"May I is a polite way to ask for permission."]
+]},
+conditionals:{t:"Conditionals (if sentences)",icon:"list",d:"Talk about real and imagined situations.",sections:[
+{h:"Three main types",en:"The first type is for real future possibilities, the second for unreal situations now, and the third for an imagined past.",bn:"প্রথম ধরন বাস্তব ভবিষ্যৎ সম্ভাবনা, দ্বিতীয় ধরন এখনকার অবাস্তব অবস্থা, আর তৃতীয় ধরন কল্পিত অতীতের জন্য।",hi:"पहला प्रकार असली भविष्य की संभावना, दूसरा अभी की काल्पनिक स्थिति, और तीसरा कल्पित अतीत के लिए है।",
+table:[["First: if + present, will + verb","If it rains, I will stay at home.","If you study, you will pass."],["Second: if + past, would + verb","If I had a car, I would drive to work.","If I were you, I would talk to the manager."],["Third: if + had done, would have done","If I had known, I would have come.","If she had asked, I would have helped."]]},
+{h:"Facts",en:"For things that are always true, use the present in both parts.",bn:"যা সবসময় সত্য, তার জন্য দুই অংশেই Present ব্যবহার করুন।",hi:"जो बात हमेशा सच है, उसके लिए दोनों हिस्सों में Present लगाएँ।",ex:["If you heat ice, it melts.","If I am late, my manager calls me."]},
+{h:"Remember",en:"Do not use will in the if part of the sentence.",bn:"বাক্যের if অংশে will ব্যবহার করবেন না।",hi:"वाक्य के if वाले हिस्से में will न लगाएँ।",ex:["If he calls, please tell me.","If the stock arrives, we will start the sale."]}
+],quiz:[
+["If it ___ tomorrow, we will cancel the trip.",["rains","will rain","rained","would rain"],0,"First conditional: if + present, will + verb."],
+["If I ___ a lot of money, I would buy a house.",["have","had","will have","would have"],1,"Second conditional: if + past simple."],
+["If I were you, I ___ apply for that job.",["will","would","am","was"],1,"If I were you is followed by would."],
+["If she had studied, she ___ the exam.",["would pass","will pass","would have passed","passed"],2,"Third conditional: would have + past participle."],
+["If you heat water to one hundred degrees, it ___.",["boils","would boil","boiled","will boiled"],0,"For facts, use the present in both parts."],
+["Please tell me if he ___.",["will call","calls","would call","called will"],1,"Do not use will after if."]
+]},
+passive:{t:"Passive voice",icon:"text",d:"Say what happens to something, not who does it.",sections:[
+{h:"Form and use",en:"The passive is be + past participle. Use it when the action or the result matters more than the person who did it.",bn:"Passive হলো be + past participle। কে করেছে তার চেয়ে কাজ বা ফলাফল বেশি গুরুত্বপূর্ণ হলে এটি ব্যবহার করুন।",hi:"Passive है be + past participle। जब करने वाले से ज़्यादा काम या नतीजा मायने रखता हो, तब इसका प्रयोग करें।",ex:["The report is sent every morning.","This sofa was made in Jodhpur.","The order has been delivered."]},
+{h:"Passive in different tenses",en:"Only the form of be changes with the tense. The past participle stays the same.",bn:"Tense অনুযায়ী শুধু be-এর রূপ বদলায়; past participle একই থাকে।",hi:"Tense के अनुसार सिर्फ़ be का रूप बदलता है; past participle वही रहता है।",
+table:[["Present simple","The data is updated daily.","Emails are checked at ten."],["Past simple","The file was shared yesterday.","The orders were cancelled."],["Present perfect","The payment has been received.","The items have been packed."]]},
+{h:"Using by",en:"Add by + person only when it is important to say who did it.",bn:"কে করেছে তা বলা জরুরি হলে তবেই by + ব্যক্তি যোগ করুন।",hi:"किसने किया यह बताना ज़रूरी हो, तभी by + व्यक्ति जोड़ें।",ex:["The dashboard was created by Rajesh.","The new store was opened by the CEO."]}
+],quiz:[
+["The report ___ every day at nine.",["is sent","sends","is send","sent is"],0,"Present passive: is + past participle."],
+["This chair ___ in 2020.",["made","was made","is make","has make"],1,"Past passive: was + past participle."],
+["The payment ___ already ___.",["has / received","has / been received","is / receive","was / been"],1,"Present perfect passive: has been + past participle."],
+["The new store ___ by the CEO last week.",["opened","was opened","is opening","has open"],1,"The store did not open itself, so use the past passive."],
+["English ___ in many countries.",["speaks","is spoken","is speak","spoken"],1,"Present passive: is + past participle."],
+["Choose the passive sentence.",["They sold the car.","The car was sold.","The car sells well.","They are selling the car."],1,"The passive uses be + past participle."]
+]},
+reported:{t:"Reported speech",icon:"chat",d:"Tell someone what another person said.",sections:[
+{h:"Tense moves back",en:"When you report what someone said earlier, the tense usually moves one step back.",bn:"কারও আগের কথা অন্যকে জানালে tense সাধারণত এক ধাপ পিছিয়ে যায়।",hi:"किसी की कही बात आगे बताते समय tense आमतौर पर एक कदम पीछे चला जाता है।",
+table:[["am / is → was","He said, 'I am busy.'","He said that he was busy."],["like → liked","She said, 'I like it.'","She said that she liked it."],["will → would","He said, 'I will call.'","He said that he would call."]]},
+{h:"Other changes",en:"Pronouns and time words often change too: I becomes he or she, today becomes that day, tomorrow becomes the next day.",bn:"সর্বনাম ও সময়ের শব্দও বদলায়: I হয় he বা she, today হয় that day, tomorrow হয় the next day।",hi:"सर्वनाम और समय के शब्द भी बदलते हैं: I बनता है he या she, today बनता है that day, tomorrow बनता है the next day।",ex:["She said that she would come the next day."]},
+{h:"Reported questions",en:"In reported questions, use normal word order, without do. Use if for yes or no questions.",bn:"Reported question-এ do ছাড়া সাধারণ শব্দক্রম ব্যবহার করুন। হ্যাঁ/না প্রশ্নে if বসান।",hi:"Reported question में do के बिना सामान्य शब्द-क्रम रखें। हाँ/ना वाले सवाल में if लगाएँ।",ex:["He asked if I was ready.","She asked where I lived."]},
+{h:"Say and tell",en:"Tell needs a person after it: tell me, tell him. Say does not.",bn:"tell-এর পরে একজন ব্যক্তি লাগে (tell me), say-এর পরে লাগে না।",hi:"tell के बाद व्यक्ति आता है (tell me), say के बाद नहीं।",ex:["He told me that he was late.","He said that he was late."]}
+],quiz:[
+["He said, 'I am tired.' He said that he ___ tired.",["is","was","be","has"],1,"Am moves back to was."],
+["She said, 'I will help you.' She said that she ___ help me.",["will","would","can","is"],1,"Will moves back to would."],
+["He asked me where ___.",["do I live","I lived","did I live","I do live"],1,"Reported questions use normal word order."],
+["She ___ me that the meeting was cancelled.",["said","told","says to","spoke"],1,"Tell needs a person after it."],
+["He asked ___ I had finished the report.",["that","if","what if","do"],1,"Yes or no questions are reported with if."],
+["She said, 'I am coming tomorrow.' She said she was coming ___.",["tomorrow","the next day","yesterday","the last day"],1,"Tomorrow usually becomes the next day."]
+]},
+questions:{t:"Questions and question tags",icon:"chat",d:"Ask clear questions and add tags like isn't it.",sections:[
+{h:"Word order",en:"Put the helping verb before the subject. When who or what is the subject, do not add do.",bn:"কর্তার আগে সাহায্যকারী ক্রিয়া বসান। who বা what নিজেই কর্তা হলে do যোগ করবেন না।",hi:"कर्ता से पहले सहायक क्रिया रखें। जब who या what ख़ुद कर्ता हो, तब do न लगाएँ।",ex:["Where do you work?","Who called you?","What happened in the meeting?"]},
+{h:"Question tags",en:"A question tag repeats the helping verb. A positive sentence takes a negative tag, and a negative sentence takes a positive tag.",bn:"Question tag-এ সাহায্যকারী ক্রিয়া আবার আসে। হ্যাঁ-বাচক বাক্যে না-বাচক tag, না-বাচক বাক্যে হ্যাঁ-বাচক tag।",hi:"Question tag में सहायक क्रिया दोहराई जाती है। सकारात्मक वाक्य में नकारात्मक tag, नकारात्मक वाक्य में सकारात्मक tag।",ex:["It is hot today, isn't it?","You don't eat meat, do you?","She finished the report, didn't she?","Let's start, shall we?"]},
+{h:"Polite questions",en:"Start with could you tell me or do you know, then use normal word order.",bn:"could you tell me বা do you know দিয়ে শুরু করে তারপর সাধারণ শব্দক্রম ব্যবহার করুন।",hi:"could you tell me या do you know से शुरू करें, फिर सामान्य शब्द-क्रम रखें।",ex:["Could you tell me where the station is?","Do you know when the meeting starts?"]}
+],quiz:[
+["Choose the correct question.",["Where you work?","Where do you work?","Where you do work?","Where works you?"],1,"Use do before the subject."],
+["You are coming to the meeting, ___?",["are you","aren't you","don't you","isn't it"],1,"A positive sentence takes a negative tag."],
+["She didn't call, ___?",["did she","didn't she","does she","was she"],0,"A negative sentence takes a positive tag."],
+["___ wrote this report?",["Who did","Who","Whom did","Who does"],1,"Who is the subject, so do not add did."],
+["Could you tell me where ___?",["is the bank","the bank is","does the bank","the bank does"],1,"Polite questions use normal word order."],
+["Let's take a break, ___?",["shall we","will you","don't we","let we"],0,"Let's takes the tag shall we."]
+]},
+ingto:{t:"-ing or to + verb",icon:"letters",d:"Choose between enjoy doing and want to do.",sections:[
+{h:"Verbs followed by -ing",en:"Use -ing after verbs like enjoy, finish, avoid, mind, suggest, keep and practise.",bn:"enjoy, finish, avoid, mind, suggest, keep, practise-এর পরে -ing বসে।",hi:"enjoy, finish, avoid, mind, suggest, keep, practise के बाद -ing आता है।",ex:["I enjoy reading.","She finished writing the email.","Would you mind waiting?"]},
+{h:"Verbs followed by to",en:"Use to + verb after verbs like want, decide, plan, hope, agree, need, promise and refuse.",bn:"want, decide, plan, hope, agree, need, promise, refuse-এর পরে to + ক্রিয়া বসে।",hi:"want, decide, plan, hope, agree, need, promise, refuse के बाद to + क्रिया आती है।",ex:["I want to learn Excel.","We decided to open a new store."]},
+{h:"After prepositions",en:"After a preposition such as in, at, for, about or before, use -ing.",bn:"in, at, for, about, before-এর মতো preposition-এর পরে -ing ব্যবহার করুন।",hi:"in, at, for, about, before जैसे preposition के बाद -ing लगाएँ।",ex:["She is interested in learning English.","He is good at selling.","Thank you for helping me."]}
+],quiz:[
+["I enjoy ___ cricket.",["play","to play","playing","played"],2,"Enjoy is followed by -ing."],
+["She wants ___ a new phone.",["buy","to buy","buying","bought"],1,"Want is followed by to + verb."],
+["Thank you for ___ me.",["help","to help","helping","helped"],2,"After a preposition, use -ing."],
+["We decided ___ the meeting.",["postpone","to postpone","postponing","postponed"],1,"Decide is followed by to + verb."],
+["Would you mind ___ the door?",["close","to close","closing","closed"],2,"Mind is followed by -ing."],
+["He is good at ___ customers.",["handle","to handle","handling","handled"],2,"At is a preposition, so use -ing."]
+]},
+countable:{t:"Countable and uncountable nouns",icon:"list",d:"Use much, many, some, any, a few and a little.",sections:[
+{h:"Two kinds of nouns",en:"Countable nouns have a plural and can take a or an: a chair, two chairs. Uncountable nouns have no plural: information, advice, furniture, money, water.",bn:"গণনাযোগ্য বিশেষ্যের বহুবচন হয় এবং a/an বসে। অগণনাযোগ্য বিশেষ্যের বহুবচন হয় না: information, advice, furniture, money।",hi:"गिनने योग्य संज्ञा का बहुवचन होता है और a/an लगता है। न गिनने योग्य संज्ञा का बहुवचन नहीं होता: information, advice, furniture, money।",ex:["We sold ten chairs today.","Can you give me some advice?","The furniture in this store is new."]},
+{h:"Much, many and a lot of",en:"Use many with plural countable nouns and much with uncountable nouns, mostly in questions and negatives. A lot of works with both.",bn:"বহুবচন গণনাযোগ্যের সাথে many, অগণনাযোগ্যের সাথে much (বেশি প্রশ্ন ও না-বাচকে)। a lot of দুটোর সাথেই চলে।",hi:"बहुवचन गिनने योग्य के साथ many, न गिनने योग्य के साथ much (ज़्यादातर सवाल और नकारात्मक में)। a lot of दोनों के साथ चलता है।",
+table:[["Countable","How many orders did we get?","There are a lot of customers."],["Uncountable","How much money do you need?","We don't have much time."]]},
+{h:"Some, any, a few and a little",en:"Use some in positive sentences and offers, and any in most questions and negatives. Use a few with countable nouns and a little with uncountable nouns.",bn:"হ্যাঁ-বাচক বাক্য ও প্রস্তাবে some, বেশিরভাগ প্রশ্ন ও না-বাচকে any। গণনাযোগ্যের সাথে a few, অগণনাযোগ্যের সাথে a little।",hi:"सकारात्मक वाक्य और पेशकश में some, ज़्यादातर सवाल और नकारात्मक में any। गिनने योग्य के साथ a few, न गिनने योग्य के साथ a little।",ex:["I have some questions.","Do you have any questions?","I need a few minutes.","Add a little sugar."]}
+],quiz:[
+["Can you give me some ___?",["advices","advice","an advice","advise"],1,"Advice is uncountable."],
+["How ___ orders did we receive today?",["much","many","lot","little"],1,"Orders is a plural countable noun."],
+["We don't have ___ time.",["many","much","a few","few"],1,"Time is uncountable."],
+["Do you have ___ questions?",["some","any","a","much"],1,"Use any in most questions."],
+["I need ___ minutes to finish.",["a little","a few","much","an"],1,"Minutes is countable, so use a few."],
+["The ___ in this store is beautiful.",["furnitures","furniture","furniture are","a furniture"],1,"Furniture is uncountable."]
+]},
+relative:{t:"Relative clauses",icon:"pin",d:"Join ideas with who, which, that, whose and where.",sections:[
+{h:"Who, which and that",en:"Use who for people, which for things, and that for both people and things.",bn:"মানুষের জন্য who, জিনিসের জন্য which, আর দুটোর জন্যই that।",hi:"लोगों के लिए who, चीज़ों के लिए which, और दोनों के लिए that।",ex:["The customer who called yesterday wants a refund.","This is the sofa which sold the most.","The report that you sent is correct."]},
+{h:"Whose and where",en:"Use whose to show that something belongs to someone, and where for places.",bn:"কারও কিছু থাকলে whose, জায়গার জন্য where।",hi:"किसी की चीज़ बताने के लिए whose, जगह के लिए where।",ex:["This is the colleague whose laptop stopped working.","This is the store where I work."]},
+{h:"Leaving out the word",en:"You can leave out who, which or that when it is the object of the verb.",bn:"who, which বা that যখন ক্রিয়ার কর্ম, তখন সেটি বাদ দেওয়া যায়।",hi:"जब who, which या that क्रिया का कर्म हो, तब उसे हटाया जा सकता है।",ex:["The file you shared is open."]},
+{h:"Extra information",en:"When the clause only adds extra information, put commas around it and do not use that.",bn:"অংশটি শুধু বাড়তি তথ্য দিলে দুই পাশে কমা দিন এবং that ব্যবহার করবেন না।",hi:"जब हिस्सा सिर्फ़ अतिरिक्त जानकारी देता हो, तब उसके दोनों ओर कॉमा लगाएँ और that न लगाएँ।",ex:["Pune, which is near Mumbai, has many stores."]}
+],quiz:[
+["The man ___ called you is my manager.",["which","who","whose","where"],1,"Use who for people."],
+["This is the report ___ I prepared.",["who","that","whose","where"],1,"Use that or which for things."],
+["This is the store ___ I bought my sofa.",["which","where","who","whose"],1,"Use where for places."],
+["She is the colleague ___ car is red.",["who","whose","which","that"],1,"Whose shows that something belongs to someone."],
+["Pune, ___ is near Mumbai, is a big city.",["that","which","who","where"],1,"With commas, use which, not that."],
+["In which sentence can that be left out?",["The file that you sent is open.","The man that called is here.","The car that is red is mine.","The shop that sells sofas is closed."],0,"That can be left out when it is the object: the file you sent."]
+]},
+adjectives:{t:"Adjectives, adverbs and comparison",icon:"star",d:"Describe things and compare them.",sections:[
+{h:"Adjective or adverb",en:"Adjectives describe nouns. Adverbs describe verbs, and many end in -ly. The adverb of good is well.",bn:"Adjective বিশেষ্যকে বর্ণনা করে, adverb ক্রিয়াকে; অনেক adverb -ly দিয়ে শেষ হয়। good-এর adverb হলো well।",hi:"Adjective संज्ञा का वर्णन करता है, adverb क्रिया का; कई adverb -ly से ख़त्म होते हैं। good का adverb well है।",ex:["She is a careful driver.","She drives carefully.","He speaks English well."]},
+{h:"Comparing",en:"Short words add -er and -est. Long words use more and most. Some words are irregular.",bn:"ছোট শব্দে -er ও -est যোগ হয়, বড় শব্দে more ও most বসে। কিছু শব্দ নিয়ম মানে না।",hi:"छोटे शब्दों में -er और -est लगता है, लंबे शब्दों के साथ more और most आता है। कुछ शब्द नियम नहीं मानते।",
+table:[["Short words","cheap, cheaper, the cheapest","fast, faster, the fastest"],["Long words","expensive, more expensive, the most expensive","important, more important, the most important"],["Irregular","good, better, the best","bad, worse, the worst"]]},
+{h:"Than and as ... as",en:"Use than after a comparative. Use as ... as to say that two things are equal.",bn:"comparative-এর পরে than বসে। দুটো সমান বোঝাতে as ... as।",hi:"comparative के बाद than आता है। दो चीज़ें बराबर बताने के लिए as ... as।",ex:["This sofa is cheaper than that one.","Sales this month are as good as last month."]}
+],quiz:[
+["She sings ___.",["beautiful","beautifully","more beautiful","beauty"],1,"Sings is a verb, so use an adverb."],
+["This phone is ___ than that one.",["cheap","cheaper","more cheap","cheapest"],1,"A short adjective adds -er."],
+["This is the ___ sofa in the store.",["more expensive","most expensive","expensivest","expensiver"],1,"A long adjective uses the most."],
+["His English is ___ than mine.",["gooder","better","more good","best"],1,"Good becomes better."],
+["He did the job ___.",["good","well","goodly","better than"],1,"The adverb of good is well."],
+["Our sales are as high ___ last year.",["than","as","like","so"],1,"Use as ... as."]
+]}
+});
+
 /* ===== STORAGE ===== */
 const KEY="pesc_v1";
 let storageOK=true;
@@ -1453,7 +1611,7 @@ function langSelect(){return '<select class="input notranslate" data-chg="ui-lan
 function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"}
 /* Google's translator is used once per language to prepare all app text, which is then saved on the device.
    After that a small walker swaps English text for the saved text, so screens change instantly. */
-const DICT_V=1;
+const DICT_V=2;
 let DICT=null;
 const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
 function loadDict(l){
