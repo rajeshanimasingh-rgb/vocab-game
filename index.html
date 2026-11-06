@@ -198,6 +198,10 @@ label.field .input{margin-top:4px;font-weight:400;font-size:1rem}
 .fix del{color:var(--bad)}
 .fix ins{color:var(--good);text-decoration:none;font-weight:650}
 
+#coach-status:empty{display:none}
+#coach-status.on{background:var(--good-bg);color:var(--good)}
+#coach-chat{max-height:420px;overflow-y:auto}
+
 /* email */
 .email{white-space:pre-wrap;background:var(--blue-xl);border:1px solid var(--line);border-radius:11px;padding:12px;font-size:.93rem;overflow-wrap:anywhere}
 
@@ -1009,9 +1013,20 @@ async function copyText(text){
 
 /* ===== TEXT TO SPEECH ===== */
 const ttsOK="speechSynthesis" in window&&"SpeechSynthesisUtterance" in window;
+/* Natural sounding voices first: Edge "Natural" voices and Chrome "Google" voices sound most human */
+function voiceScore(v){
+  const l=v.lang.replace("_","-").toLowerCase(),want=S.settings.accent.toLowerCase();
+  if(!/^en/.test(l))return -1;
+  let s=l===want?4:1;
+  if(/natural|neural/i.test(v.name))s+=6;
+  if(/online/i.test(v.name))s+=2;
+  if(/google/i.test(v.name))s+=3;
+  return s;
+}
+function englishVoices(){return speechSynthesis.getVoices().filter(v=>voiceScore(v)>=0).sort((a,b)=>voiceScore(b)-voiceScore(a))}
 function pickVoice(){
-  const vs=speechSynthesis.getVoices(),want=S.settings.accent.toLowerCase();
-  return vs.find(v=>v.lang.replace("_","-").toLowerCase()===want)||vs.find(v=>/^en/i.test(v.lang))||null;
+  if(S.settings.voice){const v=speechSynthesis.getVoices().find(x=>x.name===S.settings.voice);if(v)return v}
+  return englishVoices()[0]||null;
 }
 function chunkText(t){
   if(Array.isArray(t))return t;
@@ -1026,7 +1041,7 @@ function say(text,rate){
     const v=pickVoice();
     chunkText(text).forEach(c=>{
       const u=new SpeechSynthesisUtterance(c);
-      u.lang=S.settings.accent;if(v)u.voice=v;
+      u.lang=v?v.lang:S.settings.accent;if(v)u.voice=v;
       u.rate=rate||S.settings.rate;
       speechSynthesis.speak(u);
     });
@@ -1043,7 +1058,7 @@ function sayTimes(text,times,rate){
   const one=()=>{
     if(my!==sayToken)return;
     const u=new SpeechSynthesisUtterance(text),v=pickVoice();
-    u.lang=S.settings.accent;if(v)u.voice=v;u.rate=rate;
+    u.lang=v?v.lang:S.settings.accent;if(v)u.voice=v;u.rate=rate;
     u.onend=()=>{n++;if(n<times&&my===sayToken)setTimeout(one,900)};
     lastUtter=u;speechSynthesis.speak(u);speechSynthesis.resume();
   };
@@ -1170,7 +1185,7 @@ function compareText(target,said){
   }
   /* a missing word next to an extra word means one word was said wrongly */
   const tState=new Array(A.raw.length).fill("ok"),sState=new Array(B.raw.length).fill("ok"),mistakes=[];
-  const rank={ok:0,extra:1,miss:2,bad:3};
+  const rank={ok:0,extra:1,miss:2,bad:3},wrongs=[],extras=[];
   const mark=(arr,idx,st)=>{if(rank[st]>rank[arr[idx]])arr[idx]=st};
   let matched=0,p=0;
   while(p<ops.length){
@@ -1182,12 +1197,13 @@ function compareText(target,said){
       const tw=A.raw[a[miss[q].i].i],sw=B.raw[b[ext[q].j].i];
       mark(tState,a[miss[q].i].i,"bad");mark(sState,b[ext[q].j].i,"bad");
       mistakes.push('You said "'+sw+'". The correct word is "'+tw+'".');
+      wrongs.push({said:sw,word:tw});
     }
-    miss.slice(pairs).forEach(o=>{const r=a[o.i].i;mark(tState,r,"miss");mistakes.push('Missing word: "'+A.raw[r]+'".')});
-    ext.slice(pairs).forEach(o=>{const r=b[o.j].i;mark(sState,r,"extra");mistakes.push('Extra word: "'+B.raw[r]+'".')});
+    miss.slice(pairs).forEach(o=>{const r=a[o.i].i;mark(tState,r,"miss");mistakes.push('Missing word: "'+A.raw[r]+'".');wrongs.push({said:"",word:A.raw[r]})});
+    ext.slice(pairs).forEach(o=>{const r=b[o.j].i;mark(sState,r,"extra");mistakes.push('Extra word: "'+B.raw[r]+'".');extras.push(B.raw[r])});
   }
   const score=n||m?Math.round(100*matched/Math.max(n,m)):0;
-  return{score,mistakes:Array.from(new Set(mistakes)),tRaw:A.raw,sRaw:B.raw,tState,sState};
+  return{score,mistakes:Array.from(new Set(mistakes)),wrongs,extras,tRaw:A.raw,sRaw:B.raw,tState,sState};
 }
 function wordsHTML(raw,state){
   const cls={ok:"w-ok",bad:"w-bad",miss:"w-miss",extra:"w-extra"};
@@ -1316,7 +1332,7 @@ function quizNext(btn){
 
 /* ===== NAVIGATION ===== */
 const NAV=[
-  ["dashboard","Dashboard","home"],["speaking","Speaking Practice","mic"],["lessons","Daily Lessons","book"],
+  ["dashboard","Dashboard","home"],["speaking","Speaking Practice","mic"],["coach","Talk with Coach","users"],["lessons","Daily Lessons","book"],
   ["tutor","AI Tutor Mode","chat"],["office","Office English","briefcase"],["vocabulary","Vocabulary","letters"],
   ["game","Vocabulary Game","game"],["spelling","Spelling Practice","text"],["translate","Translate","translate"],["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"]
 ];
@@ -1636,7 +1652,7 @@ function langSelect(){return '<select class="input notranslate" data-chg="ui-lan
 function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"}
 /* Google's translator is used once per language to prepare all app text, which is then saved on the device.
    After that a small walker swaps English text for the saved text, so screens change instantly. */
-const DICT_V=3;
+const DICT_V=4;
 let DICT=null;
 const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
 function loadDict(l){
@@ -1688,7 +1704,7 @@ function collectStrings(){
     let n;while((n=w.nextNode()))if(!trSkip(n.parentElement))add(n.nodeValue);
     $$("[placeholder]").forEach(e=>add(e.getAttribute("placeholder")));
   };
-  const routes=[["dashboard"],["speaking"],["lessons"],["tutor"],["vocabulary"],["game"],["spelling"],["spelling","sentences"],["translate"],["grammar"],["interview"],["progress"]];
+  const routes=[["dashboard"],["speaking"],["coach"],["lessons"],["tutor"],["vocabulary"],["game"],["spelling"],["spelling","sentences"],["translate"],["grammar"],["interview"],["progress"]];
   Object.keys(OFFICE).forEach(k=>routes.push(["office",k]));
   Object.keys(GRAMMAR).forEach(k=>routes.push(["grammar",k]));
   INTERVIEW.forEach(q=>routes.push(["interview",q.id]));
@@ -1929,6 +1945,114 @@ function pageTranslate(){
     '<div class="card hidden" id="tr-local"></div>');
   trRefresh();
 }
+
+/* ===== TALK WITH COACH =====
+   The coach says a sentence, listens to the learner, and says the words that came out wrong. */
+const CO={run:0,set:"Beginner",list:[],i:0,tries:0,quiet:0,perfect:0};
+const PRAISE=["Perfect! Your pronunciation was clear.","Excellent! That sounded very natural.","Very good! I understood every word.","Well done! That was spoken clearly."];
+const clean=w=>String(w).replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g,"");
+function speakP(text,rate){
+  return new Promise(res=>{
+    if(!ttsOK){res();return}
+    const u=new SpeechSynthesisUtterance(text),v=pickVoice();
+    u.lang=v?v.lang:S.settings.accent;if(v)u.voice=v;u.rate=rate||0.95;
+    let done=false;const fin=()=>{if(!done){done=true;res()}};
+    u.onend=fin;u.onerror=fin;
+    setTimeout(fin,3000+text.length*140/(rate||1));
+    lastUtter=u;speechSynthesis.speak(u);speechSynthesis.resume();
+  });
+}
+function listenP(onText){
+  return new Promise(res=>{
+    if(!SR){res({err:"unsupported"});return}
+    Mic.start({long:false,onText,onEnd:t=>res({text:t}),onError:c=>res({err:c})});
+  });
+}
+function coachStatus(t,busy){const s=$("#coach-status");if(s){s.textContent=t;s.classList.toggle("on",!!busy)}}
+function coachAdd(html){const c=$("#coach-chat");if(!c)return;c.insertAdjacentHTML("beforeend",html);c.lastElementChild.scrollIntoView({block:"nearest"})}
+async function coachLine(text,alive){
+  coachAdd('<div class="msg coach"><div class="who"><span>Coach</span></div>'+enLine(text)+"</div>");
+  coachStatus("Coach is speaking...",true);
+  if(alive())await speakP(text,0.95);
+}
+function coachButtons(state){
+  const b=$("#coach-btns");if(!b)return;
+  b.innerHTML=state==="paused"
+    ?'<button class="btn primary" data-act="co-continue">'+ic("mic")+'Continue</button><button class="btn" data-act="co-skip">'+ic("next")+'Skip sentence</button><button class="btn" data-act="co-end">End session</button>'
+    :'<button class="btn" data-act="co-again">'+ic("speaker")+'Hear again</button><button class="btn" data-act="co-skip">'+ic("next")+'Skip sentence</button><button class="btn" data-act="co-stop">Pause</button>';
+}
+function coachTarget(it){
+  const t=$("#coach-target");
+  if(t)t.innerHTML='<p class="small muted">Sentence '+(CO.i+1)+" of "+CO.list.length+(CO.tries?" | Try "+(CO.tries+1)+" of 3":"")+'</p><div class="target notranslate mt">'+esc(it.e)+"</div>"+(it.b?'<div class="mt">'+mean(it.b,it.h,it.e)+"</div>":"");
+}
+async function coachRun(){
+  const my=++CO.run,alive=()=>my===CO.run&&!!$("#coach-chat");
+  coachButtons("running");
+  if(CO.i===0&&CO.tries===0&&!$("#coach-chat .msg"))await coachLine("Hi "+S.settings.name+"! I am your speaking coach. I will say a sentence, and then you repeat it. Let's start.",alive);
+  while(alive()&&CO.i<CO.list.length){
+    const it=CO.list[CO.i];
+    coachTarget(it);
+    await coachLine(CO.tries?"Now say the whole sentence again. Listen.":"Sentence "+(CO.i+1)+". Please repeat after me.",alive);
+    if(!alive())return;
+    coachStatus("Coach is speaking...",true);
+    await speakP(it.e,CO.tries?0.75:0.9);
+    if(!alive())return;
+    coachStatus("Listening... speak now",true);
+    const r=await listenP(t=>{if(alive())coachStatus("I heard: "+t,true)});
+    if(!alive())return;
+    if(r.err||!r.text){
+      if((r.err==="no-speech"||!r.text)&&CO.quiet<2){CO.quiet++;await coachLine("I could not hear you. Please speak a little louder.",alive);continue}
+      CO.quiet=0;
+      coachAdd('<div class="note warn">'+esc(micErrorText(r.err||"no-speech"))+"</div>");
+      coachStatus("Paused");coachButtons("paused");return;
+    }
+    CO.quiet=0;
+    const res=compareText(it.e,r.text);
+    logAct("speak");logScore("speaking",res.score);
+    coachAdd('<div class="msg user"><div class="who"><span>You said</span><span>'+res.score+'%</span></div><span class="notranslate">'+wordsHTML(res.sRaw,res.sState)+"</span></div>");
+    if(res.score===100){
+      CO.perfect++;
+      await coachLine(PRAISE[Math.floor(Math.random()*PRAISE.length)],alive);
+      CO.i++;CO.tries=0;continue;
+    }
+    CO.tries++;
+    const ws=res.wrongs.slice(0,2);
+    let say=ws.map(w=>w.said?'I heard "'+clean(w.said)+'", but the word is "'+clean(w.word)+'".':'You missed the word "'+clean(w.word)+'".').join(" ");
+    if(!ws.length&&res.extras.length)say='You added an extra word, "'+clean(res.extras[0])+'".';
+    await coachLine("Almost! "+say,alive);
+    for(const w of ws){
+      if(!alive())return;
+      await coachLine("Listen: "+clean(w.word)+".",alive);
+      if(!alive())return;
+      await speakP(clean(w.word),0.6);
+    }
+    if(CO.tries>=3){await coachLine("Good effort. Let's move on to the next sentence.",alive);CO.i++;CO.tries=0}
+  }
+  if(alive()&&CO.i>=CO.list.length){
+    await coachLine("Great work today! You said "+CO.perfect+" of "+CO.list.length+" sentences perfectly.",alive);
+    coachStatus("Session finished");
+    const b=$("#coach-btns");if(b)b.innerHTML='<button class="btn primary" data-act="co-start">Start a new session</button>';
+  }
+}
+function fillVoices(){
+  const sel=$("#coach-voice");if(!sel)return;
+  const vs=englishVoices(),cur=pickVoice();
+  sel.innerHTML=vs.length?vs.map((v,i)=>'<option value="'+esc(v.name)+'"'+(cur&&cur.name===v.name?" selected":"")+">"+esc(v.name.replace(/^Microsoft /,""))+" ("+esc(v.lang)+")"+(i===0?" - most natural":"")+"</option>").join(""):'<option value="">Default voice</option>';
+}
+function pageCoach(){
+  CO.run++;
+  setView(head("Talk with Coach","A friendly voice says a sentence, you repeat it, and the coach tells you which words to fix.")+
+    '<div class="card"><div class="grid g2"><label class="field">Coach voice<select class="input notranslate" id="coach-voice" data-chg="co-voice"></select></label>'+
+    '<label class="field">Sentences<select class="input" data-chg="co-set">'+Object.keys(speakSets()).map(k=>'<option value="'+k+'"'+(k===CO.set?" selected":"")+">"+k+"</option>").join("")+"</select></label></div>"+
+    '<div class="row mt"><button class="btn primary" data-act="co-start">'+ic("mic")+'Start talking</button><button class="btn" data-act="co-test">'+ic("speaker")+"Test voice</button><span data-micstate>"+micStateHTML()+"</span></div>"+
+    '<p class="small muted mt">For the most human voice, open this app in Microsoft Edge and choose a voice with "Natural" in its name. Chrome\'s "Google" voices are also good. Use headphones so the coach does not hear its own voice.</p>'+
+    '<p class="small muted mt">The coach checks which words it heard. It cannot hear small sound details inside a word, so a word can be marked right even if it was not perfect.</p></div>'+
+    '<div class="card hidden" id="coach-session"><div id="coach-target"></div><p class="badge mt" id="coach-status"></p><div class="chat mt" id="coach-chat" aria-live="polite"></div><div class="row mt" id="coach-btns"></div></div>');
+  fillVoices();
+  if(ttsOK)speechSynthesis.onvoiceschanged=fillVoices;
+  if(!SR)coachAddNote();
+}
+function coachAddNote(){const c=$("#view .card");if(c)c.insertAdjacentHTML("beforeend",'<div class="note warn mt">'+esc(micErrorText("unsupported"))+" The coach needs the microphone, so please use Chrome or Edge.</div>")}
 
 /* ===== SPELLING PRACTICE =====
    Words: the app says a word slowly a few times and the learner types it.
@@ -2172,7 +2296,7 @@ function pageProgress(){
     '</div><div class="row mt"><button class="btn" data-act="test-voice">'+ic("speaker")+'Test voice</button><button class="btn danger" data-act="reset">Reset all progress</button></div></div>');
 }
 
-const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
+const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,coach:pageCoach,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
 
 /* ===== BUTTON ACTIONS ===== */
 const ACT={
@@ -2277,6 +2401,18 @@ const ACT={
     say(W.e);
   },
   "grammar-quiz"(b){grammarQuiz(b.dataset.v)},
+  "co-start"(){
+    if(!SR){toast(micErrorText("unsupported"));return}
+    CO.list=shuffle(speakSets()[CO.set]).slice(0,10);CO.i=0;CO.tries=0;CO.quiet=0;CO.perfect=0;
+    $("#coach-session").classList.remove("hidden");$("#coach-chat").innerHTML="";
+    $("#coach-session").scrollIntoView({block:"start"});coachRun();
+  },
+  "co-test"(){say("Hello "+S.settings.name+"! I am your English speaking coach. Shall we practise together?")},
+  "co-continue":coachRun,
+  "co-again"(){CO.run++;Mic.abort();stopSpeaking();setTimeout(coachRun,150)},
+  "co-skip"(){CO.run++;Mic.abort();stopSpeaking();CO.i++;CO.tries=0;setTimeout(coachRun,150)},
+  "co-stop"(){CO.run++;Mic.abort();stopSpeaking();coachStatus("Paused");coachButtons("paused")},
+  "co-end"(){CO.run++;Mic.abort();stopSpeaking();CO.i=CO.list.length;coachStatus("Session ended");const b=$("#coach-btns");if(b)b.innerHTML='<button class="btn primary" data-act="co-start">Start a new session</button>'},
   "sp-start"(){const o=spellSet();SP.list=spellWords(o.list);if(!SP.list.length){toast("No mistakes saved yet. Choose another word list.");return}SP.mode="words";SP.stage="test";SP.i=0;SP.right=0;SP.wrong=[];renderSpelling()},
   "sp-story"(b){SP.story=STORIES[Number(b.dataset.v)];SP.mode="sentences";SP.stage="test";SP.i=0;SP.right=0;SP.wrong=[];renderSpelling()},
   "sp-again"(){SP.stage="test";SP.i=0;SP.right=0;SP.wrong=[];renderSpelling()},
@@ -2317,6 +2453,8 @@ const ACT={
   }
 };
 const CHG={
+  "co-voice"(v){S.settings.voice=v;save();say("Hello! This is how I sound.")},
+  "co-set"(v){CO.set=v},
   "sp-times"(v){S.spellSet=Object.assign(spellSet(),{times:Number(v)});save()},
   "sp-rate"(v){S.spellSet=Object.assign(spellSet(),{rate:Number(v)});save()},
   "sp-list"(v){S.spellSet=Object.assign(spellSet(),{list:v});save()},
