@@ -9,6 +9,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <script data-goatcounter="https://rajesh-englishcoach.goatcounter.com/count" data-goatcounter-settings='{"no_onload":true}' async src="https://gc.zgo.at/count.js"></script>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="English Coach">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a56db'/%3E%3Crect x='12' y='6' width='8' height='14' rx='4' fill='white'/%3E%3Cpath d='M8 15a8 8 0 0 0 16 0M16 23v4' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -50,7 +51,7 @@ a{color:var(--blue)}
 .view{max-width:1060px;margin:0 auto;padding:26px 24px 48px}
 .page-head{margin-bottom:18px}
 .page-head p{color:var(--ink-2);margin-top:4px}
-.page-head h1:focus{outline:none}
+.page-head h1:focus,#view h1[tabindex="-1"]:focus{outline:none}
 .bottom-nav{display:none}
 .scrim{display:none}
 
@@ -296,6 +297,63 @@ body{top:0!important}
   .type-row .btn{width:100%}
   .mic-btn{width:100%}
 }
+/* version 2.0 */
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+label.btn{cursor:pointer}
+.xp b{font-size:1.4rem}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.bdg{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;opacity:.85}
+.bdg.on{opacity:1;border-color:#b3e4ca;background:var(--good-bg)}
+.bdg .stat-ic{width:36px;height:36px;border-radius:10px;background:var(--blue-l);color:var(--blue);display:grid;place-items:center;flex:none}
+.bdg.on .stat-ic{background:var(--good);color:#fff}
+.bdg b{display:block;font-size:.92rem}
+.bdg small{display:block;color:var(--ink-2);font-size:.8rem;margin-bottom:4px}
+details.scene summary{cursor:pointer;display:flex;flex-direction:column;gap:2px;list-style:none;min-height:44px;justify-content:center}
+details.scene summary::-webkit-details-marker{display:none}
+details.scene summary b::after{content:" ▸";color:var(--blue)}
+details.scene[open] summary b::after{content:" ▾"}
+details.scene[open] summary{margin-bottom:8px}
+.you{border-left:3px solid var(--blue);padding-left:10px;margin:4px 0}
+#fr-status:empty{display:none}
+#fr-status.on{background:var(--good-bg);color:var(--good)}
+#fr-chat{max-height:460px;overflow-y:auto}
+
+/* dark theme */
+html.dark{color-scheme:dark;--ink:#e6edf7;--ink-2:#b1bfd4;--ink-3:#8fa0ba;--blue:#3d72e0;--blue-d:#a9c4ff;--blue-l:#1d2d4f;--blue-xl:#17233b;--line:#2a3a57;--bg:#0d1526;--card:#131e33;--good:#3fb57e;--good-bg:#12301f;--bad:#f07a7a;--bad-bg:#3a1a1a;--warn:#f0b35a;--warn-bg:#36280f;--shadow:none}
+html.dark a{color:#9dbcff}
+html.dark .input,html.dark select.input,html.dark textarea.input{background:#0f1a2e;border-color:#34476b}
+html.dark .input:focus{outline-color:#2c4a86}
+html.dark .heard,html.dark .result,html.dark .msg.check{background:var(--card)}
+html.dark .heard{border-color:#34476b}
+html.dark .speakbox{border-color:#2a3a57}
+html.dark .topbar{background:rgba(19,30,51,.96)}
+html.dark .bottom-nav{background:var(--card)}
+html.dark .bar{background:#24324d}
+html.dark .note{border-color:#2a3a57}
+html.dark .note.warn{color:#f6d9a8;border-color:#5a4520}
+html.dark .note.bad{color:#f7c4c4;border-color:#5a2a2a}
+html.dark .note.good{color:#b5ecd0;border-color:#1f5a3c}
+html.dark .w-extra{background:#2e2147;color:#d1b3ff}
+html.dark .goal-line span{background:rgba(19,30,51,.9)}
+html.dark .chart .tip,html.dark .toast{background:#e6edf7;color:#0d1526}
+html.dark .chart{border-bottom-color:#34476b}
+html.dark .check-dot{border-color:#3a4d70}
+html.dark .mic-btn:disabled{background:#3a4d70}
+html.dark .store-warn{color:#f6d9a8}
+html.dark .bdg.on{border-color:#1f5a3c}
+html.dark .star{color:#4a5b78}
+html.dark .star.on{color:#f0b35a;border-color:#5a4520}
+html.dark .icon-btn.fav-on{color:#f0b35a;border-color:#5a4520}
+html.dark .fix ins{color:#6fdca6}
+html.dark .fix del{color:#ff9a9a}
+html.dark .hero{background:linear-gradient(135deg,#132f6e,#1d4bb0 60%,#2d63c9)}
+html.dark .hero .btn.primary{background:#e8f0fe;color:#132f6e}
+html.dark .tab[aria-selected=true],html.dark .msg.user,html.dark .btn.primary,html.dark .mic-btn{color:#fff}
+html.dark .opt.right{border-color:var(--good)}
+html.dark .opt.wrong{border-color:var(--bad)}
+html.dark .btn:hover{border-color:#3a4d70}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 </style>
@@ -884,6 +942,191 @@ const STORIES=[
 {t:"A trip to Darjeeling",s:["Last winter my family went to Darjeeling.","We travelled by train and then by car.","The weather was cold but the mountains were beautiful.","We drank fresh tea and walked in the gardens.","It was a journey we will always remember."]}
 ];
 
+/* ===== CONTENT: VERSION 2.0 (conversation modes, office role-plays, level test, writing help) ===== */
+
+/* Talk with a Friend: 7 conversation types. ai = extra instruction for the built-in AI.
+   qs = questions the practice friend asks when there is no AI. */
+const FRIEND_MODES={
+free:{t:"Free conversation",d:"Talk about anything you like. Alex follows your lead.",ai:"Let the learner choose the topic and follow their lead. If they have no idea, suggest an easy topic.",qs:[
+"What would you like to talk about today?","What made you smile this week?","What is something new you learned recently?","Which place in your city do you like the most, and why?","What is a skill you would like to learn?","Tell me about a person who inspires you.","What are you looking forward to this month?","If you had a free day tomorrow, how would you spend it?"]},
+daily:{t:"Daily life",d:"Your routine, home, food, shopping and weekends.",ai:"Talk about everyday life: daily routine, home, food, shopping, weather and weekends.",qs:[
+"What time do you usually wake up, and what do you do first?","How do you travel to work or college?","What did you have for lunch today?","Who does the cooking in your home?","Where do you usually go shopping, and what do you buy there?","What is the weather like in your city today?","What do you usually do in the evening after work?","What did you do last weekend?"]},
+office:{t:"Office conversation",d:"Chat with a colleague about tasks, meetings, reports and deadlines.",ai:"You are the learner's friendly colleague at the office. Talk about today's tasks, meetings, reports, deadlines and teamwork, using common office English.",qs:[
+"Good morning! What are you working on today?","Do you have any meetings today?","Which report takes most of your time this week?","Is there any deadline you are worried about?","How do you usually share your reports with your manager?","What software do you use most at work?","How was your last team meeting?","What will you finish before you leave today?"]},
+interview:{t:"Interview practice",d:"Alex is a polite HR interviewer. Answer like a real job interview.",ai:"Act as a polite HR interviewer for an office job. Ask one common interview question at a time. After each answer, give one short tip to make the answer stronger, then ask the next question.",qs:[
+"Please tell me about yourself.","Why are you interested in this job?","What are your main strengths?","Tell me about a weakness you are working on.","Describe a difficult problem you solved at work.","How do you handle pressure and tight deadlines?","Where do you see yourself in five years?","Do you have any questions for us?"]},
+travel:{t:"Travel",d:"Trips, tickets, hotels, directions, airports and railway stations.",ai:"Talk about travel: planning trips, booking train or flight tickets and hotels, asking for directions, and situations at airports and railway stations. Sometimes play the role of a ticket clerk or hotel receptionist.",qs:[
+"Which place would you most like to visit, and why?","Tell me about the last trip you took.","Do you prefer travelling by train or by plane? Why?","How do you usually book your tickets?","Imagine you are at a hotel reception. How would you ask for a room?","How would you ask a stranger for directions to the railway station?","What do you always pack when you travel?","What was the best food you ate on a trip?"]},
+friends:{t:"Friends chat",d:"Relaxed chat about movies, cricket, festivals, hobbies and plans.",ai:"Chat like a good friend in relaxed, natural English about movies, cricket, music, festivals, hobbies and weekend plans. You may use common friendly expressions, and explain them if the learner seems unsure.",qs:[
+"Hey! Seen any good movies or shows lately?","Do you follow cricket? Who is your favourite player?","How do you usually celebrate your favourite festival?","What do you do to relax after a long week?","What kind of music do you like?","Any plans for this weekend?","What is a food you could eat every day?","Tell me a funny thing that happened to you recently."]},
+professional:{t:"Professional communication",d:"Alex plays your manager or a client. Report updates, explain delays and make polite requests.",ai:"Play the learner's manager, and sometimes a client. Ask for work updates, explanations of numbers, reasons for delays, and plans. Expect polite, clear, professional English, and gently show a more professional way to say things when needed.",qs:[
+"Can you give me a quick update on this week's sales report?","The numbers are lower than last month. Can you explain why?","When can you send me the final report?","A client is unhappy with a delay. How would you reply to them?","What support do you need from the team to finish this on time?","How would you ask your manager for two days of leave?","How would you politely disagree with a decision in a meeting?","What is your plan to improve the results next month?"]}
+};
+
+/* Office role-play scenarios. Each line: [speaker, formal English, natural English (your lines only), Bengali, Hindi] */
+const OFFICE_SCENES=[
+{id:"standup",t:"Daily team meeting",d:"Share your update in the morning meeting.",lines:[
+["Team lead","Good morning, everyone. Let's start with quick updates.","","সবাইকে সুপ্রভাত। চলুন ছোট করে আপডেট দিয়ে শুরু করি।","सभी को सुप्रभात। चलिए छोटे अपडेट से शुरू करते हैं।"],
+["You","Good morning. Yesterday I completed the daily sales report and shared it with all area managers.","Morning! Yesterday I finished the daily sales report and sent it to all the area managers.","সুপ্রভাত। গতকাল আমি দৈনিক সেলস রিপোর্ট শেষ করে সব এরিয়া ম্যানেজারকে পাঠিয়েছি।","सुप्रभात। कल मैंने डेली सेल्स रिपोर्ट पूरी करके सभी एरिया मैनेजरों को भेज दी।"],
+["Team lead","Great. What is your plan for today?","","খুব ভালো। আজ আপনার পরিকল্পনা কী?","बहुत बढ़िया। आज आपकी क्या योजना है?"],
+["You","Today I will update the incentive file and check the footfall data for all studios.","Today I'm updating the incentive file and checking the footfall data for every studio.","আজ আমি ইনসেন্টিভ ফাইল আপডেট করব এবং সব স্টুডিওর ফুটফল ডেটা দেখব।","आज मैं इंसेंटिव फ़ाइल अपडेट करूँगा और सभी स्टूडियो का फुटफॉल डेटा देखूँगा।"],
+["Team lead","Is anything blocking you?","","কোনো কিছুতে কি আটকে আছেন?","क्या कोई रुकावट है?"],
+["You","Yes, two studios have not shared their numbers yet. I will follow up with them before noon.","Yes, two studios still haven't sent their numbers. I'll chase them before lunch.","হ্যাঁ, দুটি স্টুডিও এখনও সংখ্যা পাঠায়নি। দুপুরের আগে আমি তাদের সাথে যোগাযোগ করব।","हाँ, दो स्टूडियो ने अभी तक नंबर नहीं भेजे हैं। मैं दोपहर से पहले उनसे फ़ॉलो-अप करूँगा।"]]},
+{id:"salesreview",t:"Sales review meeting",d:"Explain target versus achievement to your regional manager.",lines:[
+["Regional manager","How are we doing against this month's target?","","এই মাসের টার্গেটের তুলনায় আমরা কেমন করছি?","इस महीने के टारगेट के मुकाबले हम कैसा कर रहे हैं?"],
+["You","We have achieved 62 percent of the monthly target so far, against 60 percent of the month completed.","So far we're at 62 percent of the target, and 60 percent of the month is over, so we're slightly ahead.","এখন পর্যন্ত আমরা মাসিক টার্গেটের ৬২ শতাংশ অর্জন করেছি, আর মাসের ৬০ শতাংশ শেষ হয়েছে।","अब तक हमने मासिक टारगेट का 62 प्रतिशत हासिल किया है, जबकि महीने का 60 प्रतिशत पूरा हुआ है।"],
+["Regional manager","Which region is behind?","","কোন রিজিয়ন পিছিয়ে আছে?","कौन सा रीजन पीछे है?"],
+["You","The East region is behind. Its required daily run rate is now 15 percent higher than its current run rate.","East is behind. They now need to sell about 15 percent more per day than they are doing now.","ইস্ট রিজিয়ন পিছিয়ে আছে। তাদের প্রয়োজনীয় দৈনিক রান রেট এখনকার চেয়ে ১৫ শতাংশ বেশি।","ईस्ट रीजन पीछे है। उनका ज़रूरी डेली रन रेट अभी के रन रेट से 15 प्रतिशत ज़्यादा है।"],
+["Regional manager","What do you suggest?","","আপনার কী পরামর্শ?","आप क्या सुझाव देते हैं?"],
+["You","I suggest we review the low-performing studios with their managers this week and focus on converting existing footfall.","I think we should sit with the weak studios' managers this week and work on converting the walk-ins we already get.","আমার পরামর্শ, এই সপ্তাহে কম পারফর্ম করা স্টুডিওগুলো তাদের ম্যানেজারদের সাথে রিভিউ করি এবং বর্তমান ফুটফল কনভার্ট করার দিকে মন দিই।","मेरा सुझाव है कि इस हफ़्ते कमज़ोर स्टूडियो की उनके मैनेजरों के साथ समीक्षा करें और मौजूदा फुटफॉल को कन्वर्ट करने पर ध्यान दें।"]]},
+{id:"excel",t:"Explaining an Excel report",d:"Walk your manager through an MIS report.",lines:[
+["Manager","Can you walk me through this report?","","আপনি কি আমাকে এই রিপোর্টটা বুঝিয়ে বলবেন?","क्या आप मुझे यह रिपोर्ट समझा सकते हैं?"],
+["You","Certainly. The first sheet shows a summary of GMV and NSV by region, and the second sheet shows studio-wise details.","Sure. The first sheet is the summary of GMV and NSV by region, and the second one has the details for each studio.","অবশ্যই। প্রথম শিটে রিজিয়ন অনুযায়ী GMV ও NSV-এর সারাংশ, আর দ্বিতীয় শিটে স্টুডিও অনুযায়ী বিস্তারিত।","ज़रूर। पहली शीट में रीजन के हिसाब से GMV और NSV का सारांश है, और दूसरी शीट में स्टूडियो के हिसाब से विवरण है।"],
+["Manager","Where does this data come from?","","এই ডেটা কোথা থেকে আসে?","यह डेटा कहाँ से आता है?"],
+["You","It comes from the daily order report. I refresh the pivot table every morning after pasting the new data.","It comes from the daily order report. Every morning I paste the new data and refresh the pivot.","এটা দৈনিক অর্ডার রিপোর্ট থেকে আসে। প্রতিদিন সকালে নতুন ডেটা পেস্ট করে আমি পিভট টেবিল রিফ্রেশ করি।","यह डेली ऑर्डर रिपोर्ट से आता है। हर सुबह नया डेटा पेस्ट करके मैं पिवट टेबल रिफ्रेश करता हूँ।"],
+["Manager","Can I see only one region?","","আমি কি শুধু একটা রিজিয়ন দেখতে পারি?","क्या मैं सिर्फ़ एक रीजन देख सकता हूँ?"],
+["You","Yes. You can use the Region filter at the top of the pivot table to select one region.","Yes, just pick the region from the filter at the top of the pivot.","হ্যাঁ। পিভট টেবিলের উপরের Region ফিল্টার দিয়ে একটা রিজিয়ন বেছে নিতে পারেন।","हाँ। पिवट टेबल के ऊपर Region फ़िल्टर से आप एक रीजन चुन सकते हैं।"]]},
+{id:"performance",t:"Discussing business performance",d:"Talk about results, reasons and next steps.",lines:[
+["Business head","Why did conversion drop last week?","","গত সপ্তাহে কনভার্শন কেন কমেছে?","पिछले हफ़्ते कन्वर्ज़न क्यों गिरा?"],
+["You","Footfall increased by 12 percent because of the weekend offer, but many visitors were only browsing, so conversion dropped.","More people came in because of the weekend offer, footfall was up 12 percent, but a lot of them were just looking, so conversion fell.","উইকেন্ড অফারের জন্য ফুটফল ১২ শতাংশ বেড়েছিল, কিন্তু অনেকেই শুধু দেখতে এসেছিলেন, তাই কনভার্শন কমেছে।","वीकेंड ऑफ़र की वजह से फुटफॉल 12 प्रतिशत बढ़ा, लेकिन कई लोग सिर्फ़ देखने आए थे, इसलिए कन्वर्ज़न गिरा।"],
+["Business head","Which category performed best?","","কোন ক্যাটাগরি সবচেয়ে ভালো করেছে?","किस कैटेगरी ने सबसे अच्छा प्रदर्शन किया?"],
+["You","Home Decor performed best. Its contribution rose from 18 percent to 22 percent of total sales.","Home Decor did best. Its share of total sales went up from 18 to 22 percent.","হোম ডেকর সবচেয়ে ভালো করেছে। মোট বিক্রিতে এর অবদান ১৮ থেকে বেড়ে ২২ শতাংশ হয়েছে।","होम डेकोर ने सबसे अच्छा किया। कुल बिक्री में इसका योगदान 18 से बढ़कर 22 प्रतिशत हो गया।"],
+["Business head","What should we do next?","","এরপর আমাদের কী করা উচিত?","आगे हमें क्या करना चाहिए?"],
+["You","I recommend training the sales team on closing techniques and tracking conversion daily for each studio.","I'd suggest training the team on closing sales and checking conversion for every studio every day.","আমি সেলস টিমকে ক্লোজিং টেকনিকে ট্রেনিং দেওয়া এবং প্রতিটি স্টুডিওর কনভার্শন প্রতিদিন ট্র্যাক করার পরামর্শ দিচ্ছি।","मैं सेल्स टीम को क्लोज़िंग तकनीक की ट्रेनिंग देने और हर स्टूडियो का कन्वर्ज़न रोज़ ट्रैक करने की सलाह देता हूँ।"]]},
+{id:"salary",t:"Salary increment discussion",d:"Ask for a raise politely and with reasons.",lines:[
+["Manager","You wanted to talk to me?","","আপনি আমার সাথে কথা বলতে চেয়েছিলেন?","आप मुझसे बात करना चाहते थे?"],
+["You","Yes, thank you for your time. I would like to discuss my performance and my salary.","Yes, thanks for making time. I wanted to talk about my performance and my salary.","হ্যাঁ, সময় দেওয়ার জন্য ধন্যবাদ। আমি আমার পারফরম্যান্স ও বেতন নিয়ে কথা বলতে চাই।","हाँ, समय देने के लिए धन्यवाद। मैं अपने प्रदर्शन और वेतन पर बात करना चाहता हूँ।"],
+["Manager","Sure. Go ahead.","","অবশ্যই। বলুন।","ज़रूर। बताइए।"],
+["You","This year I automated three daily reports, which saves the team about ten hours every week.","This year I automated three daily reports, and that saves the team around ten hours a week.","এই বছর আমি তিনটি দৈনিক রিপোর্ট অটোমেট করেছি, যাতে টিমের প্রতি সপ্তাহে প্রায় দশ ঘণ্টা বাঁচে।","इस साल मैंने तीन डेली रिपोर्ट ऑटोमेट कीं, जिससे टीम के हर हफ़्ते लगभग दस घंटे बचते हैं।"],
+["Manager","That is good work. What are you expecting?","","খুব ভালো কাজ। আপনি কী আশা করছেন?","यह अच्छा काम है। आप क्या उम्मीद कर रहे हैं?"],
+["You","Based on my contribution and market rates, I would request a revision of 15 percent. I am open to discussing it.","Looking at what I've delivered and market rates, I'm hoping for about a 15 percent raise, but I'm happy to discuss it.","আমার অবদান ও বাজারদর অনুযায়ী আমি ১৫ শতাংশ বৃদ্ধির অনুরোধ করছি। আমি আলোচনা করতে প্রস্তুত।","मेरे योगदान और मार्केट रेट के आधार पर मैं 15 प्रतिशत बढ़ोतरी का अनुरोध करता हूँ। मैं इस पर बात करने के लिए तैयार हूँ।"]]},
+{id:"complaint",t:"Customer complaint",d:"Calm an upset customer and solve the problem.",lines:[
+["Customer","My sofa was supposed to arrive last week. Nobody has called me!","","আমার সোফা গত সপ্তাহে আসার কথা ছিল। কেউ আমাকে ফোন করেনি!","मेरा सोफ़ा पिछले हफ़्ते आना था। किसी ने मुझे फ़ोन नहीं किया!"],
+["You","I am very sorry for the delay and for not keeping you informed. May I have your order number, please?","I'm really sorry about the delay, and that nobody called you. Could you give me your order number?","দেরি এবং আপনাকে না জানানোর জন্য আমি খুবই দুঃখিত। আপনার অর্ডার নম্বরটা দেবেন?","देरी और आपको जानकारी न देने के लिए मुझे बहुत खेद है। क्या आप अपना ऑर्डर नंबर बता सकते हैं?"],
+["Customer","It is 4 5 8 1 2.","","৪৫৮১২।","45812 है।"],
+["You","Thank you. I can see that the delivery was delayed at the warehouse. It is now scheduled for Thursday.","Thanks. I can see it got held up at the warehouse. It's now booked for Thursday.","ধন্যবাদ। দেখছি ওয়্যারহাউসে ডেলিভারি দেরি হয়েছে। এখন এটা বৃহস্পতিবার নির্ধারিত।","धन्यवाद। मैं देख सकता हूँ कि डिलीवरी वेयरहाउस में देर से हुई। अब यह गुरुवार के लिए तय है।"],
+["Customer","I hope it really comes this time.","","আশা করি এবার সত্যিই আসবে।","उम्मीद है इस बार सच में आएगा।"],
+["You","I understand. I will personally track it and call you on Wednesday evening to confirm the delivery time.","I get it. I'll track it myself and call you on Wednesday evening to confirm the time.","আমি বুঝতে পারছি। আমি নিজে এটা ট্র্যাক করব এবং বুধবার সন্ধ্যায় ফোন করে ডেলিভারির সময় নিশ্চিত করব।","मैं समझता हूँ। मैं खुद इसे ट्रैक करूँगा और बुधवार शाम आपको फ़ोन करके डिलीवरी का समय पक्का करूँगा।"]]},
+{id:"delay",t:"Telling your manager about a delay",d:"Give bad news early, with a reason and a new time.",lines:[
+["Manager","Is the incentive report ready?","","ইনসেনটিভ রিপোর্ট কি তৈরি?","क्या इंसेंटिव रिपोर्ट तैयार है?"],
+["You","Not yet, I am sorry. Two studios sent corrected data this morning, so I need to recalculate the payouts.","Not yet, sorry. Two studios sent corrected data this morning, so I have to redo the payouts.","এখনও না, দুঃখিত। দুটি স্টুডিও আজ সকালে সংশোধিত ডেটা পাঠিয়েছে, তাই পেআউট আবার হিসাব করতে হবে।","अभी नहीं, माफ़ कीजिए। दो स्टूडियो ने आज सुबह सुधरा हुआ डेटा भेजा, इसलिए मुझे पेआउट फिर से कैलकुलेट करना होगा।"],
+["Manager","When can I have it?","","কখন পাব?","मुझे यह कब मिलेगा?"],
+["You","I will send it by 4 p.m. today, after checking the totals against the source data.","You'll have it by 4 today. I just want to check the totals against the source first.","সোর্স ডেটার সাথে টোটাল মিলিয়ে আজ বিকেল ৪টার মধ্যে পাঠিয়ে দেব।","सोर्स डेटा से टोटल मिलाकर मैं आज शाम 4 बजे तक भेज दूँगा।"],
+["Manager","Okay. Please keep me posted.","","ঠিক আছে। আমাকে জানাতে থাকবেন।","ठीक है। मुझे जानकारी देते रहिए।"],
+["You","Of course. I will also add a note explaining the changes for the two studios.","Sure. I'll also add a short note on what changed for those two studios.","অবশ্যই। দুটি স্টুডিওর পরিবর্তন বোঝাতে একটা নোটও যোগ করব।","ज़रूर। मैं उन दो स्टूडियो के बदलाव समझाने के लिए एक नोट भी जोड़ूँगा।"]]}
+];
+
+/* Level test. kind: grammar, vocabulary, reading, listening, writing, speaking.
+   For listening, "say" is read aloud and not shown. */
+const ASSESS_READ="Priya manages a furniture studio in Pune. Last month, footfall fell by 8 percent, but sales rose by 5 percent because more visitors made a purchase. Priya believes the new product display helped customers decide faster.";
+const ASSESS=[
+{k:"grammar",q:"She ___ to the office every day.",opts:["go","goes","going","gone"],ans:1},
+{k:"grammar",q:"I ___ the report yesterday.",opts:["send","have sent","sent","sending"],ans:2},
+{k:"grammar",q:"If it rains tomorrow, we ___ at home.",opts:["stay","will stay","stayed","would stayed"],ans:1},
+{k:"grammar",q:"I have worked here ___ 2019.",opts:["for","since","from","at"],ans:1},
+{k:"grammar",q:"Neither the manager nor the team members ___ aware of the change.",opts:["was","were","is","be"],ans:1},
+{k:"vocabulary",q:"Which word means \"very tired\"?",opts:["exhausted","excited","extended","expensive"],ans:0},
+{k:"vocabulary",q:"\"Postpone\" a meeting means:",opts:["move it to a later time","start it now","cancel it forever","finish it early"],ans:0},
+{k:"vocabulary",q:"Sales went up by 10 percent. That is a big ___.",opts:["increase","decrease","delay","reduce"],ans:0},
+{k:"vocabulary",q:"A \"meticulous\" person is:",opts:["very careful about details","very fast","very loud","careless"],ans:0},
+{k:"reading",read:true,q:"What happened to sales last month?",opts:["They rose by 5 percent","They fell by 8 percent","They stayed the same","They doubled"],ans:0},
+{k:"reading",read:true,q:"Why does Priya think sales improved?",opts:["The new product display helped customers decide","More people visited the studio","Prices were reduced","The studio moved to a new place"],ans:0},
+{k:"listening",say:"Could you send me the report by Friday afternoon?",q:"Listen, then choose what you heard.",opts:["Could you send me the report by Friday afternoon?","Could you send me the report by Thursday afternoon?","Could you spend the report on Friday afternoon?","Could you end the report by Friday afternoon?"],ans:0},
+{k:"listening",say:"The meeting has been moved to half past three.",q:"Listen. When is the meeting now?",opts:["3:30","3:00","2:30","4:30"],ans:0},
+{k:"writing",q:"Write one or two sentences: What did you do last weekend?"},
+{k:"speaking",say:"I would like to discuss the sales report with you tomorrow.",q:"Read this sentence aloud."}
+];
+
+/* Bengali and Hindi explanations for each grammar rule message */
+const WHY_T={
+"Do not put am before a simple verb. Say I work, or I am working.":["সাধারণ ক্রিয়ার আগে am বসবে না। বলুন I work, অথবা I am working।","साधारण क्रिया से पहले am न लगाएँ। I work या I am working कहें।"],
+"Agree is already a verb, so do not add am.":["Agree নিজেই একটি ক্রিয়া, তাই am লাগবে না।","Agree खुद एक क्रिया है, इसलिए am न लगाएँ।"],
+"These verbs do not normally use the -ing form.":["এই ক্রিয়াগুলো সাধারণত -ing রূপে ব্যবহার হয় না।","ये क्रियाएँ आमतौर पर -ing रूप में नहीं आतीं।"],
+"For things you own and family, use have.":["নিজের জিনিস বা পরিবারের কথা বলতে have ব্যবহার করুন।","अपनी चीज़ों और परिवार के लिए have का प्रयोग करें।"],
+"With since, use have been + -ing.":["since থাকলে have been + -ing ব্যবহার করুন।","since के साथ have been + -ing लगाएँ।"],
+"Use for with a length of time.":["সময়ের দৈর্ঘ্য বোঝাতে for ব্যবহার করুন।","समय की अवधि के लिए for का प्रयोग करें।"],
+"Discuss does not take about.":["Discuss-এর পরে about বসে না।","Discuss के बाद about नहीं लगता।"],
+"We say married to.":["ইংরেজিতে married to বলা হয়।","अंग्रेज़ी में married to कहते हैं।"],
+"After did not, use the base verb.":["did not-এর পরে ক্রিয়ার মূল রূপ বসে।","did not के बाद क्रिया का मूल रूप आता है।"],
+"After have, has or had, use the past participle.":["have, has বা had-এর পরে past participle (তৃতীয় রূপ) বসে।","have, has या had के बाद past participle (तीसरा रूप) आता है।"],
+"With he, she and it, use does not.":["he, she, it-এর সাথে does not ব্যবহার করুন।","he, she, it के साथ does not लगाएँ।"],
+"With we, they and you, use were.":["we, they, you-এর সাথে were ব্যবহার করুন।","we, they, you के साथ were लगाएँ।"],
+"Do not use more with a word ending in -er.":["-er দিয়ে শেষ হওয়া শব্দের আগে more বসবে না।","-er वाले शब्द से पहले more न लगाएँ।"],
+"We say this morning.":["ইংরেজিতে this morning বলা হয়, today morning নয়।","अंग्रेज़ी में this morning कहते हैं, today morning नहीं।"],
+"We say this evening.":["ইংরেজিতে this evening বলা হয়।","अंग्रेज़ी में this evening कहते हैं।"],
+"We say last night.":["ইংরেজিতে last night বলা হয়, yesterday night নয়।","अंग्रेज़ी में last night कहते हैं, yesterday night नहीं।"],
+"In English, just say cousin.":["ইংরেজিতে শুধু cousin বলুন।","अंग्रेज़ी में सिर्फ़ cousin कहें।"],
+"Reply is clearer. Revert means go back to an earlier state.":["Reply বেশি পরিষ্কার। Revert মানে আগের অবস্থায় ফিরে যাওয়া।","Reply ज़्यादा साफ़ है। Revert का मतलब पहले वाली स्थिति में लौटना है।"],
+"Return already means go back.":["Return মানেই ফিরে যাওয়া, তাই back লাগবে না।","Return का मतलब ही वापस जाना है, इसलिए back न लगाएँ।"],
+"Repeat already means say again.":["Repeat মানেই আবার বলা, তাই again লাগবে না।","Repeat का मतलब ही दोबारा कहना है, इसलिए again न लगाएँ।"],
+"We say cope with.":["ইংরেজিতে cope with বলা হয়।","अंग्रेज़ी में cope with कहते हैं।"],
+"Do the needful sounds old-fashioned. Say exactly what you need.":["Do the needful পুরোনো ধাঁচের শোনায়। ঠিক কী দরকার তা বলুন।","Do the needful पुराना लगता है। साफ़ बताइए कि क्या चाहिए।"],
+"We say out of town.":["ইংরেজিতে out of town বলা হয়।","अंग्रेज़ी में out of town कहते हैं।"],
+"Passed out means fainted. Say graduated from.":["Passed out মানে অজ্ঞান হওয়া। graduated from বলুন।","Passed out का मतलब बेहोश होना है। graduated from कहें।"],
+"Just say my name.":["শুধু my name বলুন।","सिर्फ़ my name कहें।"],
+"Just say your name.":["শুধু your name বলুন।","सिर्फ़ your name कहें।"],
+"To introduce yourself, say I am or My name is.":["নিজের পরিচয় দিতে I am বা My name is বলুন।","अपना परिचय देने के लिए I am या My name is कहें।"],
+"After one of my, use a plural noun.":["one of my-এর পরে বহুবচন বিশেষ্য বসে।","one of my के बाद बहुवचन संज्ञा आती है।"],
+"This noun has no plural form.":["এই বিশেষ্যের বহুবচন রূপ নেই।","इस संज्ञा का बहुवचन रूप नहीं होता।"],
+"Reach does not take to or at.":["Reach-এর পরে to বা at বসে না।","Reach के बाद to या at नहीं लगता।"],
+"We say go home, without to.":["go home বলুন, মাঝে to ছাড়া।","go home कहें, बीच में to के बिना।"],
+"Use an before a vowel sound.":["স্বরধ্বনির আগে an ব্যবহার করুন।","स्वर ध्वनि से पहले an लगाएँ।"],
+"With he, she and it, add -s to the verb.":["he, she, it-এর সাথে ক্রিয়ায় -s যোগ করুন।","he, she, it के साथ क्रिया में -s जोड़ें।"],
+"The word I is always a capital letter.":["I শব্দটি সবসময় বড় হাতের অক্ষরে লেখা হয়।","I शब्द हमेशा बड़े अक्षर में लिखा जाता है।"],
+"Start a sentence with a capital letter.":["বাক্য বড় হাতের অক্ষর দিয়ে শুরু করুন।","वाक्य बड़े अक्षर से शुरू करें।"],
+"End a sentence with a full stop.":["বাক্য শেষে দাঁড়ি (full stop) দিন।","वाक्य के अंत में पूर्ण विराम (full stop) लगाएँ।"],
+"This verb has an irregular past form.":["এই ক্রিয়ার অতীত রূপ অনিয়মিত, -ed যোগ হয় না।","इस क्रिया का भूतकाल रूप अनियमित है, इसमें -ed नहीं लगता।"],
+"Use the past tense for yesterday, last week, or ago.":["yesterday, last week বা ago থাকলে অতীত কাল ব্যবহার করুন।","yesterday, last week या ago के साथ भूतकाल का प्रयोग करें।"],
+"Check the spelling.":["বানানটি দেখে নিন।","वर्तनी (स्पेलिंग) जाँच लें।"],
+"More professional.":["অফিসের জন্য বেশি পেশাদার শোনায়।","ऑफ़िस के लिए ज़्यादा पेशेवर लगता है।"]
+};
+
+/* Which grammar topic helps with each rule, for the learning plan */
+const RULE_TOPIC=[
+[/am before|Agree is|-ing form|you own|does not\.|use were|add -s|base verb|irregular past|past tense/,"tenses"],
+[/past participle/,"perfect"],
+[/since|length of time/,"ppc"],
+[/Discuss|married to|cope with|Reach does|go home/,"prepositions"],
+[/more with/,"adjectives"],
+[/plural/,"countable"],
+[/an before/,"articles"],
+[/capital|full stop/,"sentences"]
+];
+
+/* Common spelling mistakes and short forms */
+const SPELL_FIX={recieve:"receive",recieved:"received",reciept:"receipt",untill:"until",definately:"definitely",definatly:"definitely",seperate:"separate",occured:"occurred",occurence:"occurrence",accomodate:"accommodate",accomodation:"accommodation",tommorow:"tomorrow",tommorrow:"tomorrow",tomorow:"tomorrow",beleive:"believe",wich:"which",thier:"their",adress:"address",buisness:"business",bussiness:"business",calender:"calendar",comittee:"committee",enviroment:"environment",goverment:"government",grammer:"grammar",independant:"independent",knowlege:"knowledge",neccessary:"necessary",necessery:"necessary",occassion:"occasion",recomend:"recommend",reccomend:"recommend",refered:"referred",sucess:"success",succes:"success",truely:"truly",wierd:"weird",finaly:"finally",begining:"beginning",existance:"existence",apparantly:"apparently",arguement:"argument",commited:"committed",concious:"conscious",embarass:"embarrass",foriegn:"foreign",freind:"friend",happend:"happened",immediatly:"immediately",imediately:"immediately",libary:"library",maintainance:"maintenance",noticable:"noticeable",posession:"possession",prefered:"preferred",publically:"publicly",sincerly:"sincerely",tounge:"tongue",writting:"writing",amout:"amount",statment:"statement",salery:"salary",sallary:"salary",oppurtunity:"opportunity",oppertunity:"opportunity",regars:"regards",reguards:"regards",responce:"response",experiance:"experience",excercise:"exercise",preferance:"preference",refrence:"reference",managment:"management",developement:"development",acheive:"achieve",acheived:"achieved",acheivement:"achievement",achivement:"achievement",performence:"performance",perfomance:"performance",attendence:"attendance",confirmaton:"confirmation",quater:"quarter",quaterly:"quarterly",percentge:"percentage",colleage:"colleague",collegue:"colleague",shedule:"schedule",schdule:"schedule",temperary:"temporary",availabe:"available",avaliable:"available",wensday:"Wednesday",wednsday:"Wednesday",febuary:"February",feburary:"February",ofcourse:"of course",alot:"a lot",infact:"in fact",thankyou:"thank you",thanku:"thank you",pls:"please",plz:"please",thx:"thanks",u:"you",ur:"your"};
+
+/* A more professional way to say it, for office messages and emails: [pattern, replacement] */
+const PRO_FIX=[
+[/\b(?:please |kindly )?revert(?: back)?(?: to me)?\b/gi,"please reply"],
+[/\bkindly\b/gi,"please"],
+[/\bprepone\b/gi,"bring forward"],[/\bpreponed\b/gi,"brought forward"],
+[/\basap\b/gi,"as soon as possible"],
+[/\bwanna\b/gi,"want to"],[/\bgonna\b/gi,"going to"],
+[/\bI want\b/g,"I would like"],
+[/\bhope you are doing good\b/gi,"hope you are doing well"],
+[/\bvery urgent\b/gi,"urgent"],
+[/\bintimate (you|me|us|them)\b/gi,"inform $1"],[/\bintimated (you|me|us|them)\b/gi,"informed $1"],
+[/\brespected sir\b/gi,"Dear Sir"],[/\brespected madam\b/gi,"Dear Madam"],
+[/\bthanks in advance\b/gi,"thank you for your help"],
+[/\bok\b/gi,"okay"]
+];
+
+/* Simple words and stronger choices, for the conversation and writing reports */
+const BETTER_WORDS=[
+[/\bvery good\b/i,"very good","excellent, great"],[/\bvery bad\b/i,"very bad","terrible, poor"],[/\bvery big\b/i,"very big","huge, large"],
+[/\bvery small\b/i,"very small","tiny"],[/\bvery happy\b/i,"very happy","delighted"],[/\bvery sad\b/i,"very sad","upset"],
+[/\bvery tired\b/i,"very tired","exhausted"],[/\bvery important\b/i,"very important","essential, crucial"],[/\bvery difficult\b/i,"very difficult","challenging"],
+[/\bvery busy\b/i,"very busy","fully occupied, swamped"],[/\bvery angry\b/i,"very angry","furious"],[/\bvery nice\b/i,"very nice","lovely, wonderful"],
+[/\bvery fast\b/i,"very fast","rapid"],[/\bvery much interested\b/i,"very much interested","keen"],[/\ba lot of\b/i,"a lot of","many, plenty of"],
+[/\bgo(?:es|ne)? up\b/i,"go up","increase, rise"],[/\bgo(?:es|ne)? down\b/i,"go down","decrease, fall"],[/\bget better\b/i,"get better","improve"],
+[/\bthink about\b/i,"think about","consider"],[/\blook into\b/i,"look into","review, investigate"],[/\bbig problem\b/i,"big problem","major issue"],
+[/\btell me\b/i,"tell me","let me know"],[/\bnice\b/i,"nice","pleasant, kind"]
+];
+
+/* Extra screen text for language translation (text that only appears after an action) */
+const EXTRA_UI2=["Interrupt and speak","End chat and see report","Start a new chat","Chat finished","Conversation report","Messages","Words per message","Messages with no common mistakes","No common mistakes found.","Copied. Paste it into Claude or ChatGPT.","Backup downloaded.","Progress restored.","This file is not an English Coach backup.","Could not read this file.","Your progress before the last reset was restored.","No reviews due. Well done!","Correct.","Not quite.","Round finished","Your level","Level test finished","Skip","Next","Check","Theme saved.","Type the word you hear.","Type the correct sentence.","Write something first.","Checked by fixed rules, not AI.","Original","Corrected","Grammar mistakes","Spelling mistakes","Better professional version","Explanation in Bengali","Explanation in Hindi","No mistakes found by the rules.","Possible spelling mistake","Saved to your mistake history.","Thank you! You have already sent 3 messages today. Please send more tomorrow.","Could not send right now. Please check your internet and try again in a few minutes.","Saved on this device","Your feedback will be sent when you are back online."];
+
 /* ===== STORAGE ===== */
 const KEY="pesc_v1";
 let storageOK=true;
@@ -896,14 +1139,19 @@ function defaults(){return{
   tutor:{topic:null,idx:0,msgs:[],done:false},
   speakPos:{},migrated:false
 }}
-function load(){
-  const d=defaults();let raw=readLS(KEY),st=null;
-  if(raw){try{st=JSON.parse(raw)}catch(e){writeLS(KEY+"_broken",raw)}}
+/* Fills in any missing parts, so older saved progress always opens */
+function normalize(st){
   if(!st||typeof st!=="object")st={};
-  const out=Object.assign(d,st);
+  const out=Object.assign(defaults(),st);
   out.settings=Object.assign(defaults().settings,st.settings);
   out.game=Object.assign(defaults().game,st.game);
   out.tutor=Object.assign(defaults().tutor,st.tutor);
+  return out;
+}
+function load(){
+  let raw=readLS(KEY),st=null;
+  if(raw){try{st=JSON.parse(raw)}catch(e){writeLS(KEY+"_broken",raw)}}
+  const out=normalize(st);
   if(!out.migrated){
     /* bring over scores saved by the old English Vocabulary Game */
     const lv=Number(readLS("level")),be=Number(readLS("best")),at=Number(readLS("attempts"));
@@ -916,6 +1164,17 @@ function load(){
 }
 let S=load();
 function save(){writeLS(KEY,JSON.stringify(S))}
+/* When the app is open in two tabs (or as the installed app and a browser tab), take the other tab's
+   newer progress instead of overwriting it. This tab saves after every action, so nothing is lost. */
+window.addEventListener("storage",e=>{
+  if(e.key!==KEY||!e.newValue)return;
+  try{
+    const o=normalize(JSON.parse(e.newValue)),k=todayKey(),mine=S.history[k];
+    if(mine&&o.history[k]&&mine.sec>o.history[k].sec)o.history[k].sec=mine.sec;
+    o.settings.lang=S.settings.lang;
+    S=o;
+  }catch(err){}
+});
 
 /* ===== DATES AND PROGRESS LOGGING ===== */
 function ymd(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
@@ -1290,15 +1549,25 @@ function sbGrade(h,text){
 /* Free dictation into a text box, for the Tutor and Interview answers */
 function dictate(btn){
   const ta=$(btn.dataset.into);
-  if(btn.classList.contains("rec")){Mic.stop();return}
+  if(btn.classList.contains("rec")){btn._want=false;Mic.stop();return}
   if(!SR){toast(micErrorText("unsupported"));ta.focus();return}
-  const before=ta.value.trim();
-  setRec(btn);
-  Mic.start({long:true,
-    onText:t=>{ta.value=(before?before+" ":"")+t;ta.dataset.mic="1";ta.dispatchEvent(new Event("input",{bubbles:true}))},
-    onEnd:()=>resetMicBtn(btn),
-    onError:code=>{resetMicBtn(btn);const m=$("#mic-msg");if(m){m.textContent=micErrorText(code);m.classList.remove("hidden")}else toast(micErrorText(code));ta.focus()}
-  });
+  btn._want=true;
+  const t0=Date.now();
+  const run=()=>{
+    const before=ta.value.trim();
+    setRec(btn);
+    Mic.start({long:true,
+      onText:t=>{ta.value=(before?before+" ":"")+t;ta.dataset.mic="1";ta.dispatchEvent(new Event("input",{bubbles:true}))},
+      /* Android Chrome stops listening by itself after a short pause. Keep listening until the learner presses Stop. */
+      onEnd:()=>{if(btn._want&&document.contains(btn)&&Date.now()-t0<180000){run();return}btn._want=false;resetMicBtn(btn)},
+      onError:code=>{
+        const had=ta.value.trim();btn._want=false;resetMicBtn(btn);
+        if(code==="no-speech"&&had)return;
+        const m=$("#mic-msg");if(m){m.textContent=micErrorText(code);m.classList.remove("hidden")}else toast(micErrorText(code));ta.focus();
+      }
+    });
+  };
+  run();
 }
 
 /* ===== QUIZ ENGINE (used by Lessons and Grammar) =====
@@ -1349,12 +1618,17 @@ const NAV=[
   ["game","Vocabulary Game","game"],["spelling","Spelling Practice","text"],["translate","Translate","translate"],["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"],["feedback","Rate and Feedback","star"]
 ];
 const BOTTOM=[["dashboard","Home","home"],["speaking","Speak","mic"],["lessons","Lessons","book"],["vocabulary","Words","letters"]];
+function setMenu(open){
+  document.body.classList.toggle("menu-open",open);
+  const b=$("#menu-btn");if(b)b.setAttribute("aria-expanded",String(open));
+  if(open){const a=$("#nav a");if(a)a.focus()}
+}
 function buildNav(){
   if(!FEEDBACK_URL){const k=NAV.findIndex(n=>n[0]==="feedback");if(k>=0)NAV.splice(k,1)}
   $("#nav").innerHTML=NAV.map(n=>'<li><a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a></li>"+(n[0]==="dashboard"?'<li class="nav-lang"><label class="field">Language'+langSelect()+"</label></li>":"")).join("");
   $("#bottom-nav").innerHTML=BOTTOM.map(n=>'<a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a>").join("")+
     '<button data-act="menu" aria-label="Open all sections">'+ic("menu")+"<span>More</span></button>";
-  $("#menu-btn").innerHTML=ic("menu");
+  $("#menu-btn").innerHTML=ic("menu");$("#menu-btn").setAttribute("aria-expanded","false");$("#menu-btn").setAttribute("aria-controls","nav");
   $$(".brand-ic").forEach(el=>el.innerHTML=ic("mic"));
 }
 function parseRoute(){
@@ -1373,7 +1647,7 @@ function countVisit(r){
 window.addEventListener("load",()=>{if(gcPending&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count(gcPending);gcPending=null}});
 function render(){
   Mic.abort();stopSpeaking();
-  document.body.classList.remove("menu-open");
+  if(document.body.classList.contains("menu-open"))setMenu(false);
   const r=parseRoute();
   $$("[data-nav]").forEach(a=>{if(a.dataset.nav===r.page)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   $("#top-title").textContent=(NAV.find(n=>n[0]===r.page)||NAV[0])[1];
@@ -1421,6 +1695,7 @@ function pageDashboard(){
     '<div class="row mt"><a class="btn primary" href="#/lessons/'+nl.id+'">'+ic("book")+'Next lesson</a><a class="btn ghost" href="#/speaking">'+ic("mic")+"Start speaking</a></div></div></div>"+
   '<div class="card section"><label class="field">Choose your language'+langSelect()+'</label><p class="small muted mt">All menus and pages change to your language. English practice sentences stay in English, with the meaning below them. Translated by Google, so some meanings may not be perfect.</p></div>'+
   '<div class="grid g4 section">'+cards.map(c=>'<div class="card stat"><div class="stat-ic">'+ic(c[0])+"</div><b>"+c[1]+"</b><span>"+c[2]+"</span></div>").join("")+"</div>"+
+  dashExtraHTML()+
   '<div class="grid g2 section"><div class="card"><div class="row between"><h2>Today\'s practice</h2><span class="badge">'+done+" of "+TASKS.length+" done</span></div>"+
     '<div class="mt">'+barHTML(done/TASKS.length*100,"good")+'</div><div class="mt">'+
     TASKS.map(t=>{
@@ -1517,6 +1792,8 @@ const VERB_S={go:"goes",do:"does",have:"has",work:"works",like:"likes",live:"liv
 const BASE={went:"go",ate:"eat",saw:"see",came:"come",gave:"give",took:"take",bought:"buy",did:"do",made:"make",sent:"send",wrote:"write",told:"tell",got:"get",said:"say",knew:"know"};
 const PP={went:"gone",ate:"eaten",came:"come",did:"done",saw:"seen",gave:"given",took:"taken",wrote:"written",spoke:"spoken",go:"gone",do:"done",see:"seen",give:"given",take:"taken",eat:"eaten",write:"written",speak:"spoken",send:"sent"};
 const NOT_THIRD=["did","does","do","will","would","can","could","should","must","may","might","shall","let","make","makes","made","help","helps","helped","see","saw","hear","heard","watch"];
+const IRREG={buyed:"bought",goed:"went",teached:"taught",catched:"caught",thinked:"thought",bringed:"brought",speaked:"spoke",writed:"wrote",eated:"ate",comed:"came",drinked:"drank",drived:"drove",runned:"ran",sended:"sent",spended:"spent",leaved:"left",feeled:"felt",keeped:"kept",meeted:"met",payed:"paid",telled:"told",sayed:"said",gived:"gave",taked:"took",maked:"made",getted:"got",knowed:"knew",finded:"found",losed:"lost",sitted:"sat",standed:"stood",understanded:"understood"};
+const PAST={go:"went",come:"came",buy:"bought",eat:"ate",see:"saw",take:"took",give:"gave",make:"made",get:"got",do:"did",have:"had",meet:"met",send:"sent",write:"wrote",tell:"told",say:"said",visit:"visited",call:"called",watch:"watched",work:"worked",play:"played",talk:"talked",finish:"finished",complete:"completed",start:"started"};
 function keepCase(from,to){return /^[A-Z]/.test(from)?to.charAt(0).toUpperCase()+to.slice(1):to}
 /* Each rule: [pattern, replacement (text or function), plain explanation] */
 const RULES=[
@@ -1553,6 +1830,11 @@ const RULES=[
 [/\bgo to home\b/gi,m=>keepCase(m,"go home"),"We say go home, without to."],
 [/\ba (hour|hours|honest|MIS)\b/g,(m,a)=>"an "+a,"Use an before a vowel sound."],
 [/\ba ([aeiou][a-z]*)\b/gi,(m,a)=>/^(one|once|uni|use|usu|uti|eu|ur)/i.test(a)?m:keepCase(m,"an")+" "+a,"Use an before a vowel sound."],
+[/\b(buyed|goed|teached|catched|thinked|bringed|speaked|writed|eated|comed|drinked|drived|runned|sended|spended|leaved|feeled|keeped|meeted|payed|telled|sayed|gived|taked|maked|getted|knowed|finded|losed|sitted|standed|understanded)\b/gi,(m,a)=>keepCase(m,IRREG[a.toLowerCase()]),"This verb has an irregular past form."],
+[/\b(i|we|they|you|he|she) (go|come|buy|eat|see|take|give|make|get|do|have|meet|send|write|tell|say|visit|call|watch|work|play|talk|finish|complete|start)\b(?=[^.?!]{0,40}\b(?:yesterday|last (?:night|week|month|year|time)|ago)\b)/gi,(m,a,b,off,str)=>{
+  const before=str.slice(0,off).trim().split(/\s+/).pop().toLowerCase();
+  return /^(did|didn't|will|would|to|can|could|should|must|may|might|not|do|does)$/.test(before)?m:a+" "+(PAST[b.toLowerCase()]||b+"ed");
+},"Use the past tense for yesterday, last week, or ago."],
 [/\b(he|she|it) (go|do|have|work|like|live|want|study|eat|come|play|know|need|make|take|watch|teach|read|write|speak|send)\b/gi,(m,a,b,off,str)=>{
   const before=str.slice(0,off).trim().split(/\s+/).pop().toLowerCase();
   return NOT_THIRD.indexOf(before)>=0?m:a+" "+VERB_S[b.toLowerCase()];
@@ -1569,7 +1851,7 @@ function ruleCheck(text,typed){
   });
   if(typed){
     if(/\bi\b/.test(better)){better=better.replace(/\bi\b/g,"I");fixes.push({bad:"i",good:"I",why:"The word I is always a capital letter."})}
-    if(/^[a-z]/.test(better)){const c=better.charAt(0).toUpperCase()+better.slice(1);fixes.push({bad:better.slice(0,12),good:c.slice(0,12),why:"Start a sentence with a capital letter."});better=c}
+    if(/^[a-z]/.test(better)){const c=better.charAt(0).toUpperCase()+better.slice(1),w=better.split(/\s+/)[0];fixes.push({bad:w,good:c.split(/\s+/)[0],why:"Start a sentence with a capital letter."});better=c}
     if(!/[.!?]\s*$/.test(better)){better=better.trim()+".";fixes.push({bad:"(no full stop)",good:".",why:"End a sentence with a full stop."})}
   }
   return{fixes,better,short:text.trim().split(/\s+/).length<4};
@@ -1625,6 +1907,7 @@ function tutorSend(){
   const spoken=ta.dataset.mic==="1",T=S.tutor,res=ruleCheck(text,!spoken);
   T.msgs.push({r:"user",t:text,spoken});
   T.msgs.push({r:"check",fixes:res.fixes,better:res.better,short:res.short});
+  recordFixes(res.fixes);
   logAct("tutor");
   T.idx++;
   if(T.idx<TUTOR_TOPICS[T.topic].qs.length)tutorAsk();else{T.done=true;save()}
@@ -1642,7 +1925,9 @@ function phraseRows(list,area){
 function pageOffice(sub){
   const key=OFFICE[sub]?sub:"daily",c=OFFICE[key];
   let body="";
-  if(key==="vocab"){
+  if(key==="scenes"){
+    body=scenesHTML(sub);
+  }else if(key==="vocab"){
     const list=WORDS.filter(w=>w.c==="Office");
     body='<div class="grid g2">'+list.map(wordCard).join("")+"</div>";
   }else{
@@ -1677,7 +1962,7 @@ function langSelect(){return '<select class="input notranslate" data-chg="ui-lan
 function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"}
 /* Google's translator is used once per language to prepare all app text, which is then saved on the device.
    After that a small walker swaps English text for the saved text, so screens change instantly. */
-const DICT_V=6;
+const DICT_V=7;
 let DICT=null;
 const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
 function loadDict(l){
@@ -1711,6 +1996,9 @@ function trTree(root){
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   let n;while((n=w.nextNode()))trNode(n);
   $$("[placeholder]",root).forEach(e=>{const v=DICT[e.getAttribute("placeholder")];if(v)e.setAttribute("placeholder",v)});
+  /* English practice text stays English, so screen readers read it with an English voice */
+  if(root.matches&&root.matches(".notranslate:not([lang])"))root.setAttribute("lang","en");
+  $$(".notranslate:not([lang])",root).forEach(e=>e.setAttribute("lang","en"));
 }
 function startDict(){
   trTree(document.body);
@@ -1729,7 +2017,7 @@ function collectStrings(){
     let n;while((n=w.nextNode()))if(!trSkip(n.parentElement))add(n.nodeValue);
     $$("[placeholder]").forEach(e=>add(e.getAttribute("placeholder")));
   };
-  const routes=[["dashboard"],["speaking"],["coach"],["friend"],["lessons"],["tutor"],["vocabulary"],["game"],["spelling"],["spelling","sentences"],["translate"],["grammar"],["interview"],["progress"]];
+  const routes=[["dashboard"],["speaking"],["coach"],["friend"],["lessons"],["tutor"],["vocabulary"],["game"],["spelling"],["spelling","sentences"],["translate"],["grammar"],["interview"],["progress"],["review"],["writing"],["assessment"]];
   Object.keys(OFFICE).forEach(k=>routes.push(["office",k]));
   Object.keys(GRAMMAR).forEach(k=>routes.push(["grammar",k]));
   INTERVIEW.forEach(q=>routes.push(["interview",q.id]));
@@ -1743,6 +2031,10 @@ function collectStrings(){
   INTERVIEW.forEach(q=>{add(q.q);add(q.a);add(q.tip)});
   Object.values(TUTOR_TOPICS).forEach(t=>{add(t.t);t.qs.forEach(add)});
   RULES.forEach(r=>add(r[2]));
+  EXTRA_UI2.forEach(add);
+  Object.values(FRIEND_MODES).forEach(m=>{add(m.t);add(m.d)});
+  OFFICE_SCENES.forEach(c=>{add(c.t);add(c.d)});
+  BADGES.forEach(b=>{add(b[1]);add(b[2])});
   return Array.from(set);
 }
 function plainDigits(t){
@@ -1819,6 +2111,7 @@ function startLanguage(){
   const l=S.settings.lang;
   setGtCookie("");
   if(!l)return false;
+  document.documentElement.lang=l==="iw"?"he":l;
   document.body.classList.add(l==="bn"||l==="hi"?"lang-"+l:"lang-other");
   DICT=loadDict(l);
   if(DICT){startDict();return false}
@@ -1866,7 +2159,7 @@ function pageVocabulary(sub){
   renderWords();
 }
 function markLearned(e,on){
-  if(on&&!S.learned[e]){S.learned[e]=todayKey();logAct("words")}
+  if(on&&!S.learned[e]){S.learned[e]=todayKey();logAct("words");srsResult(e,true,{add:1})}
   else if(!on&&S.learned[e]){delete S.learned[e]}
   save();
 }
@@ -1898,7 +2191,7 @@ function renderGame(){
     G.answered=false;G.answer=W[label];
     box.innerHTML='<p class="small muted">Word '+(G.i+1)+" of "+G.words.length+" | Score "+G.score+"</p>"+bar+
       '<div class="game-word notranslate">'+esc(W.e)+'</div><div class="row" style="justify-content:center"><button class="btn" data-act="say" data-text="'+esc(W.e)+'">'+ic("speaker")+"Pronounce</button></div>"+
-      '<p class="mt small muted">'+(lang?"Choose the meaning":"Choose the Bengali meaning")+"</p>"+
+      '<p class="mt small muted">'+(other?"Choose the meaning":label==="h"?"Choose the Hindi meaning":"Choose the Bengali meaning")+"</p>"+
       shuffle(pool.concat(G.answer)).map(v=>'<button class="opt'+(other?"":" notranslate")+'" data-act="game-opt" data-v="'+esc(v)+'"'+(other?"":' lang="'+(label==="h"?"hi":"bn")+'"')+">"+esc(v)+"</button>").join("")+
       '<button class="btn primary block mt hidden" id="game-next" data-act="game-tospell">Next</button>'+back;
   }else if(G.stage==="spell"){
@@ -1981,9 +2274,11 @@ function speakP(text,rate){
     if(!ttsOK){res();return}
     const u=new SpeechSynthesisUtterance(text),v=pickVoice();
     u.lang=v?v.lang:S.settings.accent;if(v)u.voice=v;u.rate=rate||0.95;
-    let done=false;const fin=()=>{if(!done){done=true;res()}};
+    let done=false,started=false;const fin=()=>{if(!done){done=true;res()}};
     u.onend=fin;u.onerror=fin;
-    setTimeout(fin,3000+text.length*140/(rate||1));
+    /* Safety limit only. It starts when the voice really begins, because online voices can start late. */
+    u.onstart=()=>{if(started)return;started=true;setTimeout(fin,5000+text.length*200/(rate||1))};
+    setTimeout(()=>{if(!started)fin()},8000);
     lastUtter=u;speechSynthesis.speak(u);speechSynthesis.resume();
   });
 }
@@ -2080,17 +2375,19 @@ function pageCoach(){
 function coachAddNote(){const c=$("#view .card");if(c)c.insertAdjacentHTML("beforeend",'<div class="note warn mt">'+esc(micErrorText("unsupported"))+" The coach needs the microphone, so please use Chrome or Edge.</div>")}
 
 /* ===== TALK WITH A FRIEND =====
-   A spoken conversation. Uses the AI built into Chrome when the browser has it (free, on the device, no key).
-   Without it, a practice friend asks fixed questions and gives rule-based tips, and says so. */
-const FR={run:0,session:null,mode:"",avail:"",topic:"Free chat",q:0,ended:false};
-const FRIEND_TOPICS=["Free chat","My day","Work and office","Family and festivals","Food and cooking","Movies and hobbies","Travel","Job interview practice"];
-const FRIEND_FIXED={"Free chat":"aboutme","My day":"workday","Work and office":"reporting","Family and festivals":"family","Food and cooking":"family","Movies and hobbies":"opinions","Travel":"opinions","Job interview practice":"aboutme"};
+   A spoken conversation in one of 7 modes. Uses the AI built into Chrome when the browser has it (free, on the device, no key).
+   Without it, a practice friend asks fixed questions for the chosen mode and gives rule-based tips, and says so.
+   After each chat the learner gets a report built only from what they actually said. */
+const FR={run:0,session:null,mode:"",avail:"",topic:"free",q:0,ended:false,log:[],trimmed:false};
 const LMOPTS={expectedInputs:[{type:"text",languages:["en"]}],expectedOutputs:[{type:"text",languages:["en"]}]};
 const FRIEND_PROMPT="You are my friendly English speaking partner. My name is "+"{name}"+". I live in India, I speak Bengali and Hindi, and I want to speak English with more confidence. Talk with me in simple English. Keep your replies short, ask me one question at a time, and when I make a grammar or word mistake, gently tell me the correct way to say it, then continue the conversation.";
+function friendMode(){return FRIEND_MODES[FR.topic]||FRIEND_MODES.free}
 function friendSystem(){
-  const n=S.settings.name;
+  const n=S.settings.name,m=friendMode();
   return "You are Alex, a warm and friendly English speaking partner. You are chatting by voice with "+n+", who lives in India, speaks Bengali and Hindi, works in an office, and wants to speak English with more confidence. "+
-    "Keep every reply short: one to three simple sentences, then ask exactly one friendly question. Use everyday words. "+
+    "Conversation type: "+m.t+". "+m.ai+" "+
+    "Keep every reply short: one to three simple sentences, then ask exactly one question that follows on from what "+n+" just said. "+
+    "Remember what "+n+" told you earlier in this chat and refer back to it. Never repeat a question you already asked, and vary how you start your replies. Use everyday words. "+
     "If "+n+"'s last message has a grammar mistake or a wrong word, start your reply with one line that begins with 'Tip:' and gives the corrected sentence, then continue on a new line. "+
     "Do not use lists, emojis, or symbols like * or #.";
 }
@@ -2098,21 +2395,44 @@ async function friendAvail(){
   if(typeof LanguageModel==="undefined")return "none";
   try{return String(await LanguageModel.availability(LMOPTS))}catch(e){return "none"}
 }
-function friendSession(progress){
-  return LanguageModel.create(Object.assign({initialPrompts:[{role:"system",content:friendSystem()}],
+/* recent: the last few messages, so a new session still knows what was said */
+function friendSession(progress,recent){
+  const hist=(recent||[]).map(m=>({role:m.r==="user"?"user":"assistant",content:m.t}));
+  return LanguageModel.create(Object.assign({initialPrompts:[{role:"system",content:friendSystem()}].concat(hist),
     monitor(m){m.addEventListener("downloadprogress",e=>{if(progress)progress(e.loaded)})}},LMOPTS));
 }
-/* Listens until the learner stops talking for two seconds */
+/* The built-in AI has a small memory. Before it fills up, start a new session that keeps the last messages. */
+function sessionNearlyFull(s){
+  const used=s.contextUsage!=null?s.contextUsage:s.inputUsage,max=s.contextWindow!=null?s.contextWindow:s.inputQuota;
+  return used!=null&&max?used/max>0.75:false;
+}
+async function friendRenew(){
+  try{if(FR.session&&FR.session.destroy)FR.session.destroy()}catch(x){}
+  FR.session=await friendSession(null,FR.log.slice(-8));
+  if(!FR.trimmed){FR.trimmed=true;frAdd('<div class="note">This chat is long, so Alex now keeps the last few messages in mind.</div>')}
+}
+/* Listens until the learner stops talking for two seconds, or presses "I am done speaking".
+   Android Chrome stops listening by itself after a short pause, so listening restarts until then. */
+let listenWant=false;
 function listenLong(onText){
   return new Promise(res=>{
     if(!SR){res({err:"unsupported"});return}
-    let text="",last=Date.now(),timer=0;const start=Date.now();
-    const finish=v=>{clearInterval(timer);res(v)};
-    Mic.start({long:true,onText:t=>{text=t;last=Date.now();if(onText)onText(t)},onEnd:t=>finish({text:t||text}),onError:c=>finish({err:c,text})});
+    let base="",text="",last=Date.now(),timer=0;const start=Date.now();
+    listenWant=true;
+    const finish=v=>{clearInterval(timer);listenWant=false;res(v)};
+    const run=()=>Mic.start({long:true,
+      onText:t=>{text=(base?base+" ":"")+t;last=Date.now();if(onText)onText(text)},
+      onEnd:()=>{
+        const now=Date.now();
+        if(listenWant&&now-start<120000&&(text?now-last<2000:now-start<10000)){base=text;run();return}
+        finish({text});
+      },
+      onError:c=>{if(c==="no-speech"&&text){finish({text});return}finish({err:c,text})}});
+    run();
     timer=setInterval(()=>{
-      if(!Mic.rec){clearInterval(timer);return}
+      if(!listenWant||!Mic.rec){clearInterval(timer);return}
       const now=Date.now();
-      if((text&&now-last>2000)||(!text&&now-start>10000))Mic.stop();
+      if((text&&now-last>2000)||(!text&&now-start>10000)){listenWant=false;Mic.stop()}
     },250);
   });
 }
@@ -2121,9 +2441,9 @@ function frAdd(html){const c=$("#fr-chat");if(!c)return;c.insertAdjacentHTML("be
 function frButtons(state){
   const b=$("#fr-btns");if(!b)return;
   b.innerHTML=state==="listening"?'<button class="btn primary" data-act="fr-done">I am done speaking</button><button class="btn" data-act="fr-stop">Pause</button>':
-    state==="busy"?'<button class="btn" data-act="fr-stop">Pause</button>':
+    state==="busy"?'<button class="btn" data-act="fr-speak">'+ic("mic")+'Interrupt and speak</button><button class="btn" data-act="fr-stop">Pause</button>':
     state==="ended"?'<button class="btn primary" data-act="fr-start">Start a new chat</button>':
-    '<button class="btn primary" data-act="fr-speak">'+ic("mic")+'Speak</button><button class="btn" data-act="fr-end">End chat</button>';
+    '<button class="btn primary" data-act="fr-speak">'+ic("mic")+'Speak</button><button class="btn" data-act="fr-end">End chat and see report</button>';
 }
 /* Shows Alex's reply, with any Tip line in its own box, and says it aloud */
 async function friendSays(reply,alive){
@@ -2131,7 +2451,7 @@ async function friendSays(reply,alive){
   const tips=lines.filter(l=>/^tip\s*:/i.test(l)).map(l=>l.replace(/^tip\s*:\s*/i,""));
   const rest=lines.filter(l=>!/^tip\s*:/i.test(l)).join(" ");
   tips.forEach(t=>frAdd('<div class="msg check"><div class="who"><span class="badge warn">Tip</span></div><span class="notranslate">'+esc(t)+"</span></div>"));
-  if(rest)frAdd('<div class="msg coach"><div class="who"><span>Alex</span></div>'+enLine(rest)+"</div>");
+  if(rest){frAdd('<div class="msg coach"><div class="who"><span>Alex</span></div>'+enLine(rest)+"</div>");FR.log.push({r:"alex",t:rest})}
   frStatus("Alex is speaking...",true);frButtons("busy");
   const spoken=(tips.length?"Small tip: "+tips.join(" ")+" ":"")+rest;
   if(alive())await speakP(spoken,0.95);
@@ -2148,35 +2468,37 @@ async function frListen(){
 async function friendUser(text,spoken){
   const my=FR.run,alive=()=>my===FR.run&&!!$("#fr-chat");
   frAdd('<div class="msg user"><div class="who"><span>You'+(spoken?" (spoken)":" (typed)")+'</span></div><span class="notranslate">'+esc(text)+"</span></div>");
-  logAct("tutor");
+  FR.log.push({r:"user",t:text,spoken});
+  logAct("chat");
   frStatus("Alex is thinking...",true);frButtons("busy");
   let reply;
   if(FR.mode==="ai"){
-    try{reply=await FR.session.prompt(text)}
-    catch(e){
-      try{if(FR.session&&FR.session.destroy)FR.session.destroy()}catch(x){}
-      try{FR.session=await friendSession();reply=await FR.session.prompt(text)}
+    try{
+      if(sessionNearlyFull(FR.session))await friendRenew();
+      reply=await FR.session.prompt(text);
+    }catch(e){
+      try{await friendRenew();reply=await FR.session.prompt(text)}
       catch(e2){if(alive()){frStatus("Your friend could not reply. Please try again.");frButtons("idle")}return}
     }
   }else reply=fixedReply(text,spoken);
   if(!alive())return;
   await friendSays(reply,alive);
   if(alive()&&!FR.ended)frListen();
-  else if(alive()){frStatus("Chat finished");frButtons("ended")}
+  else if(alive())friendFinish();
 }
-/* Practice friend without AI: fixed questions and rule-based tips */
+/* Practice friend without AI: fixed questions for the chosen mode, and rule-based tips */
 function fixedReply(text,spoken){
-  const qs=TUTOR_TOPICS[FRIEND_FIXED[FR.topic]].qs,res=ruleCheck(text,!spoken);
+  const qs=friendMode().qs,res=ruleCheck(text,!spoken);
   const tip=res.fixes.length?"Tip: "+res.better+"\n":"";
-  const react=["That sounds interesting!","Nice, thank you for sharing.","Oh, I see.","Great answer!"][Math.floor(Math.random()*4)];
+  const react=["That sounds interesting!","Nice, thank you for sharing.","Oh, I see.","Great answer!","I understand.","Good point."][Math.floor(Math.random()*6)];
   FR.q++;
   if(FR.q>=qs.length){FR.ended=true;return tip+react+" Thank you for chatting with me. That was great practice!"}
   return tip+react+" "+qs[FR.q];
 }
 async function friendStart(){
   const my=++FR.run,alive=()=>my===FR.run&&!!$("#fr-chat");
-  FR.ended=false;FR.q=0;
-  $("#fr-session").classList.remove("hidden");$("#fr-chat").innerHTML="";
+  FR.ended=false;FR.q=0;FR.log=[];FR.trimmed=false;
+  $("#fr-session").classList.remove("hidden");$("#fr-chat").innerHTML="";$("#fr-report").innerHTML="";$("#fr-report").classList.add("hidden");
   $("#fr-session").scrollIntoView({block:"start"});
   let opener;
   if(FR.avail==="available"||FR.avail==="downloadable"||FR.avail==="downloading"){
@@ -2185,14 +2507,14 @@ async function friendStart(){
       if(FR.session&&FR.session.destroy)FR.session.destroy();
       FR.session=await friendSession(p=>{if(alive())frStatus("Downloading the free AI: "+Math.round(p*100)+"%",true)});
       FR.mode="ai";
-      opener=await FR.session.prompt("Let's chat about this topic: "+FR.topic+". Greet me in one short sentence and ask me one question.");
+      opener=await FR.session.prompt("Start our conversation. Greet me in one short sentence and ask me one question that fits this conversation type.");
     }catch(e){
       FR.mode="fixed";
       frAdd('<div class="note warn">The built-in AI could not start, so your practice friend will ask fixed questions instead.</div>');
     }
   }else FR.mode="fixed";
   if(!alive())return;
-  if(FR.mode==="fixed")opener="Hi "+S.settings.name+"! I am Alex, your practice friend. "+TUTOR_TOPICS[FRIEND_FIXED[FR.topic]].qs[0];
+  if(FR.mode==="fixed")opener="Hi "+S.settings.name+"! I am Alex, your practice friend. "+friendMode().qs[0];
   await friendSays(opener,alive);
   if(alive())frListen();
 }
@@ -2202,18 +2524,72 @@ async function friendCheck(){
   if(!$("#fr-ai"))return;
   box.innerHTML=FR.avail==="available"?'<div class="note good">Your friend uses the free AI built into Chrome. The conversation stays on this device.</div>':
     FR.avail==="downloadable"||FR.avail==="downloading"?'<div class="note">Chrome has a free built-in AI. The first time you press Start talking, Chrome downloads it once (about 2 to 4 GB). After that it works on this device, for free.</div>':
-    '<div class="note warn">This browser has no built-in AI, so your practice friend asks fixed questions and gives simple grammar tips. It is not AI. For a real AI friend, use Chrome on a computer, or a free AI app below.</div>';
+    '<div class="note warn">This browser has no built-in AI, so your practice friend asks fixed questions for the conversation type you choose and gives simple grammar tips. It is not AI. For a real AI friend, use Chrome on a computer, or a free AI app below.</div>';
+}
+function friendFinish(){
+  FR.run++;Mic.abort();stopSpeaking();FR.ended=true;
+  frStatus("Chat finished");frButtons("ended");
+  friendReport();
+}
+/* ===== CONVERSATION REPORT =====
+   Built only from the learner's own messages. Grammar is checked by fixed rules, so it finds common mistakes only. */
+function friendReport(){
+  const box=$("#fr-report");if(!box)return;
+  const mine=FR.log.filter(m=>m.r==="user");
+  box.classList.remove("hidden");
+  if(!mine.length){box.innerHTML='<h2>Conversation report</h2><p class="muted mt">You did not send any messages, so there is nothing to report yet.</p>';return}
+  const rows=mine.map(m=>({t:m.t,spoken:m.spoken,res:ruleCheck(m.t,!m.spoken)}));
+  const bad=rows.filter(r=>r.res.fixes.length),all=[].concat.apply([],rows.map(r=>r.res.fixes));
+  const words=mine.reduce((a,m)=>a+m.t.split(/\s+/).filter(Boolean).length,0),avg=Math.round(words/mine.length*10)/10;
+  const score=Math.round(100*(rows.length-bad.length)/rows.length);
+  const vocab=betterWords(mine.map(m=>m.t).join(" "));
+  recordFixes(all);logScore("conversation",score);
+  S.chats=(S.chats||[]).concat({d:todayKey(),mode:FR.topic,n:rows.length,score,mistakes:all.length,words}).slice(-30);save();
+  const tips=[];
+  if(avg<6)tips.push("Give longer answers. Add a reason or an example, for example: \"I like my job because I learn new things every day.\"");
+  planFromFixes(all).slice(0,2).forEach(p=>tips.push(p.t+": "+p.d));
+  if(!bad.length)tips.push("No common mistakes were found. Next time, try the "+(FR.topic==="free"?"Office":"Free")+" conversation type to practise new words.");
+  if(mine.some(m=>m.spoken))tips.push("Look at your spoken messages above. Words the browser wrote down wrongly can show where your pronunciation was unclear.");
+  box.innerHTML='<h2>Conversation report</h2>'+
+    '<div class="grid g3 mt"><div class="card stat"><b>'+rows.length+'</b><span>Messages</span></div><div class="card stat"><b>'+avg+'</b><span>Words per message</span></div><div class="card stat"><b>'+score+'%</b><span>Messages with no common mistakes</span></div></div>'+
+    '<p class="small muted mt">The score counts how many of your messages passed the fixed grammar rules. It is not an AI score.</p>'+
+    '<h3 class="section">Grammar mistakes and correct sentences</h3>'+
+    (bad.length?bad.map(r=>'<div class="fix notranslate"><div><del>'+esc(r.t)+'</del></div><div><ins>'+esc(r.res.better)+"</ins></div>"+r.res.fixes.map(f=>'<div class="small muted">'+esc(f.why)+whyLocal(f.why)+"</div>").join("")+"</div>").join(""):'<p class="mt">No common mistakes found.</p>')+
+    '<h3 class="section">Better vocabulary</h3>'+
+    (vocab.length?'<ul class="mistakes">'+vocab.map(v=>'<li><span class="notranslate">"'+esc(v[0])+'" → <b>'+esc(v[1])+"</b></span></li>").join("")+"</ul>":'<p class="mt small muted">No simple words to upgrade this time.</p>')+
+    '<h3 class="section">Pronunciation</h3><p class="mt small">Not measured. Your browser turns speech into text, but it cannot score the sounds inside words. Real pronunciation scoring needs a speech assessment service.</p>'+
+    '<h3 class="section">What to improve next</h3><ul class="mistakes">'+tips.map(t=>"<li>"+esc(t)+"</li>").join("")+"</ul>"+
+    '<div class="row mt">'+(FR.mode==="ai"?'<button class="btn primary" data-act="fr-ai-review">Ask the built-in AI for a review</button>':"")+
+    '<button class="btn" data-act="fr-copy-chat">'+ic("copy")+'Copy chat for a full AI review</button></div><div id="fr-ai-review" class="mt"></div>';
+  box.scrollIntoView({block:"start"});
+}
+function chatText(){
+  return "Please review my English in this practice conversation. For each of my messages: show my sentence, the corrected sentence, explain the mistakes in simple English, and suggest better words. Then give me an overall score out of 10 and three things to practise.\n\n"+
+    FR.log.map(m=>(m.r==="user"?"Me: ":"Alex: ")+m.t).join("\n");
+}
+async function friendAIReview(btn){
+  const out=$("#fr-ai-review");if(!out)return;
+  btn.disabled=true;out.innerHTML='<p class="small muted">Alex is reading your messages...</p>';
+  try{
+    const s=await LanguageModel.create(Object.assign({initialPrompts:[{role:"system",content:"You are a kind English teacher. Answer in plain text without symbols like * or #."}]},LMOPTS));
+    const mine=FR.log.filter(m=>m.r==="user").map((m,i)=>(i+1)+". "+m.t).join("\n");
+    const r=await s.prompt("Here are my English sentences from a conversation:\n"+mine+"\n\nFor each sentence with a mistake, write the corrected sentence and a short reason. Then suggest three better words I could use, and one thing to practise next.");
+    try{s.destroy()}catch(x){}
+    out.innerHTML='<div class="note"><b>Review by Chrome\'s built-in AI.</b> It can make mistakes.</div><div class="email mt notranslate">'+esc(String(r).replace(/[*#`]/g,""))+"</div>";
+  }catch(e){out.innerHTML='<div class="note warn">The built-in AI could not write a review. Use "Copy chat" and paste it into Claude or ChatGPT instead.</div>';btn.disabled=false}
 }
 function pageFriend(){
   FR.run++;
   const apps=[["ChatGPT","https://chatgpt.com/","Tap the voice button in the app."],["Gemini","https://gemini.google.com/","Use Gemini Live in the app."],["Claude","https://claude.ai/","Tap the voice button in the app."]];
   setView(head("Talk with a Friend","Have a real conversation in English. Your friend replies, asks you questions, and gives small tips.")+
-    '<div class="card"><label class="field">Topic<select class="input" data-chg="fr-topic">'+FRIEND_TOPICS.map(t=>'<option'+(t===FR.topic?" selected":"")+">"+t+"</option>").join("")+"</select></label>"+
+    '<div class="card"><label class="field">Conversation type<select class="input" data-chg="fr-topic">'+Object.keys(FRIEND_MODES).map(k=>'<option value="'+k+'"'+(k===FR.topic?" selected":"")+">"+esc(FRIEND_MODES[k].t)+"</option>").join("")+"</select></label>"+
+    '<p class="small muted mt" id="fr-mode-d">'+esc(friendMode().d)+"</p>"+
     '<div id="fr-ai" class="mt"></div>'+
     '<div class="row mt"><button class="btn primary" data-act="fr-start">'+ic("mic")+'Start talking</button><span data-micstate>'+micStateHTML()+"</span></div>"+
-    '<p class="small muted mt">Speak, then stop for two seconds and your friend will reply. Use headphones so your friend does not hear its own voice. You can also type.</p></div>'+
+    '<p class="small muted mt">Speak, then stop for two seconds and your friend will reply. You can interrupt your friend at any time. Use headphones so your friend does not hear its own voice. You can also type. Press End chat to see your report.</p></div>'+
     '<div class="card hidden" id="fr-session"><p class="badge" id="fr-status"></p><div class="chat mt" id="fr-chat" aria-live="polite"></div>'+
-    '<div class="type-row mt"><input class="input" id="fr-text" placeholder="Or type your message" autocomplete="off" data-enter="fr-send"><button class="btn" data-act="fr-send">Send</button></div><div class="row mt" id="fr-btns"></div></div>'+
+    '<div class="type-row mt"><input class="input" id="fr-text" aria-label="Type your message" placeholder="Or type your message" autocomplete="off" data-enter="fr-send"><button class="btn" data-act="fr-send">Send</button></div><div class="row mt" id="fr-btns"></div></div>'+
+    '<div class="card hidden" id="fr-report" aria-live="polite"></div>'+
     '<div class="card section"><h2>Other free AI voice friends</h2><p class="small muted mt">These apps have a free voice mode, with daily limits. Copy the instruction, paste it as your first message, then start talking.</p>'+
     '<div class="row mt"><button class="btn primary" data-act="fr-copy">'+ic("copy")+"Copy instruction</button></div>"+
     '<div class="grid g3 mt">'+apps.map(a=>'<a class="card quick" href="'+a[1]+'" target="_blank" rel="noopener noreferrer"><span class="stat-ic">'+ic("ext")+'</span><span class="grow"><b class="notranslate">'+a[0]+"</b><p>"+a[2]+"</p></span></a>").join("")+"</div></div>");
@@ -2255,23 +2631,46 @@ function pageFeedback(){
     '<label class="field section">What should we improve?<textarea class="input" id="fb-comment" maxlength="1000" rows="4" placeholder="For example: add more office sentences"></textarea></label>'+
     '<div class="grid g2 mt"><label class="field">Your name (optional)<input class="input" id="fb-name" maxlength="60" value="'+esc(S.settings.name==="Rajesh"?"":S.settings.name)+'"></label>'+
     '<label class="field">Your email (optional, if you want a reply)<input class="input" id="fb-email" type="email" maxlength="100"></label></div>'+
+    '<label class="hp" aria-hidden="true">Website<input id="fb-site" tabindex="-1" autocomplete="off"></label>'+
     '<p class="small muted mt">Your rating, message, and any name or email you type are saved in the app owner\'s private Google Sheet, only to improve this app. They are not shared.</p>'+
     '<button class="btn primary block mt" data-act="fb-send">Send feedback</button></div>');
 }
+/* Sends to the Google Sheet and waits for its "ok", so the app never says "sent" when it was not saved */
+async function postFeedback(data){
+  const r=await fetch(FEEDBACK_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
+  const t=(await r.text()).trim();
+  if(!r.ok||!/^ok\b/i.test(t))throw new Error(t.slice(0,80)||"HTTP "+r.status);
+}
+/* Feedback that could not be sent is kept on this device and sent the next time the app opens */
+async function sendQueuedFeedback(){
+  const q=S.fbQueue||[];if(!q.length||!navigator.onLine||!FEEDBACK_URL)return;
+  const left=[];
+  for(const d of q){try{await postFeedback(d)}catch(e){left.push(d)}}
+  S.fbQueue=left;save();
+}
+const FB_PER_DAY=3;
 async function feedbackSend(btn){
   const comment=$("#fb-comment").value.trim(),email=$("#fb-email").value.trim();
   if(!FB.rating){toast("Please choose a star rating first.");return}
   if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast("Please check the email address.");$("#fb-email").focus();return}
+  const thanks=()=>setView(head("Thank you!","Your feedback was sent.")+'<div class="card"><p>Thank you for helping to improve English Coach.</p><a class="btn primary mt" href="#/dashboard">Back to Dashboard</a></div>');
+  /* A hidden field that only robots fill in */
+  if($("#fb-site").value){thanks();return}
+  const c=S.fbCount&&S.fbCount.d===todayKey()?S.fbCount:{d:todayKey(),n:0};
+  if(c.n>=FB_PER_DAY){toast("Thank you! You have already sent "+FB_PER_DAY+" messages today. Please send more tomorrow.");return}
   btn.disabled=true;btn.textContent="Sending...";
   const data={rating:FB.rating,liked:FB.liked,comment,name:$("#fb-name").value.trim(),email,lang:S.settings.lang||"English",
     device:(/android/i.test(navigator.userAgent)?"Android":isIOS()?"iPhone":/windows/i.test(navigator.userAgent)?"Windows":"Other")+(isInstalled()?" (installed app)":" (browser)")};
   try{
-    await fetch(FEEDBACK_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
-    S.feedbackSent=todayKey();save();
-    setView(head("Thank you!","Your feedback was sent.")+'<div class="card"><p>Thank you for helping to improve English Coach.</p><a class="btn primary mt" href="#/dashboard">Back to Dashboard</a></div>');
+    await postFeedback(data);
+    c.n++;S.fbCount=c;S.feedbackSent=todayKey();save();
+    thanks();
   }catch(e){
     btn.disabled=false;btn.textContent="Send feedback";
-    toast("Could not send. Please check your internet and try again.");
+    if(!navigator.onLine){
+      c.n++;S.fbCount=c;S.fbQueue=(S.fbQueue||[]).concat(data).slice(-5);save();
+      setView(head("Saved on this device","Your feedback will be sent when you are back online.")+'<div class="card"><p>You are offline, so your feedback is saved on this device. It will be sent automatically the next time you open the app with internet.</p><a class="btn primary mt" href="#/dashboard">Back to Dashboard</a></div>');
+    }else toast("Could not send right now. Please check your internet and try again in a few minutes.");
   }
 }
 
@@ -2325,6 +2724,7 @@ function noteMistake(word,right){
   const w=S.spell.wrong;
   if(!right)w[word]=(w[word]||0)+1;
   else if(w[word]){w[word]--;if(!w[word])delete w[word]}
+  srsResult(word,right);
 }
 function spellHear(){
   const o=spellSet();
@@ -2483,7 +2883,7 @@ function pageProgress(){
   const days=[];for(let i=6;i>=0;i--){const k=daysAgo(i);days.push({k,m:S.history[k]?Math.floor(S.history[k].sec/60):0})}
   const target=S.settings.target,peak=Math.max(...days.map(d=>d.m)),top=Math.max(target,peak,1)*1.15;
   const keys=Object.keys(S.history).filter(isActive).sort().reverse().slice(0,30);
-  const areas=[["Speaking","speaking"],["Lessons","lessons"],["Grammar","grammar"],["Spelling","spelling"],["Vocabulary game","vocabulary"],["Office English","office"],["Interview","interview"]];
+  const areas=[["Speaking","speaking"],["Lessons","lessons"],["Grammar","grammar"],["Spelling and dictation","spelling"],["Writing","writing"],["Conversation","conversation"],["Word review","review"],["Vocabulary game","vocabulary"],["Office English","office"],["Interview","interview"]];
   const totalMin=Math.round(Object.values(S.history).reduce((a,d)=>a+d.sec,0)/60);
   const doneL=ALL_LESSONS.filter(l=>S.lessons[l.id]).sort((a,b)=>S.lessons[b.id].date.localeCompare(S.lessons[a.id].date));
   const byLv=Object.keys(LESSONS).map(k=>[k,LESSONS[k].filter(l=>S.lessons[l.id]).length,LESSONS[k].length]);
@@ -2498,14 +2898,15 @@ function pageProgress(){
     '<div class="grid g2 section"><div class="card"><h2>Learning scores</h2><p class="small muted">Average of all your attempts.</p>'+areas.map(a=>{
       const r=areaAverage(a[1]);
       return '<div class="mt"><div class="row between small"><span>'+a[0]+"</span><span>"+(r?r.avg+"% ("+r.n+")":"No attempts yet")+"</span></div>"+barHTML(r?r.avg:0)+"</div>";
-    }).join("")+"</div>"+
+    }).join("")+'<div class="mt"><div class="row between small"><span>Pronunciation</span><span>Not measured yet</span></div><p class="small muted">Needs a speech assessment service. Browser speech recognition cannot score sounds.</p></div></div>'+
     '<div class="card"><h2>Vocabulary progress</h2><div class="mt">'+[["General","General"],["Office","Office"]].map(c=>{
       const all=WORDS.filter(w=>w.c===c[0]),n=all.filter(w=>S.learned[w.e]).length;
       return '<div class="mt"><div class="row between small"><span>'+c[1]+" words</span><span>"+n+" of "+all.length+"</span></div>"+barHTML(n/all.length*100)+"</div>";
     }).join("")+'</div><p class="small muted mt">Favourites: '+Object.keys(S.fav).length+" | Game level: "+Math.min(S.game.level,MAX_LEVEL)+" of "+MAX_LEVEL+" | Best game score: "+S.game.best+"</p>"+
     '<a class="btn mt" href="#/vocabulary">Open vocabulary</a></div></div>'+
-    '<div class="card section"><h2>Daily practice history</h2>'+(keys.length?'<div class="tbl-wrap mt"><table><thead><tr><th>Date</th><th class="num">Minutes</th><th class="num">Lessons</th><th class="num">Spoken</th><th class="num">Words</th><th class="num">Quizzes</th><th class="num">Tutor</th><th class="num">Score</th></tr></thead><tbody>'+
-      keys.map(k=>{const d=S.history[k],a=d.act,av=dayAverage(d);return "<tr><td>"+esc(niceDate(k))+'</td><td class="num">'+Math.floor(d.sec/60)+'</td><td class="num">'+(a.lesson||0)+'</td><td class="num">'+(a.speak||0)+'</td><td class="num">'+(a.words||0)+'</td><td class="num">'+(a.grammar||0)+'</td><td class="num">'+(a.tutor||0)+'</td><td class="num">'+(av==null?"-":av+"%")+"</td></tr>"}).join("")+
+    progressExtraHTML()+
+    '<div class="card section"><h2>Daily practice history</h2>'+(keys.length?'<div class="tbl-wrap mt"><table><thead><tr><th>Date</th><th class="num">Minutes</th><th class="num">Lessons</th><th class="num">Spoken</th><th class="num">Words</th><th class="num">Quizzes</th><th class="num">Tutor and chat</th><th class="num">Score</th></tr></thead><tbody>'+
+      keys.map(k=>{const d=S.history[k],a=d.act,av=dayAverage(d);return "<tr><td>"+esc(niceDate(k))+'</td><td class="num">'+Math.floor(d.sec/60)+'</td><td class="num">'+(a.lesson||0)+'</td><td class="num">'+(a.speak||0)+'</td><td class="num">'+(a.words||0)+'</td><td class="num">'+(a.grammar||0)+'</td><td class="num">'+((a.tutor||0)+(a.chat||0))+'</td><td class="num">'+(av==null?"-":av+"%")+"</td></tr>"}).join("")+
       '</tbody></table></div>':'<p class="muted mt">No practice recorded yet. Finish your first activity and it will appear here.</p>')+"</div>"+
     '<div class="card"><h2>Completed lessons</h2><div class="mt">'+byLv.map(b=>'<div class="mt"><div class="row between small"><span>'+b[0]+"</span><span>"+b[1]+" of "+b[2]+"</span></div>"+barHTML(b[1]/b[2]*100)+"</div>").join("")+"</div>"+
       (doneL.length?'<div class="tbl-wrap mt"><table><thead><tr><th>Lesson</th><th>Date</th><th class="num">Best score</th></tr></thead><tbody>'+doneL.map(l=>'<tr><td><a href="#/lessons/'+l.id+'">'+esc(l.t)+"</a></td><td>"+esc(niceDate(S.lessons[l.id].date))+'</td><td class="num">'+S.lessons[l.id].score+"%</td></tr>").join("")+"</tbody></table></div>":"")+"</div>"+
@@ -2513,16 +2914,17 @@ function pageProgress(){
       '<label class="field">Your name<input class="input" data-chg="name" maxlength="30" value="'+esc(s.name)+'"></label>'+
       '<label class="field">Speech accent<select class="input" data-chg="accent">'+[["en-IN","Indian English"],["en-GB","British English"],["en-US","American English"]].map(a=>'<option value="'+a[0]+'"'+(a[0]===s.accent?" selected":"")+">"+a[1]+"</option>").join("")+"</select></label>"+
       '<label class="field">Speaking speed<select class="input" data-chg="rate">'+[[.8,"Slow"],[1,"Normal"],[1.15,"Fast"]].map(a=>'<option value="'+a[0]+'"'+(a[0]===s.rate?" selected":"")+">"+a[1]+"</option>").join("")+"</select></label>"+
+      '<label class="field">Colour theme<select class="input" data-chg="theme">'+[["auto","Same as my device"],["light","Light"],["dark","Dark"]].map(a=>'<option value="'+a[0]+'"'+(a[0]===(s.theme||"auto")?" selected":"")+">"+a[1]+"</option>").join("")+"</select></label>"+
       '<label class="field">Tutor reads questions aloud<select class="input" data-chg="autoRead"><option value="1"'+(s.autoRead?" selected":"")+'>Yes</option><option value="0"'+(s.autoRead?"":" selected")+">No</option></select></label>"+
-    '</div><div class="row mt"><button class="btn" data-act="test-voice">'+ic("speaker")+'Test voice</button><button class="btn danger" data-act="reset">Reset all progress</button></div></div>');
+    '</div><div class="row mt"><button class="btn" data-act="test-voice">'+ic("speaker")+'Test voice</button><button class="btn danger" data-act="reset">Reset all progress</button></div></div>'+backupHTML());
 }
 
 const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,coach:pageCoach,friend:pageFriend,feedback:pageFeedback,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
 
 /* ===== BUTTON ACTIONS ===== */
 const ACT={
-  menu(){document.body.classList.toggle("menu-open")},
-  "close-menu"(){document.body.classList.remove("menu-open")},
+  menu(){setMenu(!document.body.classList.contains("menu-open"))},
+  "close-menu"(){setMenu(false)},
   say(b){say(b.dataset.text)},
   "sb-say"(b){say(sbOf(b).o.target)},
   "sb-slow"(b){say(sbOf(b).o.target,.7)},
@@ -2616,6 +3018,7 @@ const ACT={
     const right=v===W.e;
     if(right)G.score++;
     if(right&&G.mcqRight)markLearned(W.e,true);
+    srsResult(W.e,right&&G.mcqRight);
     inp.disabled=true;
     $("#spell-msg").innerHTML='<div class="note '+(right?"good":"bad")+'">'+(right?"Correct.":"The correct spelling is <b class=\"notranslate\">"+esc(W.e)+"</b>.")+"</div>";
     btn.textContent=G.i<G.words.length-1?"Next":"See result";btn.focus();
@@ -2632,9 +3035,11 @@ const ACT={
   "fb-send":feedbackSend,
   "fr-start"(){Mic.abort();stopSpeaking();friendStart()},
   "fr-speak"(){FR.run++;stopSpeaking();frListen()},
-  "fr-done"(){Mic.stop()},
-  "fr-stop"(){FR.run++;Mic.abort();stopSpeaking();frStatus("Paused");frButtons("idle")},
-  "fr-end"(){FR.run++;Mic.abort();stopSpeaking();FR.ended=true;frStatus("Chat ended");frButtons("ended")},
+  "fr-done"(){listenWant=false;Mic.stop()},
+  "fr-stop"(){FR.run++;listenWant=false;Mic.abort();stopSpeaking();frStatus("Paused");frButtons("idle")},
+  "fr-end"(){listenWant=false;friendFinish()},
+  "fr-ai-review"(b){friendAIReview(b)},
+  async "fr-copy-chat"(){const ok=await copyText(chatText());toast(ok?"Copied. Paste it into Claude or ChatGPT.":"Could not copy automatically.")},
   "fr-send"(){
     const i=$("#fr-text"),t=i.value.trim();
     if(!t){toast("Type a message first.");i.focus();return}
@@ -2689,12 +3094,13 @@ const ACT={
   "test-voice"(){say("Hello "+S.settings.name+". This is how I will read English to you.")},
   reset(){
     if(!confirm("Delete all your progress, scores, favourites and saved answers? This cannot be undone."))return;
+    writeLS(KEY+"_before_reset",JSON.stringify(S));
     S=defaults();S.migrated=true;save();speakSet=null;V.q="";V.f="all";V.c="all";
-    toast("All progress has been reset.");render();
+    toast("All progress has been reset. A copy was kept, so you can undo this in Progress Report.");render();
   }
 };
 const CHG={
-  "fr-topic"(v){FR.topic=v},
+  "fr-topic"(v){FR.topic=v;const d=$("#fr-mode-d");if(d)d.textContent=friendMode().d},
   "co-voice"(v){S.settings.voice=v;save();say("Hello! This is how I sound.")},
   "co-set"(v){CO.set=v},
   "sp-times"(v){S.spellSet=Object.assign(spellSet(),{times:Number(v)});save()},
@@ -2725,7 +3131,7 @@ document.addEventListener("click",e=>{
 document.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.chg;if(k&&CHG[k])CHG[k](e.target.value)});
 document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.inp;if(k&&INP[k])INP[k](e.target.value,e.target,e)});
 document.addEventListener("keydown",e=>{
-  if(e.key==="Escape")document.body.classList.remove("menu-open");
+  if(e.key==="Escape"&&document.body.classList.contains("menu-open")){setMenu(false);const m=$("#menu-btn");if(m&&m.offsetParent)m.focus()}
   const k=e.target.dataset&&e.target.dataset.enter;
   if(k&&e.key==="Enter"&&ACT[k]){e.preventDefault();ACT[k](e.target,e)}
 });
@@ -2752,12 +3158,592 @@ setInterval(()=>{
 window.addEventListener("pagehide",save);
 if(ttsOK)speechSynthesis.getVoices();
 
+
+/* ===== VERSION 2.0: NEW PAGES AND FEATURES =====
+   Every number here comes from practice the learner really did (S.history, S.lessons, S.learned and so on).
+   Nothing is estimated or invented. */
+Object.assign(ICONS,{
+refresh:'<path d="M20 11a8 8 0 0 0-14.9-3.5"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.9 3.5"/><path d="M20 20v-4h-4"/>',
+pen:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>',
+trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4"/><path d="M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4"/><path d="M8 20h8"/>',
+test:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h3"/>',
+download:'<path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/>',
+upload:'<path d="M12 20V9"/><path d="M7 14l5-5 5 5"/><path d="M5 4h14"/>'
+});
+(function(){
+  const at=k=>NAV.findIndex(n=>n[0]===k)+1;
+  NAV.splice(at("spelling"),0,["review","Daily Review","refresh"],["writing","Writing Coach","pen"]);
+  NAV.splice(at("interview"),0,["assessment","Level Test","test"]);
+})();
+OFFICE.scenes={t:"Role-play scenarios",icon:"users",d:"Real office conversations, in formal and natural English.",phrases:[]};
+FB_PARTS.push("Daily Review","Writing Coach","Level Test");
+
+/* ===== LIGHT AND DARK THEME ===== */
+function isDark(){const t=S.settings.theme||"auto";return t==="dark"||(t==="auto"&&!!window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)}
+function applyTheme(){
+  const d=isDark();document.documentElement.classList.toggle("dark",d);
+  const m=$('meta[name="theme-color"]');if(m)m.setAttribute("content",d?"#0d1526":"#1a56db");
+}
+if(window.matchMedia){const mq=matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",applyTheme)}
+
+/* ===== TOTALS, XP, LEVELS, GOALS ===== */
+function sumActs(from){
+  const t={sec:0,act:{}};
+  Object.keys(S.history).forEach(k=>{
+    if(from&&k<from)return;
+    const d=S.history[k];t.sec+=d.sec;
+    Object.keys(d.act).forEach(a=>{t.act[a]=(t.act[a]||0)+d.act[a]});
+  });
+  return t;
+}
+/* XP: 1 per minute practised, plus points for each finished activity */
+const XP_W={lesson:20,speak:2,words:5,grammar:10,tutor:3,chat:3,spell:2,game:10,interview:2,office:1,review:2,writing:5,dictation:2,assess:30};
+function xpOf(t){let x=Math.floor(t.sec/60);Object.keys(t.act).forEach(a=>{x+=(XP_W[a]||1)*t.act[a]});return x}
+const LV_NAMES=["Starter","Explorer","Speaker","Communicator","Confident speaker","Fluent speaker","Expert","Master"];
+function lvlInfo(xp){
+  let l=1;while(50*l*(l+1)<=xp)l++;
+  const lo=50*(l-1)*l,hi=50*l*(l+1);
+  return{l,name:LV_NAMES[Math.min(l-1,LV_NAMES.length-1)],xp,hi,p:(xp-lo)/(hi-lo)*100};
+}
+function weekStart(){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return ymd(d)}
+function monthStart(){const d=new Date();return ymd(new Date(d.getFullYear(),d.getMonth(),1,12))}
+function activeDaysFrom(from){return Object.keys(S.history).filter(k=>k>=from&&isActive(k)).length}
+function weeklyChallenge(){
+  const ws=weekStart(),t=sumActs(ws);
+  return[
+    {t:"Practise on 5 days this week",n:activeDaysFrom(ws),g:5},
+    {t:"Speak 40 sentences this week",n:t.act.speak||0,g:40},
+    {t:"Learn or review 20 words this week",n:(t.act.words||0)+(t.act.review||0),g:20}
+  ];
+}
+function monthlyGoal(){return{n:Math.floor(sumActs(monthStart()).sec/60),g:S.settings.target*20}}
+/* Average of all scores in a range of days (0 = today) */
+function avgRange(a,b){
+  let n=0,sum=0;
+  for(let i=a;i<=b;i++){const d=S.history[daysAgo(i)];if(d)Object.values(d.scores).forEach(c=>{n+=c.n;sum+=c.sum})}
+  return n?sum/n:null;
+}
+function improvement(){const a=avgRange(0,6),b=avgRange(7,13);return a==null||b==null?null:Math.round(a-b)}
+
+/* ===== BADGES: [id, title, how to earn, current value, goal] ===== */
+const BADGES=[
+["streak3","3-day streak","Practise 3 days in a row.",()=>bestStreak(),3],
+["streak7","7-day streak","Practise 7 days in a row.",()=>bestStreak(),7],
+["streak30","30-day streak","Practise 30 days in a row.",()=>bestStreak(),30],
+["lesson1","First lesson","Finish your first lesson.",()=>completedCount(),1],
+["lesson10","10 lessons","Finish 10 lessons.",()=>completedCount(),10],
+["words10","10 words","Learn 10 words.",()=>learnedCount(),10],
+["words50","50 words","Learn 50 words.",()=>learnedCount(),50],
+["words100","100 words","Learn all 100 words.",()=>learnedCount(),100],
+["speak50","50 sentences spoken","Speak 50 sentences.",()=>sumActs().act.speak||0,50],
+["speak300","300 sentences spoken","Speak 300 sentences.",()=>sumActs().act.speak||0,300],
+["chat1","First conversation","Finish a chat with Alex.",()=>(S.chats||[]).length,1],
+["chat10","10 conversations","Finish 10 chats with Alex.",()=>(S.chats||[]).length,10],
+["quiz100","Perfect quiz","Score 100% in a grammar quiz.",()=>Object.values(S.grammar).some(g=>g.best===100)?1:0,1],
+["spell100","100 words typed","Type 100 words in Spelling Practice.",()=>sumActs().act.spell||0,100],
+["review50","50 reviews","Review 50 words or sentences.",()=>sumActs().act.review||0,50],
+["writer10","Writer","Check 10 texts in Writing Coach.",()=>sumActs().act.writing||0,10],
+["tested","Level tested","Take the level test.",()=>S.assess?1:0,1],
+["min300","300 minutes","Practise for 300 minutes in total.",()=>Math.floor(sumActs().sec/60),300]
+];
+function badgeState(){return BADGES.map(b=>{const v=b[3]();return{id:b[0],t:b[1],d:b[2],v:Math.min(v,b[4]),g:b[4],on:v>=b[4]}})}
+
+/* ===== MISTAKES AND THE LEARNING PLAN ===== */
+function recordFixes(fixes){
+  if(!fixes||!fixes.length)return;
+  S.mist=S.mist||{};
+  fixes.forEach(f=>{const m=S.mist[f.why]||(S.mist[f.why]={n:0});m.n++;m.bad=String(f.bad).slice(0,80);m.good=String(f.good).slice(0,80);m.d=todayKey()});
+  save();
+}
+function topicOf(why){for(const r of RULE_TOPIC)if(r[0].test(why))return r[1];return null}
+function whyLocal(why){const t=WHY_T[why];return t?mean(t[0],t[1]):""}
+function planFromFixes(fixes){
+  const c={};fixes.forEach(f=>{const k=topicOf(f.why);if(k&&GRAMMAR[k])c[k]=(c[k]||0)+1});
+  return Object.keys(c).sort((a,b)=>c[b]-c[a]).map(k=>({t:"Practise "+GRAMMAR[k].t,d:c[k]+(c[k]===1?" mistake":" mistakes")+" of this kind. Open Grammar, then "+GRAMMAR[k].t+"."}));
+}
+function betterWords(text){return BETTER_WORDS.filter(b=>b[0].test(text)).map(b=>[b[1],b[2]]).slice(0,6)}
+const SKILL_PAGE={grammar:["Grammar","#/grammar"],vocabulary:["Vocabulary Game","#/game"],reading:["Daily Lessons","#/lessons"],listening:["Spelling Practice: sentences","#/spelling/sentences"],writing:["Writing Coach","#/writing"],speaking:["Speaking Practice","#/speaking"]};
+const SKILL_NAME={grammar:"Grammar",vocabulary:"Vocabulary",reading:"Reading",listening:"Listening",writing:"Writing",speaking:"Speaking"};
+/* Up to four next steps, chosen from the learner's own results */
+function recommendations(){
+  const out=[];
+  if(!S.assess)out.push({t:"Take the level test",d:"15 questions. It finds your level and the skills to work on.",h:"#/assessment",ic:"test"});
+  const due=srsDue().length;
+  if(due)out.push({t:"Review "+due+(due===1?" item":" items")+" today",d:"Words and sentences come back at the right time, so you remember them.",h:"#/review",ic:"refresh"});
+  const mt={};Object.keys(S.mist||{}).forEach(w=>{const k=topicOf(w);if(k&&GRAMMAR[k])mt[k]=(mt[k]||0)+S.mist[w].n});
+  const tk=Object.keys(mt).sort((a,b)=>mt[b]-mt[a])[0];
+  if(tk&&mt[tk]>=2){const g=S.grammar[tk];out.push({t:"Practise "+GRAMMAR[tk].t,d:"You made "+mt[tk]+" mistakes of this kind in your writing and chats"+(g?". Best quiz score "+g.best+"%.":"."),h:"#/grammar/"+tk,ic:"check"})}
+  const areas=[["speaking","Speaking Practice","#/speaking"],["grammar","Grammar","#/grammar"],["spelling","Spelling Practice","#/spelling"],["writing","Writing Coach","#/writing"],["conversation","Talk with a Friend","#/friend"],["vocabulary","Vocabulary Game","#/game"]];
+  let weak=null;
+  areas.forEach(a=>{const r=areaAverage(a[0]);if(r&&r.n>=3&&r.avg<70&&(!weak||r.avg<weak.r.avg))weak={a,r}});
+  if(weak)out.push({t:"Improve your "+weak.a[1]+" score",d:"Your average is "+weak.r.avg+"% from "+weak.r.n+" attempts.",h:weak.a[2],ic:"target"});
+  if(S.assess){
+    const sk=S.assess.skills,low=Object.keys(sk).filter(k=>sk[k]!=null&&sk[k]<60).sort((a,b)=>sk[a]-sk[b])[0];
+    if(low&&!out.some(o=>o.h===SKILL_PAGE[low][1]))out.push({t:"Build your "+SKILL_NAME[low].toLowerCase()+" skill",d:"Your level test score was "+sk[low]+"%. Practise in "+SKILL_PAGE[low][0]+".",h:SKILL_PAGE[low][1],ic:"target"});
+  }
+  const nl=nextLesson();out.push({t:"Next lesson: "+nl.t,d:nl.goal,h:"#/lessons/"+nl.id,ic:"book"});
+  return out.slice(0,4);
+}
+
+/* ===== DASHBOARD CARDS ===== */
+function skillRows(){
+  return[["Grammar accuracy","grammar"],["Speaking match","speaking"],["Writing accuracy","writing"],["Spelling","spelling"],["Conversation","conversation"]].map(s=>{
+    const r=areaAverage(s[1]);
+    return '<div class="mt"><div class="row between small"><span>'+s[0]+"</span><span>"+(r?r.avg+"%":"No attempts yet")+"</span></div>"+barHTML(r?r.avg:0)+"</div>";
+  }).join("")+'<div class="mt"><div class="row between small"><span>Pronunciation</span><span>Not measured yet</span></div></div>';
+}
+function dashExtraHTML(){
+  const lv=lvlInfo(xpOf(sumActs())),wk=weeklyChallenge(),imp=improvement(),bs=badgeState(),earned=bs.filter(b=>b.on).length,rec=recommendations();
+  return '<div class="grid g3 section">'+
+    '<div class="card"><div class="row between"><h2>Your level</h2>'+ic("trophy")+'</div><p class="xp mt"><b>Level '+lv.l+'</b> <span class="muted">'+esc(lv.name)+'</span></p><div class="mt">'+barHTML(lv.p)+'</div><p class="small muted mt">'+lv.xp+" XP. "+(lv.hi-lv.xp)+' XP to the next level.</p><p class="small mt"><a href="#/progress">'+earned+" of "+bs.length+" badges earned</a></p></div>"+
+    '<div class="card"><h2>This week</h2>'+wk.map(c=>'<div class="mt"><div class="row between small"><span>'+c.t+"</span><span>"+Math.min(c.n,c.g)+"/"+c.g+"</span></div>"+barHTML(c.n/c.g*100,c.n>=c.g?"good":"")+"</div>").join("")+"</div>"+
+    '<div class="card"><h2>Skill scores</h2>'+skillRows()+'<p class="small muted mt">'+(imp==null?"Improvement shows after two weeks of scored practice.":"Last 7 days vs the week before: "+(imp>=0?"+":"")+imp+" points.")+"</p></div></div>"+
+    '<div class="card section"><h2>Recommended for you</h2><div class="grid g2 mt">'+rec.map(r=>'<a class="card quick" href="'+r.h+'"><span class="stat-ic">'+ic(r.ic)+'</span><span class="grow"><b>'+esc(r.t)+"</b><p>"+esc(r.d)+"</p></span></a>").join("")+"</div></div>";
+}
+
+/* ===== PROGRESS REPORT: ACHIEVEMENTS, CHARTS, MISTAKES ===== */
+function barChart(items,label){
+  const top=Math.max(1,...items.map(i=>i.v))*1.15,cols="grid-template-columns:repeat("+items.length+",minmax(0,1fr))";
+  return '<div class="chart" style="'+cols+'" role="img" aria-label="'+esc(label)+'">'+items.map((d,i)=>'<div class="col'+(i===items.length-1?" today":"")+'" tabindex="0"><i style="height:'+(d.v/top*100)+'%"></i>'+(d.v?'<b style="bottom:calc('+(d.v/top*100)+'% + 2px)">'+d.v+"</b>":"")+'<span class="tip">'+esc(d.tip)+"</span></div>").join("")+"</div>"+
+    '<div class="chart-x" style="'+cols+'">'+items.map(d=>"<span>"+esc(d.x)+"</span>").join("")+"</div>";
+}
+function minutesBetween(from,to){let s=0;Object.keys(S.history).forEach(k=>{if(k>=from&&k<to)s+=S.history[k].sec});return Math.floor(s/60)}
+function progressExtraHTML(){
+  const lv=lvlInfo(xpOf(sumActs())),bs=badgeState(),mg=monthlyGoal();
+  const weeks=[];
+  for(let w=7;w>=0;w--){
+    const d=new Date(weekStart()+"T12:00:00");d.setDate(d.getDate()-7*w);
+    const e=new Date(d);e.setDate(e.getDate()+7);
+    const v=minutesBetween(ymd(d),ymd(e)),x=d.toLocaleDateString("en-IN",{day:"numeric",month:"short"});
+    weeks.push({v,x:w?x:"This week",tip:"Week of "+x+": "+v+" min"});
+  }
+  const months=[],now=new Date();
+  for(let m=5;m>=0;m--){
+    const a=new Date(now.getFullYear(),now.getMonth()-m,1,12),b=new Date(now.getFullYear(),now.getMonth()-m+1,1,12);
+    const v=minutesBetween(ymd(a),ymd(b)),x=a.toLocaleDateString("en-IN",{month:"short"});
+    months.push({v,x,tip:a.toLocaleDateString("en-IN",{month:"long",year:"numeric"})+": "+v+" min"});
+  }
+  const mist=Object.keys(S.mist||{}).sort((a,b)=>S.mist[b].n-S.mist[a].n).slice(0,6);
+  const chats=(S.chats||[]).slice(-5).reverse();
+  return '<div class="card section"><div class="row between"><h2>Achievements</h2><span class="badge">'+bs.filter(b=>b.on).length+" of "+bs.length+" badges</span></div>"+
+      '<p class="xp mt"><b>Level '+lv.l+'</b> <span class="muted">'+esc(lv.name)+" · "+lv.xp+' XP</span></p><div class="mt">'+barHTML(lv.p)+'</div><p class="small muted mt">You earn 1 XP for each minute of practice, and more for each lesson, quiz, review, chat and text you finish.</p>'+
+      '<div class="badges mt">'+bs.map(b=>'<div class="bdg'+(b.on?" on":"")+'"><span class="stat-ic">'+ic(b.on?"trophy":"target")+'</span><span class="grow"><b>'+esc(b.t)+"</b><small>"+esc(b.d)+"</small>"+(b.on?"":barHTML(b.v/b.g*100))+"</span>"+(b.on?'<span class="badge good">Earned</span>':'<span class="small muted">'+b.v+"/"+b.g+"</span>")+"</div>").join("")+"</div></div>"+
+    '<div class="grid g2 section"><div class="card"><h2>Minutes per week</h2>'+barChart(weeks,"Minutes practised in each of the last 8 weeks")+"</div>"+
+      '<div class="card"><h2>Minutes per month</h2>'+barChart(months,"Minutes practised in each of the last 6 months")+'<div class="mt"><div class="row between small"><span>Goal this month</span><span>'+mg.n+" of "+mg.g+" min</span></div>"+barHTML(mg.n/mg.g*100,mg.n>=mg.g?"good":"")+"</div></div></div>"+
+    '<div class="grid g2 section"><div class="card"><h2>Mistakes you make most</h2>'+(mist.length?'<div class="mt">'+mist.map(w=>{const m=S.mist[w];return '<div class="fix"><div class="row between"><span class="small">'+esc(w)+'</span><span class="badge warn">'+m.n+'x</span></div><div class="small notranslate"><del>'+esc(m.bad)+"</del> → <ins>"+esc(m.good)+"</ins></div></div>"}).join("")+"</div>":'<p class="muted mt small">Mistakes found in Writing Coach, AI Tutor and your chats will appear here.</p>')+"</div>"+
+      '<div class="card"><h2>Recent conversations</h2>'+(chats.length?'<div class="tbl-wrap mt"><table><thead><tr><th>Date</th><th>Type</th><th class="num">Messages</th><th class="num">Score</th></tr></thead><tbody>'+chats.map(c=>"<tr><td>"+esc(niceDate(c.d))+"</td><td>"+esc((FRIEND_MODES[c.mode]||{t:c.mode}).t)+'</td><td class="num">'+c.n+'</td><td class="num">'+c.score+"%</td></tr>").join("")+"</tbody></table></div>":'<p class="muted mt small">Finish a chat in Talk with a Friend to see it here.</p>')+
+      (S.assess?'<p class="small mt">Level test on '+esc(niceDate(S.assess.d))+": <b>"+esc(S.assess.level)+'</b> ('+S.assess.overall+'%). <a href="#/assessment">See details</a></p>':"")+"</div></div>";
+}
+
+/* ===== BACK UP AND RESTORE ===== */
+function backupHTML(){
+  const undo=!!readLS(KEY+"_before_reset");
+  return '<div class="card section"><h2>Back up and restore</h2><p class="small muted mt">Your progress is saved only in this browser. Download a backup file to keep it safe, or to move it to another phone or computer.</p>'+
+    '<div class="row mt"><button class="btn primary" data-act="backup">'+ic("download")+'Download backup</button><label class="btn" for="restore-file">'+ic("upload")+'Restore from backup</label><input type="file" id="restore-file" accept=".json,application/json" class="visually-hidden">'+
+    (undo?'<button class="btn" data-act="undo-reset">Undo last reset</button>':"")+"</div></div>";
+}
+function restoreFrom(file){
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    let o;try{o=JSON.parse(r.result)}catch(e){toast("Could not read this file.");return}
+    if(!o||o.app!=="english-coach"||!o.data){toast("This file is not an English Coach backup.");return}
+    if(!confirm("Replace your progress on this device with the backup from "+(o.date||"an earlier date")+"? Your current progress is kept as a copy."))return;
+    writeLS(KEY+"_before_restore",JSON.stringify(S));
+    const lang=S.settings.lang;S=normalize(o.data);S.settings.lang=lang;save();
+    toast("Progress restored.");render();
+  };
+  r.onerror=()=>toast("Could not read this file.");
+  r.readAsText(file);
+}
+document.addEventListener("change",e=>{if(e.target.id==="restore-file"){restoreFrom(e.target.files[0]);e.target.value=""}});
+
+/* ===== SPACED REPETITION =====
+   A word or sentence comes back 1 day later, then 3 days, 7 days, 14, 30 and 60.
+   A mistake sends it back to 1 day. Reviewing early does not move it forward. */
+const SRS_DAYS=[1,3,7,14,30,60];
+function addDays(n){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return ymd(d)}
+function srsResult(key,right,opt){
+  opt=opt||{};
+  const all=S.srs||(S.srs={}),it=all[key];
+  if(!it){
+    if(right&&!opt.add)return;
+    all[key]=Object.assign({st:0,due:addDays(1),n:0},opt.data||{});return;
+  }
+  if(right){if(it.due>todayKey())return;it.st=Math.min(it.st+1,SRS_DAYS.length-1)}
+  else it.st=0;
+  it.due=addDays(SRS_DAYS[it.st]);it.n++;
+}
+function srsDue(){const t=todayKey(),a=S.srs||{};return Object.keys(a).filter(k=>a[k].due<=t)}
+
+/* ===== DAILY REVIEW PAGE (review due items, plus today's dictation) ===== */
+const RV={list:[],i:0,right:0,stage:"home",checked:false};
+function pageReview(){
+  RV.stage="home";DC.stage="home";
+  setView(head("Daily Review","Words and sentences come back after 1, 3 and 7 days, then less often, so you remember them.")+
+    '<div class="card" id="rv-box"></div><div class="card section" id="dc-box"></div>');
+  renderReview();renderDictation();
+}
+function rvItem(k){
+  const it=S.srs[k];
+  if(k.indexOf("s:")===0)return{k,kind:it.mode==="dict"?"dict":"sent",good:k.slice(2),bad:it.bad,why:it.why};
+  const w=WORDS.find(x=>x.e===k);return w?{k,kind:"word",w}:null;
+}
+function renderReview(){
+  const box=$("#rv-box");if(!box)return;
+  const a=S.srs||{},keys=Object.keys(a),due=srsDue();
+  if(RV.stage==="home"){
+    const soon=keys.filter(k=>a[k].due>todayKey()&&a[k].due<=addDays(7)).length,strong=keys.filter(k=>a[k].st>=3).length;
+    box.innerHTML='<h2>Review</h2><div class="grid g3 mt"><div class="card stat"><b>'+due.length+'</b><span>Due today</span></div><div class="card stat"><b>'+soon+'</b><span>Due in the next 7 days</span></div><div class="card stat"><b>'+strong+" / "+keys.length+'</b><span>Remembered well</span></div></div>'+
+      (due.length?'<button class="btn primary block mt" data-act="rv-start">'+ic("refresh")+"Start review</button>":
+      '<div class="note good mt">'+(keys.length?"No reviews due. Well done!":"Nothing to review yet. Words you learn or get wrong in Vocabulary, the Word Game, Spelling Practice and Writing Coach will come back here.")+"</div>");
+    return;
+  }
+  if(RV.stage==="done"){
+    const p=Math.round(RV.right/RV.list.length*100);
+    box.innerHTML='<h2>Round finished</h2><p class="score-pill mt">'+RV.right+" of "+RV.list.length+" correct ("+p+'%)</p><div class="mt">'+barHTML(p,"good")+'</div><p class="small muted mt">Correct items come back later. Wrong items come back tomorrow.</p><button class="btn block mt" data-act="rv-home">Back</button>';
+    return;
+  }
+  const it=RV.list[RV.i];RV.checked=false;
+  let q;
+  if(it.kind==="word")q='<p class="small muted">Type the word you hear.</p><div class="mt">'+mean(it.w.b,it.w.h,it.w.e)+'</div><div class="row mt"><button class="btn" data-act="rv-hear">'+ic("speaker")+"Hear again</button></div>";
+  else if(it.kind==="dict")q='<p class="small muted">Type the sentence you hear.</p><div class="row mt"><button class="btn" data-act="rv-hear">'+ic("speaker")+"Hear again</button></div>";
+  else q='<p class="small muted">Type the correct sentence.</p><div class="note warn mt notranslate"><del>'+esc(it.bad)+"</del></div>"+(it.why?'<p class="small mt">'+esc(it.why)+"</p>":"");
+  box.innerHTML='<p class="small muted">Item '+(RV.i+1)+" of "+RV.list.length+" | Correct "+RV.right+'</p><div class="mt">'+barHTML(RV.i/RV.list.length*100)+'</div><div class="mt">'+q+"</div>"+
+    '<label class="field mt">Your answer'+(it.kind==="word"?'<input class="input" id="rv-in"':'<textarea class="input" id="rv-in" rows="2"')+' autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" data-enter="rv-check">'+(it.kind==="word"?"":"</textarea>")+"</label>"+
+    '<div id="rv-res" class="mt" aria-live="polite"></div><button class="btn primary block mt" id="rv-btn" data-act="rv-check">Check</button><button class="btn block mt" data-act="rv-home">Stop</button>';
+  $("#rv-in").focus();rvHear();
+}
+function rvHear(){const it=RV.list[RV.i];if(!it)return;if(it.kind==="word")sayTimes(it.w.e,2,0.8);else if(it.kind==="dict")sayTimes(it.good,2,0.85)}
+function rvCheck(){
+  if(RV.checked){RV.i++;if(RV.i>=RV.list.length){RV.stage="done";logScore("review",Math.round(RV.right/RV.list.length*100))}renderReview();return}
+  const inp=$("#rv-in"),typed=inp.value.trim(),it=RV.list[RV.i];
+  if(!typed){toast("Type your answer first.");inp.focus();return}
+  RV.checked=true;inp.readOnly=true;
+  let right,html;
+  if(it.kind==="word"){
+    right=typed.toLowerCase()===it.w.e;const d=charDiff(it.w.e,typed);
+    html='<div class="note '+(right?"good":"bad")+'"><b>'+(right?"Correct.":"Not quite.")+'</b></div><div class="result notranslate"><p class="game-word" style="text-align:left;margin:4px 0">'+d.t+"</p>"+(right?"":'<p style="font-size:1.3rem">'+d.y+"</p>")+"</div>";
+  }else{
+    const r=sentenceDiff(it.good,typed);right=r.score===100;
+    html='<div class="note '+(right?"good":"bad")+'"><b>'+(right?"Correct.":r.score+"% of words correct.")+'</b></div><div class="result notranslate"><p class="small muted">Correct sentence</p><p>'+r.t+"</p>"+(right?"":'<p class="small muted mt">You typed</p><p>'+r.y+"</p>")+"</div>";
+  }
+  if(right)RV.right++;
+  srsResult(it.k,right);logAct("review");save();
+  $("#rv-res").innerHTML=html;const b=$("#rv-btn");b.textContent=RV.i<RV.list.length-1?"Next":"See result";b.focus();
+}
+/* Today's dictation: 5 sentences from lessons at the learner's level, the same 5 all day */
+const DC={stage:"home",list:[],i:0,right:0,checked:false};
+function dictationList(){
+  const lines=[].concat.apply([],LESSONS[S.settings.level].map(l=>l.lines.map(x=>x[1]))).filter(s=>s.split(" ").length<=12);
+  let seed=Math.floor(Date.now()/864e5);const out=[];
+  while(out.length<5&&out.length<lines.length){seed=(seed*9301+49297)%233280;const s=lines[seed%lines.length];if(out.indexOf(s)<0)out.push(s)}
+  return out;
+}
+function renderDictation(){
+  const box=$("#dc-box");if(!box)return;
+  if(DC.stage==="home"){
+    const d=S.dictDone&&S.dictDone.d===todayKey()?S.dictDone:null;
+    box.innerHTML='<h2>Today\'s dictation</h2><p class="small muted mt">Listen to 5 short sentences from your '+esc(S.settings.level)+' lessons and type each one. Mistakes come back in your review.</p>'+
+      (d?'<div class="note good mt">Done today: '+d.right+" of 5 correct.</div>":"")+'<button class="btn '+(d?"":"primary ")+'block mt" data-act="dc-start">'+ic("speaker")+(d?"Practise again":"Start dictation")+"</button>";
+    return;
+  }
+  if(DC.stage==="done"){
+    box.innerHTML='<h2>Dictation finished</h2><p class="score-pill mt">'+DC.right+" of "+DC.list.length+' correct</p><button class="btn block mt" data-act="dc-home">Back</button>';return;
+  }
+  DC.checked=false;
+  box.innerHTML='<h2>Today\'s dictation</h2><p class="small muted mt">Sentence '+(DC.i+1)+" of "+DC.list.length+'</p><div class="row mt"><button class="btn primary" data-act="dc-hear">'+ic("speaker")+'Hear again</button><button class="btn" data-act="dc-slow">'+ic("slow")+"Very slow</button></div>"+
+    '<label class="field mt">Type what you hear<textarea class="input" id="dc-in" rows="2" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" data-enter="dc-check"></textarea></label>'+
+    '<div id="dc-res" class="mt" aria-live="polite"></div><button class="btn primary block mt" id="dc-btn" data-act="dc-check">Check</button>';
+  $("#dc-in").focus();sayTimes(DC.list[DC.i],2,0.85);
+}
+function dcCheck(){
+  if(DC.checked){
+    DC.i++;
+    if(DC.i>=DC.list.length){DC.stage="done";S.dictDone={d:todayKey(),right:DC.right};logScore("spelling",Math.round(DC.right/DC.list.length*100));save()}
+    renderDictation();return;
+  }
+  const inp=$("#dc-in"),typed=inp.value.trim(),s=DC.list[DC.i];
+  if(!typed){toast("Type what you hear first.");inp.focus();return}
+  DC.checked=true;inp.readOnly=true;
+  const r=sentenceDiff(s,typed),ok=r.score===100;
+  if(ok)DC.right++;else srsResult("s:"+s,false,{data:{mode:"dict"}});
+  logAct("dictation");save();
+  $("#dc-res").innerHTML='<div class="note '+(ok?"good":"bad")+'"><b>'+(ok?"Correct.":r.score+"% of words correct.")+'</b></div><div class="result notranslate"><p>'+r.t+"</p>"+(ok?"":'<p class="small muted mt">You typed</p><p>'+r.y+"</p>")+"</div>";
+  const b=$("#dc-btn");b.textContent=DC.i<DC.list.length-1?"Next":"See result";b.focus();
+}
+
+/* ===== LEVEL TEST ===== */
+const AS={stage:"intro",i:0,score:[]};
+function pageAssessment(){
+  AS.stage=S.assess?"result":"intro";AS.i=0;AS.score=[];
+  setView(head("Level Test","15 questions on grammar, vocabulary, reading, listening, writing and speaking. About 10 minutes.")+'<div class="card" id="as-box"></div>');
+  renderAssess();
+}
+function renderAssess(){
+  const box=$("#as-box");if(!box)return;
+  if(AS.stage==="intro"){
+    box.innerHTML='<p>This test gives your approximate level: Beginner, Intermediate or Advanced. It also shows which skills to practise first.</p><ul class="mistakes mt"><li>You cannot see the answers until the end, so just do your best.</li><li>Listening questions are read aloud, so turn your sound on.</li><li>The speaking question needs a microphone. You can skip it.</li><li>Writing and speaking are checked by fixed rules, not by AI.</li></ul><button class="btn primary block mt" data-act="as-start">Start the test</button>';
+    return;
+  }
+  if(AS.stage==="result"){
+    const a=S.assess,sk=a.skills;
+    box.innerHTML='<h2>Your level: '+esc(a.level)+'</h2><p class="score-pill mt">'+a.overall+'% overall</p><p class="small muted mt">Taken on '+esc(niceDate(a.d))+'. This is an approximate level from 15 questions. Your lessons are set to '+esc(a.level)+" level.</p>"+
+      Object.keys(SKILL_NAME).map(k=>'<div class="mt"><div class="row between small"><span>'+SKILL_NAME[k]+"</span><span>"+(sk[k]==null?"Skipped":sk[k]+"%")+"</span></div>"+barHTML(sk[k]||0,sk[k]>=70?"good":"")+"</div>").join("")+
+      '<h3 class="section">Your learning plan</h3><div class="grid g2 mt">'+roadmap(a).map(r=>'<a class="card quick" href="'+r.h+'"><span class="stat-ic">'+ic("target")+'</span><span class="grow"><b>'+esc(r.t)+"</b><p>"+esc(r.d)+"</p></span></a>").join("")+"</div>"+
+      '<button class="btn block mt" data-act="as-start">Take the test again</button>';
+    return;
+  }
+  const q=ASSESS[AS.i];
+  let body='<p class="small muted">Question '+(AS.i+1)+" of "+ASSESS.length+" · "+SKILL_NAME[q.k]+'</p><div class="mt">'+barHTML(AS.i/ASSESS.length*100)+"</div>";
+  if(q.read)body+='<div class="note mt notranslate">'+esc(ASSESS_READ)+"</div>";
+  if(q.k==="listening")body+='<div class="row mt"><button class="btn primary" data-act="as-hear">'+ic("speaker")+"Play</button></div>";
+  if(q.k==="speaking"){
+    body+='<h3 class="mt">'+esc(q.q)+'</h3><div class="target notranslate mt">'+esc(q.say)+'</div><div class="mic-row"><button class="mic-btn" data-act="as-mic" data-idle="Start speaking"'+(SR?"":" disabled")+">"+ic("mic")+'<span>Start speaking</span></button><button class="btn" data-act="as-skip">Skip</button></div><div class="heard empty notranslate" id="as-heard">'+(SR?"Your spoken words will appear here.":esc(micErrorText("unsupported")))+"</div>";
+  }else if(q.k==="writing"){
+    body+='<h3 class="mt">'+esc(q.q)+'</h3><textarea class="input mt" id="as-text" rows="3" aria-label="Your answer"></textarea><button class="btn primary block mt" data-act="as-write">Next</button>';
+  }else{
+    body+='<h3 class="mt notranslate">'+esc(q.q)+"</h3>"+q.opts.map((o,i)=>'<button class="opt notranslate" data-act="as-opt" data-i="'+i+'">'+esc(o)+"</button>").join("");
+  }
+  box.innerHTML=body;
+  if(q.k==="listening")say(q.say,0.9);
+}
+function asNext(score){
+  AS.score[AS.i]=score;AS.i++;
+  if(AS.i<ASSESS.length){renderAssess();return}
+  const by={};ASSESS.forEach((q,i)=>{const s=AS.score[i];if(s==null)return;(by[q.k]=by[q.k]||[]).push(s)});
+  const skills={};Object.keys(SKILL_NAME).forEach(k=>{skills[k]=by[k]?Math.round(by[k].reduce((a,b)=>a+b,0)/by[k].length):null});
+  const vals=Object.values(skills).filter(v=>v!=null),overall=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+  const level=overall<45?"Beginner":overall<75?"Intermediate":"Advanced";
+  S.assess={d:todayKey(),level,overall,skills};S.settings.level=level;speakSet=null;
+  logAct("assess");logScore("assessment",overall);save();
+  AS.stage="result";renderAssess();
+  const h=$("#as-box");if(h)h.scrollIntoView({block:"start"});
+}
+function roadmap(a){
+  const sk=a.skills,order=Object.keys(sk).filter(k=>sk[k]!=null).sort((x,y)=>sk[x]-sk[y]);
+  const out=order.slice(0,3).filter(k=>sk[k]<85).map(k=>({t:"Week "+(order.indexOf(k)+1)+": "+SKILL_NAME[k],d:"Score "+sk[k]+"%. Practise in "+SKILL_PAGE[k][0]+" for 10 minutes a day.",h:SKILL_PAGE[k][1]}));
+  out.push({t:"Every day",d:"One "+a.level+" lesson, your Daily Review, and a short chat with Alex.",h:"#/lessons"});
+  return out;
+}
+
+/* ===== WRITING COACH ===== */
+const WR={text:"",mode:"auto",ai:""};
+let WORDSET=null;
+/* All English words used anywhere in the app, for the "possible spelling mistake" check */
+function wordSet(){
+  if(WORDSET)return WORDSET;
+  const set=new Set(),add=t=>String(t||"").toLowerCase().replace(/[’‘]/g,"'").split(/[^a-z']+/).forEach(w=>{w=w.replace(/^'+|'+$/g,"");if(w)set.add(w)});
+  WORDS.forEach(w=>{add(w.e);add(w.x)});
+  ALL_LESSONS.forEach(l=>l.lines.forEach(x=>add(x[1])));
+  Object.values(OFFICE).forEach(o=>o.phrases.forEach(p=>add(p[0])));
+  EMAILS.forEach(m=>{add(m.s);add(m.b)});
+  Object.values(GRAMMAR).forEach(g=>{g.sections.forEach(s=>{add(s.en);(s.ex||[]).forEach(add)});g.quiz.forEach(q=>{add(q[0]);q[1].forEach(add);add(q[3])})});
+  INTERVIEW.forEach(q=>{add(q.q);add(q.a);add(q.tip)});
+  STORIES.forEach(s=>s.s.forEach(add));
+  Object.values(FRIEND_MODES).forEach(m=>m.qs.forEach(add));
+  OFFICE_SCENES.forEach(c=>c.lines.forEach(l=>{add(l[1]);add(l[2])}));
+  Object.values(SPELL_FIX).forEach(add);
+  return WORDSET=set;
+}
+function known(w,set){
+  if(set.has(w))return true;
+  const stems=[w.replace(/'s$/,""),w.replace(/s$/,""),w.replace(/es$/,""),w.replace(/ed$/,""),w.replace(/d$/,""),w.replace(/ing$/,""),w.replace(/ing$/,"e"),w.replace(/ly$/,""),w.replace(/ies$/,"y"),w.replace(/ied$/,"y"),w.replace(/er$/,""),w.replace(/est$/,"")];
+  return stems.some(s=>s!==w&&set.has(s));
+}
+function oneEditAway(a,b){
+  if(Math.abs(a.length-b.length)>1||a===b)return false;
+  let i=0,j=0,diff=0;
+  while(i<a.length&&j<b.length){
+    if(a[i]===b[j]){i++;j++;continue}
+    if(++diff>1)return false;
+    if(a.length>b.length)i++;else if(b.length>a.length)j++;else{i++;j++}
+  }
+  return diff+(a.length-i)+(b.length-j)<=1;
+}
+function keepCaseWord(from,to){return /^[A-Z]/.test(from)?to.charAt(0).toUpperCase()+to.slice(1):to}
+/* Checks one line of text, sentence by sentence */
+function writeCheckLine(line,typed){
+  const parts=line.match(/[^.!?]+(?:[.!?]+|$)/g)||[];
+  return parts.map(p=>p.trim()).filter(Boolean).map(sent=>{
+    const spell=[],maybe=[],set=wordSet();
+    const fixedSp=sent.replace(/[A-Za-z']+/g,(tok,off)=>{
+      const lw=tok.toLowerCase();
+      if(SPELL_FIX[lw]){const g=keepCaseWord(tok,SPELL_FIX[lw]);spell.push({bad:tok,good:g,why:"Check the spelling."});return g}
+      if(lw.length>=4&&!(/^[A-Z]/.test(tok)&&off>0)&&!known(lw,set)){
+        let cand=null;for(const w of set){if(w.length>=3&&oneEditAway(lw,w)){cand=w;break}}
+        if(cand)maybe.push({bad:tok,good:cand});
+      }
+      return tok;
+    });
+    const words=fixedSp.split(/\s+/).filter(Boolean).length;
+    const g=ruleCheck(fixedSp,typed&&words>=3);
+    let pro=g.better;const proFix=[];
+    PRO_FIX.forEach(r=>{pro=pro.replace(r[0],function(){const m=arguments[0],out=m.replace(r[0],r[1]);const o=keepCaseWord(m,out);if(o!==m)proFix.push({bad:m,good:o,why:"More professional."});return o})});
+    return{orig:sent,corrected:g.better,pro,spell,maybe,grammar:g.fixes,proFix};
+  });
+}
+function writeCheck(text,mode){
+  const lines=text.split(/\n/);
+  const res=lines.map(l=>l.trim()?writeCheckLine(l,true):[]);
+  const all=[].concat.apply([],res);
+  const join=k=>res.map(r=>r.map(s=>s[k]).join(" ")).join("\n");
+  let pro=join("pro");
+  const email=mode==="email"||(mode==="auto"&&lines.filter(l=>l.trim()).length>=3);
+  const extra=[];
+  if(email){
+    const first=lines.find(l=>l.trim())||"";
+    if(!/^\s*(dear|hi|hello|good (morning|afternoon|evening)|respected)\b/i.test(first)){pro="Dear [Name],\n\n"+pro;extra.push("Start an email with a greeting, such as \"Dear [Name],\".")}
+    if(!/(regards|thank you|thanks|sincerely|best wishes)[,.!]?\s*(\n.*)?$/i.test(text.trim())){pro=pro.replace(/\s*$/,"")+"\n\nBest regards,\n"+S.settings.name;extra.push("End an email with a closing, such as \"Best regards,\" and your name.")}
+  }
+  return{sentences:all,corrected:join("corrected"),pro,email,extra};
+}
+function pageWriting(){
+  setView(head("Writing Coach","Type a word, a sentence, a paragraph, an office message or an email. The coach finds common grammar and spelling mistakes.")+
+    '<div class="note warn honest">'+ic("info")+"<div><b>Good to know:</b> checked by fixed rules, not AI. It finds common mistakes only, so a text with no mistakes found may still need work. For a full AI review, use the copy button.</div></div>"+
+    '<div class="card mt"><label class="field">Type of text<select class="input" data-chg="wr-mode">'+[["auto","Choose for me"],["text","Word, sentence or paragraph"],["email","Email or office message"]].map(o=>'<option value="'+o[0]+'"'+(o[0]===WR.mode?" selected":"")+">"+o[1]+"</option>").join("")+"</select></label>"+
+    '<label class="field mt">Your text<textarea class="input" id="wr-text" rows="7" maxlength="3000" placeholder="For example: i am working here since 3 years and i want to discuss about my salary." data-inp="wr-text">'+esc(WR.text)+"</textarea></label>"+
+    '<div class="note warn mt hidden" id="mic-msg" role="alert"></div>'+
+    '<div class="row mt"><button class="btn primary" data-act="wr-check">'+ic("check")+'Check my writing</button><button class="mic-btn" data-act="dictate" data-into="#wr-text" data-idle="Speak"'+(SR?"":" disabled")+">"+ic("mic")+'<span>Speak</span></button><button class="btn" data-act="wr-clear">Clear</button></div></div>'+
+    '<div id="wr-out"></div>'+
+    '<div class="card section"><h2>Your mistake history</h2><div id="wr-hist" class="mt"></div></div>');
+  renderWritingHistory();
+}
+function renderWritingHistory(){
+  const el=$("#wr-hist");if(!el)return;
+  const h=(S.writing||[]).slice().reverse().slice(0,10);
+  el.innerHTML=h.length?'<div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Your text</th><th class="num">Mistakes</th></tr></thead><tbody>'+h.map(x=>"<tr><td>"+esc(niceDate(x.d))+'</td><td class="notranslate">'+esc(x.t.slice(0,90))+(x.t.length>90?"...":"")+'</td><td class="num">'+x.n+"</td></tr>").join("")+'</tbody></table></div><p class="small muted mt">Sentences with mistakes come back in your <a href="#/review">Daily Review</a>.</p>':'<p class="small muted">Your checked texts will appear here.</p>';
+}
+function writingShow(){
+  const text=$("#wr-text").value.trim();
+  if(!text){toast("Write something first.");$("#wr-text").focus();return}
+  WR.text=text;WR.ai="";
+  const r=writeCheck(text,WR.mode);
+  const gr=[].concat.apply([],r.sentences.map(s=>s.grammar)),sp=[].concat.apply([],r.sentences.map(s=>s.spell)),mb=[].concat.apply([],r.sentences.map(s=>s.maybe)),pf=[].concat.apply([],r.sentences.map(s=>s.proFix));
+  const clean=r.sentences.filter(s=>!s.grammar.length&&!s.spell.length).length,score=r.sentences.length?Math.round(100*clean/r.sentences.length):100;
+  const whys=Array.from(new Set(gr.concat(sp).concat(pf).map(f=>f.why)));
+  recordFixes(gr.concat(sp));logAct("writing");logScore("writing",score);
+  r.sentences.filter(s=>s.grammar.length||s.spell.length).slice(0,5).forEach(s=>srsResult("s:"+s.corrected,false,{data:{bad:s.orig,why:(s.grammar[0]||s.spell[0]).why}}));
+  S.writing=(S.writing||[]).concat({d:todayKey(),t:text.slice(0,300),n:gr.length+sp.length}).slice(-30);save();
+  const list=(fx)=>'<ul class="mistakes notranslate">'+fx.map(f=>"<li><del>"+esc(f.bad)+"</del> → <ins>"+esc(f.good)+"</ins></li>").join("")+"</ul>";
+  $("#wr-out").innerHTML='<div class="card section"><div class="row between"><h2>Result</h2><span class="badge '+(score===100?"good":score>=60?"warn":"bad")+'">'+clean+" of "+r.sentences.length+" sentences without common mistakes</span></div>"+
+    '<h3 class="section">Original</h3><div class="email mt notranslate">'+esc(text)+"</div>"+
+    '<h3 class="section">Corrected</h3><div class="email mt notranslate">'+esc(r.corrected)+"</div>"+
+    '<h3 class="section">Grammar mistakes</h3>'+(gr.length?list(gr):'<p class="mt small">No mistakes found by the rules.</p>')+
+    '<h3 class="section">Spelling mistakes</h3>'+(sp.length?list(sp):'<p class="mt small">No common spelling mistakes found.</p>')+
+    (mb.length?'<p class="small mt"><b>Possible spelling mistake</b> (please check): <span class="notranslate">'+mb.map(m=>esc(m.bad)+" → "+esc(m.good)+"?").join(", ")+"</span></p>":"")+
+    '<h3 class="section">Explanation</h3>'+(whys.length||r.extra.length?'<ul class="mistakes">'+whys.map(w=>"<li>"+esc(w)+"</li>").join("")+r.extra.map(w=>"<li>"+esc(w)+"</li>").join("")+"</ul>":'<p class="mt small">Nothing to explain.</p>')+
+    (betterWords(text).length?'<h3 class="section">Better words</h3><ul class="mistakes notranslate">'+betterWords(text).map(v=>'<li>"'+esc(v[0])+'" → <b>'+esc(v[1])+"</b></li>").join("")+"</ul>":"")+
+    '<h3 class="section">Better professional version</h3><div class="email mt notranslate">'+esc(r.pro)+'</div><div class="row mt"><button class="btn" data-act="wr-copy-pro">'+ic("copy")+"Copy</button>"+sayBtn(r.pro,"Listen")+"</div>"+
+    (whys.length?'<h3 class="section">Explanation in Bengali</h3><ul class="mistakes notranslate" lang="bn">'+whys.filter(w=>WHY_T[w]).map(w=>"<li>"+esc(WHY_T[w][0])+"</li>").join("")+"</ul>"+
+      '<h3 class="section">Explanation in Hindi</h3><ul class="mistakes notranslate" lang="hi">'+whys.filter(w=>WHY_T[w]).map(w=>"<li>"+esc(WHY_T[w][1])+"</li>").join("")+"</ul>":"")+
+    '<div class="row section"><button class="btn primary" data-act="wr-copy-ai">'+ic("copy")+'Copy for a full AI review</button><button class="btn hidden" id="wr-ai-btn" data-act="wr-ai">Check with Chrome\'s built-in AI</button></div><div id="wr-ai" class="mt"></div></div>';
+  WR.pro=r.pro;
+  renderWritingHistory();
+  $("#wr-out").scrollIntoView({block:"start"});
+  friendAvail().then(a=>{const b=$("#wr-ai-btn");if(b&&a==="available")b.classList.remove("hidden")});
+}
+function writingAIText(){
+  return "Please check my English writing below. Give me:\n1. The corrected text.\n2. Each grammar mistake.\n3. Each spelling mistake.\n4. A simple explanation of each mistake.\n5. A better professional version.\n6. The explanation in Bengali.\n7. The explanation in Hindi.\n\nMy text:\n"+WR.text;
+}
+async function writingAI(btn){
+  const out=$("#wr-ai");btn.disabled=true;out.innerHTML='<p class="small muted">Checking...</p>';
+  try{
+    const s=await LanguageModel.create(Object.assign({initialPrompts:[{role:"system",content:"You are a careful English teacher. Answer in plain text without symbols like * or #."}]},LMOPTS));
+    const r=await s.prompt("Correct this English text. First write the corrected text. Then list each mistake with a short reason. Then write a more professional version.\n\nText:\n"+WR.text);
+    try{s.destroy()}catch(x){}
+    out.innerHTML='<div class="note"><b>Checked by Chrome\'s built-in AI.</b> It can make mistakes.</div><div class="email mt notranslate">'+esc(String(r).replace(/[*#`]/g,""))+"</div>";
+  }catch(e){out.innerHTML='<div class="note warn">The built-in AI could not check this. Use "Copy for a full AI review" instead.</div>';btn.disabled=false}
+}
+
+/* ===== OFFICE ROLE-PLAY SCENARIOS ===== */
+function scenesHTML(){
+  return '<p class="muted">Open a conversation, listen to each line, and practise your part. Each of your lines has a formal version and a natural version.</p>'+
+    OFFICE_SCENES.map(c=>'<details class="card scene mt"><summary><b>'+esc(c.t)+'</b><span class="small muted">'+esc(c.d)+"</span></summary>"+
+      c.lines.map(l=>{
+        const you=l[0]==="You";
+        const row=(label,en,b,h)=>'<div class="phrase" style="flex-wrap:wrap"><div class="grow">'+(label?'<div class="speaker">'+label+"</div>":"")+'<div class="en notranslate">'+esc(en)+"</div>"+(b?mean(b,h,en):"")+'</div><div class="actions">'+sayBtn(en,"Listen")+
+          (you?'<button class="icon-btn" data-act="practise" data-e="'+esc(en)+'" data-area="office" aria-label="Practise speaking" title="Practise speaking">'+ic("mic")+"</button>":"")+'</div><div class="practice-slot"></div></div>';
+        return you?'<div class="you">'+row("You · formal",l[1],l[3],l[4])+(l[2]?row("You · natural",l[2]):"")+"</div>":row(esc(l[0]),l[1],l[3],l[4]);
+      }).join("")+
+      '<div class="row mt"><button class="btn" data-act="scene-alex">'+ic("chat")+"Practise this with Alex</button></div></details>").join("");
+}
+
+/* ===== PAGES, BUTTONS AND SETTINGS ===== */
+Object.assign(PAGES,{review:pageReview,writing:pageWriting,assessment:pageAssessment});
+Object.assign(ACT,{
+  backup(){
+    const data=JSON.stringify({app:"english-coach",v:1,date:todayKey(),data:S},null,1);
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));
+    a.download="english-coach-backup-"+todayKey()+".json";document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast("Backup downloaded.");
+  },
+  "undo-reset"(){
+    const raw=readLS(KEY+"_before_reset");if(!raw)return;
+    if(!confirm("Bring back your progress from before the last reset? Anything you did since the reset will be replaced."))return;
+    try{const lang=S.settings.lang;S=normalize(JSON.parse(raw));S.settings.lang=lang;save();try{localStorage.removeItem(KEY+"_before_reset")}catch(e){}toast("Your progress before the last reset was restored.");render()}catch(e){toast("Could not read the saved copy.")}
+  },
+  "rv-start"(){RV.list=shuffle(srsDue()).map(rvItem).filter(Boolean).slice(0,15);RV.i=0;RV.right=0;RV.stage=RV.list.length?"test":"home";renderReview()},
+  "rv-home"(){stopSpeaking();RV.stage="home";renderReview()},
+  "rv-hear":rvHear,
+  "rv-check":rvCheck,
+  "dc-start"(){DC.list=dictationList();DC.i=0;DC.right=0;DC.stage="test";renderDictation()},
+  "dc-home"(){stopSpeaking();DC.stage="home";renderDictation()},
+  "dc-hear"(){sayTimes(DC.list[DC.i],1,0.85)},
+  "dc-slow"(){sayTimes(DC.list[DC.i],1,0.55)},
+  "dc-check":dcCheck,
+  "as-start"(){AS.stage="test";AS.i=0;AS.score=[];renderAssess()},
+  "as-hear"(){say(ASSESS[AS.i].say,0.9)},
+  "as-opt"(b){asNext(Number(b.dataset.i)===ASSESS[AS.i].ans?100:0)},
+  "as-write"(){
+    const t=$("#as-text").value.trim();
+    if(!t){toast("Write something first.");$("#as-text").focus();return}
+    const n=t.split(/\s+/).length,r=ruleCheck(t,true);recordFixes(r.fixes);
+    let s=Math.max(0,100-25*r.fixes.length);if(n<5)s=Math.min(s,40);else if(n<8)s=Math.min(s,70);
+    asNext(s);
+  },
+  "as-skip"(){Mic.abort();asNext(null)},
+  "as-mic"(b){
+    if(b.classList.contains("rec")){Mic.stop();return}
+    const heard=$("#as-heard"),q=ASSESS[AS.i];setRec(b);heard.textContent="Listening... please speak now.";
+    Mic.start({long:false,onText:t=>{heard.textContent=t;heard.classList.remove("empty")},
+      onEnd:t=>{resetMicBtn(b);if(!t){heard.textContent=micErrorText("no-speech");return}const r=compareText(q.say,t);logAct("speak");logScore("speaking",r.score);asNext(r.score)},
+      onError:c=>{resetMicBtn(b);heard.textContent=micErrorText(c)}});
+  },
+  "wr-check":writingShow,
+  "wr-clear"(){WR.text="";$("#wr-text").value="";$("#wr-out").innerHTML="";$("#wr-text").focus()},
+  async "wr-copy-pro"(){const ok=await copyText(WR.pro||"");toast(ok?"Copied.":"Could not copy. Please select the text by hand.")},
+  async "wr-copy-ai"(){const ok=await copyText(writingAIText());toast(ok?"Copied. Paste it into Claude or ChatGPT.":"Could not copy automatically.")},
+  "wr-ai"(b){writingAI(b)},
+  "scene-alex"(){FR.topic="professional";location.hash="#/friend"}
+});
+Object.assign(CHG,{
+  theme(v){S.settings.theme=v;save();applyTheme();toast("Theme saved.")},
+  "wr-mode"(v){WR.mode=v}
+});
+Object.assign(INP,{"wr-text"(v){WR.text=v}});
+
+/* Arrow keys move between tabs and stars, as screen reader users expect */
+document.addEventListener("keydown",e=>{
+  if(e.key!=="ArrowRight"&&e.key!=="ArrowLeft")return;
+  const t=e.target;if(!t.matches||!t.matches(".tabs .tab, .stars .star"))return;
+  const list=$$(t.matches(".star")?".star":".tab",t.parentElement).filter(x=>!x.disabled);
+  let i=list.indexOf(t)+(e.key==="ArrowRight"?1:-1);i=(i+list.length)%list.length;
+  list[i].focus();if(t.matches(".star"))list[i].click();
+  e.preventDefault();
+});
+
+/* ===== START ===== (runs last, after every page is defined) */
+applyTheme();
 buildNav();
 save();
 if(!storageOK){
   const w=$("#store-warn");w.textContent="Progress cannot be saved in this browser mode. It will be lost when you close this page.";w.classList.remove("hidden");
 }
 if(!startLanguage())render();
+/* Send any feedback that was saved while offline */
+window.addEventListener("load",()=>setTimeout(sendQueuedFeedback,3000));
+window.addEventListener("online",sendQueuedFeedback);
 
 })();
 </script>
