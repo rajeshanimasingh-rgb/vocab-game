@@ -6,6 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Practise English speaking, vocabulary, grammar, office English and interviews, with Bengali and Hindi meanings.">
 <meta name="theme-color" content="#1a56db">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="English Coach">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a56db'/%3E%3Crect x='12' y='6' width='8' height='14' rx='4' fill='white'/%3E%3Cpath d='M8 15a8 8 0 0 0 16 0M16 23v4' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 :root{
@@ -201,6 +205,13 @@ label.field .input{margin-top:4px;font-weight:400;font-size:1rem}
 #coach-status:empty{display:none}
 #coach-status.on{background:var(--good-bg);color:var(--good)}
 #coach-chat{max-height:420px;overflow-y:auto}
+
+.stars{display:flex;gap:8px}
+.star{width:52px;height:52px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:#c3cede;cursor:pointer;display:grid;place-items:center}
+.star .ic{width:30px;height:30px}
+.star.on{color:#d97706;background:var(--warn-bg);border-color:#f0d49c}
+.star.on .ic{fill:currentColor}
+#fb-liked .tab.on{background:var(--blue-l);border-color:#a9c3f3;color:var(--blue-d)}
 
 /* email */
 .email{white-space:pre-wrap;background:var(--blue-xl);border:1px solid var(--line);border-radius:11px;padding:12px;font-size:.93rem;overflow-wrap:anywhere}
@@ -1334,10 +1345,11 @@ function quizNext(btn){
 const NAV=[
   ["dashboard","Dashboard","home"],["speaking","Speaking Practice","mic"],["coach","Talk with Coach","users"],["friend","Talk with a Friend","chat"],["lessons","Daily Lessons","book"],
   ["tutor","AI Tutor Mode","chat"],["office","Office English","briefcase"],["vocabulary","Vocabulary","letters"],
-  ["game","Vocabulary Game","game"],["spelling","Spelling Practice","text"],["translate","Translate","translate"],["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"]
+  ["game","Vocabulary Game","game"],["spelling","Spelling Practice","text"],["translate","Translate","translate"],["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"],["feedback","Rate and Feedback","star"]
 ];
 const BOTTOM=[["dashboard","Home","home"],["speaking","Speak","mic"],["lessons","Lessons","book"],["vocabulary","Words","letters"]];
 function buildNav(){
+  if(!FEEDBACK_URL){const k=NAV.findIndex(n=>n[0]==="feedback");if(k>=0)NAV.splice(k,1)}
   $("#nav").innerHTML=NAV.map(n=>'<li><a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a></li>"+(n[0]==="dashboard"?'<li class="nav-lang"><label class="field">Language'+langSelect()+"</label></li>":"")).join("");
   $("#bottom-nav").innerHTML=BOTTOM.map(n=>'<a href="#/'+n[0]+'" data-nav="'+n[0]+'">'+ic(n[2])+"<span>"+n[1]+"</span></a>").join("")+
     '<button data-act="menu" aria-label="Open all sections">'+ic("menu")+"<span>More</span></button>";
@@ -1406,9 +1418,10 @@ function pageDashboard(){
     '<div class="stack"><div class="card"><div class="row between"><h2>Word of the day</h2>'+sayBtn(w.e,"Listen to "+w.e)+'</div><h3 class="mt notranslate" style="font-size:1.3rem">'+esc(w.e)+'</h3><p class="small muted notranslate">'+esc(w.p)+'</p><div class="mt">'+mean(w.b,w.h,w.e)+'</div><p class="small muted mt">'+enLine(w.x)+"</p></div>"+
     '<div class="card"><label class="field">Daily learning target<select class="input" data-chg="target">'+[10,15,20,30,45,60].map(v=>"<option value="+v+(v===S.settings.target?" selected":"")+">"+v+" minutes a day</option>").join("")+"</select></label>"+
     '<p class="small muted mt">Time counts while you are using the app.</p></div></div></div>'+
-  '<div class="section"><h2>Keep learning</h2><div class="grid g3">'+NAV.filter(n=>n[0]!=="dashboard"&&n[0]!=="progress").map(n=>'<a class="card quick" href="#/'+n[0]+'"><span class="stat-ic">'+ic(n[2])+"</span><span><b>"+n[1]+"</b></span></a>").join("")+"</div></div>"+
+  '<div class="section"><h2>Keep learning</h2><div class="grid g3">'+NAV.filter(n=>n[0]!=="dashboard"&&n[0]!=="progress"&&n[0]!=="feedback").map(n=>'<a class="card quick" href="#/'+n[0]+'"><span class="stat-ic">'+ic(n[2])+"</span><span><b>"+n[1]+"</b></span></a>").join("")+"</div></div>"+
   '<div class="card section"><h2>Share this app</h2><p class="mt small" style="overflow-wrap:anywhere"><a href="'+APP_URL+'" target="_blank" rel="noopener noreferrer">'+APP_URL+'</a></p>'+
-    '<div class="row mt"><button class="btn primary" data-act="share-copy">'+ic("copy")+"Copy link</button></div></div>"
+    '<div class="row mt"><button class="btn primary" data-act="share-copy">'+ic("copy")+"Copy link</button></div></div>"+installHTML()+
+  (FEEDBACK_URL?'<div class="card section"><div class="row between"><div class="grow"><h2>Enjoying English Coach?</h2><p class="small muted mt">Rate the app and tell us what to improve.</p></div><a class="btn primary" href="#/feedback">'+ic("star")+"Rate this app</a></div></div>":"")
   );
 }
 
@@ -1652,7 +1665,7 @@ function langSelect(){return '<select class="input notranslate" data-chg="ui-lan
 function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"}
 /* Google's translator is used once per language to prepare all app text, which is then saved on the device.
    After that a small walker swaps English text for the saved text, so screens change instantly. */
-const DICT_V=5;
+const DICT_V=6;
 let DICT=null;
 const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
 function loadDict(l){
@@ -2195,6 +2208,61 @@ function pageFriend(){
   friendCheck();
 }
 
+/* ===== INSTALL AS AN APP ===== */
+let installEvent=null;
+const isInstalled=()=>window.matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent);
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvent=e;installRefresh()});
+window.addEventListener("appinstalled",()=>{installEvent=null;installRefresh();toast("App installed. Open it from your home screen.")});
+function installHTML(){
+  if(isInstalled())return "";
+  const how=installEvent?'<button class="btn primary mt" data-act="install">'+ic("next")+"Install app</button>":
+    isIOS()?'<p class="small mt">On iPhone: tap the Share button in Safari, then tap <b>Add to Home Screen</b>.</p>':
+    '<p class="small mt">In Chrome: tap the menu (three dots), then tap <b>Install app</b> or <b>Add to Home screen</b>.</p>';
+  return '<div class="card section" id="install-card"><h2>Install this app</h2><p class="small muted mt">Add English Coach to your phone or computer like a normal app. It opens full screen, and saved pages work without internet.</p>'+how+"</div>";
+}
+function installRefresh(){const c=$("#install-card"),h=installHTML();if(c)c.outerHTML=h||"<span></span>"}
+if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"||location.hostname==="127.0.0.1")){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+
+/* ===== RATE AND FEEDBACK =====
+   Sends each rating to the owner's Google Sheet through a Google Apps Script web app.
+   The page and menu item appear only when FEEDBACK_URL is set. */
+const FEEDBACK_URL="";
+const FB={rating:0,liked:[]};
+const FB_PARTS=["Speaking Practice","Talk with Coach","Talk with a Friend","Daily Lessons","Vocabulary","Spelling","Grammar","Office English","Interview Prep","Translate"];
+function pageFeedback(){
+  if(!FEEDBACK_URL){location.hash="#/dashboard";return}
+  FB.rating=0;FB.liked=[];
+  setView(head("Rate and Feedback","Tell us what you like and what we should improve. Every message is read.")+
+    '<div class="card"><h2>How would you rate this app?</h2><div class="stars mt" role="radiogroup" aria-label="Rating">'+
+    [1,2,3,4,5].map(n=>'<button class="star" role="radio" aria-checked="false" aria-label="'+n+(n===1?" star":" stars")+'" data-act="fb-star" data-v="'+n+'">'+ic("star")+"</button>").join("")+
+    '</div><p class="small muted mt" id="fb-star-text">Tap a star.</p>'+
+    '<h3 class="section">What did you like?</h3><div class="tabs mt" id="fb-liked">'+FB_PARTS.map(p=>'<button class="tab" aria-pressed="false" data-act="fb-like" data-v="'+esc(p)+'">'+esc(p)+"</button>").join("")+"</div>"+
+    '<label class="field section">What should we improve?<textarea class="input" id="fb-comment" maxlength="1000" rows="4" placeholder="For example: add more office sentences"></textarea></label>'+
+    '<div class="grid g2 mt"><label class="field">Your name (optional)<input class="input" id="fb-name" maxlength="60" value="'+esc(S.settings.name==="Rajesh"?"":S.settings.name)+'"></label>'+
+    '<label class="field">Your email (optional, if you want a reply)<input class="input" id="fb-email" type="email" maxlength="100"></label></div>'+
+    '<p class="small muted mt">Your rating, message, and any name or email you type are saved in the app owner\'s private Google Sheet, only to improve this app. They are not shared.</p>'+
+    '<button class="btn primary block mt" data-act="fb-send">Send feedback</button></div>');
+}
+async function feedbackSend(btn){
+  const comment=$("#fb-comment").value.trim(),email=$("#fb-email").value.trim();
+  if(!FB.rating){toast("Please choose a star rating first.");return}
+  if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast("Please check the email address.");$("#fb-email").focus();return}
+  btn.disabled=true;btn.textContent="Sending...";
+  const data={rating:FB.rating,liked:FB.liked,comment,name:$("#fb-name").value.trim(),email,lang:S.settings.lang||"English",
+    device:(/android/i.test(navigator.userAgent)?"Android":isIOS()?"iPhone":/windows/i.test(navigator.userAgent)?"Windows":"Other")+(isInstalled()?" (installed app)":" (browser)")};
+  try{
+    await fetch(FEEDBACK_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
+    S.feedbackSent=todayKey();save();
+    setView(head("Thank you!","Your feedback was sent.")+'<div class="card"><p>Thank you for helping to improve English Coach.</p><a class="btn primary mt" href="#/dashboard">Back to Dashboard</a></div>');
+  }catch(e){
+    btn.disabled=false;btn.textContent="Send feedback";
+    toast("Could not send. Please check your internet and try again.");
+  }
+}
+
 /* ===== SPELLING PRACTICE =====
    Words: the app says a word slowly a few times and the learner types it.
    Sentences: the app reads a short story one sentence at a time. */
@@ -2437,7 +2505,7 @@ function pageProgress(){
     '</div><div class="row mt"><button class="btn" data-act="test-voice">'+ic("speaker")+'Test voice</button><button class="btn danger" data-act="reset">Reset all progress</button></div></div>');
 }
 
-const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,coach:pageCoach,friend:pageFriend,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
+const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,coach:pageCoach,friend:pageFriend,feedback:pageFeedback,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
 
 /* ===== BUTTON ACTIONS ===== */
 const ACT={
@@ -2542,6 +2610,14 @@ const ACT={
     say(W.e);
   },
   "grammar-quiz"(b){grammarQuiz(b.dataset.v)},
+  async install(){if(!installEvent)return;installEvent.prompt();try{await installEvent.userChoice}catch(e){}installEvent=null;installRefresh()},
+  "fb-star"(b){
+    FB.rating=Number(b.dataset.v);
+    $$(".star").forEach(s=>{const on=Number(s.dataset.v)<=FB.rating;s.classList.toggle("on",on);s.setAttribute("aria-checked",String(Number(s.dataset.v)===FB.rating))});
+    $("#fb-star-text").textContent=["","Poor","Not good","Okay","Good","Excellent"][FB.rating];
+  },
+  "fb-like"(b){const v=b.dataset.v,i=FB.liked.indexOf(v);if(i>=0)FB.liked.splice(i,1);else FB.liked.push(v);b.setAttribute("aria-pressed",String(i<0));b.classList.toggle("on",i<0)},
+  "fb-send":feedbackSend,
   "fr-start"(){Mic.abort();stopSpeaking();friendStart()},
   "fr-speak"(){FR.run++;stopSpeaking();frListen()},
   "fr-done"(){Mic.stop()},
