@@ -858,6 +858,16 @@ table:[["Short words","cheap, cheaper, the cheapest","fast, faster, the fastest"
 ]}
 });
 
+/* ===== CONTENT: SPELLING STORIES (original) ===== */
+const STORIES=[
+{t:"A busy Monday",s:["Rajesh reached the office early on Monday.","He opened his laptop and checked his emails.","His manager wanted the weekly sales report before noon.","Rajesh worked carefully and finished it on time.","His manager thanked him for the accurate report."]},
+{t:"The new store",s:["A new furniture store opened in our city last week.","Many customers came to see the beautiful sofas.","The staff were polite and helpful to everyone.","One family bought a dining table and four chairs.","The store manager was very happy with the first day."]},
+{t:"A delayed delivery",s:["A customer called because his order was late.","The support team said sorry for the delay.","They checked the system and found the problem.","The bed was delivered the next morning.","The customer wrote a good review after that."]},
+{t:"Learning English",s:["Every evening I practise English for fifteen minutes.","I listen to short sentences and repeat them aloud.","Sometimes I make mistakes, but I do not give up.","My spelling is getting better every week.","I believe hard work always brings success."]},
+{t:"A team meeting",s:["Our team meeting started at eleven o'clock.","The manager explained the target for this month.","Everyone shared one idea to increase sales.","We decided to call old customers with a special offer.","The meeting ended with a cup of tea."]},
+{t:"A trip to Darjeeling",s:["Last winter my family went to Darjeeling.","We travelled by train and then by car.","The weather was cold but the mountains were beautiful.","We drank fresh tea and walked in the gardens.","It was a journey we will always remember."]}
+];
+
 /* ===== STORAGE ===== */
 const KEY="pesc_v1";
 let storageOK=true;
@@ -1008,9 +1018,10 @@ function chunkText(t){
   if(t.length<180)return [t];
   return t.match(/[^.!?\n]+[.!?]*/g).map(s=>s.trim()).filter(Boolean);
 }
+let sayToken=0,lastUtter=null;
 function say(text,rate){
   if(!ttsOK){toast("Your browser cannot read text aloud. Please try Chrome.");return}
-  Mic.abort();
+  Mic.abort();sayToken++;
   const run=()=>{
     const v=pickVoice();
     chunkText(text).forEach(c=>{
@@ -1023,7 +1034,21 @@ function say(text,rate){
   };
   if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(run,60)}else run();
 }
-function stopSpeaking(){if(ttsOK)speechSynthesis.cancel()}
+function stopSpeaking(){sayToken++;if(ttsOK)speechSynthesis.cancel()}
+/* Says the same text a number of times, with a short pause between, for spelling practice */
+function sayTimes(text,times,rate){
+  if(!ttsOK){toast("Your browser cannot read text aloud. Please try Chrome.");return}
+  Mic.abort();
+  const my=++sayToken;let n=0;
+  const one=()=>{
+    if(my!==sayToken)return;
+    const u=new SpeechSynthesisUtterance(text),v=pickVoice();
+    u.lang=S.settings.accent;if(v)u.voice=v;u.rate=rate;
+    u.onend=()=>{n++;if(n<times&&my===sayToken)setTimeout(one,900)};
+    lastUtter=u;speechSynthesis.speak(u);speechSynthesis.resume();
+  };
+  speechSynthesis.cancel();setTimeout(one,80);
+}
 
 /* ===== SPEECH RECOGNITION ===== */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;
@@ -1293,7 +1318,7 @@ function quizNext(btn){
 const NAV=[
   ["dashboard","Dashboard","home"],["speaking","Speaking Practice","mic"],["lessons","Daily Lessons","book"],
   ["tutor","AI Tutor Mode","chat"],["office","Office English","briefcase"],["vocabulary","Vocabulary","letters"],
-  ["game","Vocabulary Game","game"],["translate","Translate","translate"],["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"]
+  ["game","Vocabulary Game","game"],["spelling","Spelling Practice","text"],["translate","Translate","translate"],["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"]
 ];
 const BOTTOM=[["dashboard","Home","home"],["speaking","Speak","mic"],["lessons","Lessons","book"],["vocabulary","Words","letters"]];
 function buildNav(){
@@ -1611,7 +1636,7 @@ function langSelect(){return '<select class="input notranslate" data-chg="ui-lan
 function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"}
 /* Google's translator is used once per language to prepare all app text, which is then saved on the device.
    After that a small walker swaps English text for the saved text, so screens change instantly. */
-const DICT_V=2;
+const DICT_V=3;
 let DICT=null;
 const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
 function loadDict(l){
@@ -1663,7 +1688,7 @@ function collectStrings(){
     let n;while((n=w.nextNode()))if(!trSkip(n.parentElement))add(n.nodeValue);
     $$("[placeholder]").forEach(e=>add(e.getAttribute("placeholder")));
   };
-  const routes=[["dashboard"],["speaking"],["lessons"],["tutor"],["vocabulary"],["game"],["translate"],["grammar"],["interview"],["progress"]];
+  const routes=[["dashboard"],["speaking"],["lessons"],["tutor"],["vocabulary"],["game"],["spelling"],["spelling","sentences"],["translate"],["grammar"],["interview"],["progress"]];
   Object.keys(OFFICE).forEach(k=>routes.push(["office",k]));
   Object.keys(GRAMMAR).forEach(k=>routes.push(["grammar",k]));
   INTERVIEW.forEach(q=>routes.push(["interview",q.id]));
@@ -1905,6 +1930,140 @@ function pageTranslate(){
   trRefresh();
 }
 
+/* ===== SPELLING PRACTICE =====
+   Words: the app says a word slowly a few times and the learner types it.
+   Sentences: the app reads a short story one sentence at a time. */
+const SP={mode:"words",stage:"home",list:[],i:0,right:0,wrong:[],checked:false,story:null};
+function spellSet(){return Object.assign({times:3,rate:0.7,list:"all"},S.spellSet||{})}
+function spellWords(kind){
+  const miss=S.spell&&S.spell.wrong?Object.keys(S.spell.wrong):[];
+  if(kind==="mistakes")return shuffle(WORDS.filter(w=>miss.indexOf(w.e)>=0)).slice(0,10);
+  return shuffle(WORDS.filter(w=>kind==="all"||w.c===kind)).slice(0,10);
+}
+/* Letter by letter comparison, so the learner sees exactly which letters were wrong */
+function charDiff(target,typed){
+  const a=target.split(""),b=typed.split(""),n=a.length,m=b.length;
+  const dp=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i][j]=a[i].toLowerCase()===b[j].toLowerCase()?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  let i=0,j=0,t="",y="";
+  while(i<n||j<m){
+    if(i<n&&j<m&&a[i].toLowerCase()===b[j].toLowerCase()){t+=esc(a[i]);y+=esc(b[j]);i++;j++}
+    else if(i<n&&(j>=m||dp[i+1][j]>=dp[i][j+1])){t+='<span class="w-miss">'+esc(a[i])+"</span>";i++}
+    else{y+='<span class="w-extra">'+esc(b[j])+"</span>";j++}
+  }
+  return{t,y};
+}
+/* Word by word comparison for sentences: case and punctuation do not count, spelling does */
+function sentenceDiff(target,typed){
+  const key=w=>w.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9']/g,"");
+  const A=target.split(/\s+/).filter(Boolean),B=typed.split(/\s+/).filter(w=>key(w));
+  const a=A.map(key),b=B.map(key),n=a.length,m=b.length;
+  const dp=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i][j]=a[i]===b[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const tS=new Array(n).fill("ok"),yS=new Array(m).fill("ok"),fixes=[];
+  let i=0,j=0,ok=0,mi=[],ex=[];
+  const flush=()=>{
+    const k=Math.min(mi.length,ex.length);
+    for(let q=0;q<k;q++){tS[mi[q]]="bad";yS[ex[q]]="bad";fixes.push([B[ex[q]],A[mi[q]].replace(/[.,!?]+$/,"")])}
+    mi.slice(k).forEach(x=>tS[x]="miss");ex.slice(k).forEach(x=>yS[x]="extra");mi=[];ex=[];
+  };
+  while(i<n||j<m){
+    if(i<n&&j<m&&a[i]===b[j]){flush();ok++;i++;j++}
+    else if(i<n&&(j>=m||dp[i+1][j]>=dp[i][j+1]))mi.push(i++);
+    else ex.push(j++);
+  }
+  flush();
+  return{score:n?Math.round(100*ok/Math.max(n,m)):0,t:wordsHTML(A,tS),y:wordsHTML(B,yS),fixes};
+}
+function noteMistake(word,right){
+  S.spell=S.spell||{wrong:{}};
+  const w=S.spell.wrong;
+  if(!right)w[word]=(w[word]||0)+1;
+  else if(w[word]){w[word]--;if(!w[word])delete w[word]}
+}
+function spellHear(){
+  const o=spellSet();
+  if(SP.mode==="words")sayTimes(SP.list[SP.i].e,o.times,o.rate);
+  else sayTimes(SP.story.s[SP.i],Math.min(o.times,2),o.rate);
+}
+function pageSpelling(sub){
+  SP.mode=sub==="sentences"?"sentences":"words";SP.stage="home";
+  const tabs='<div class="tabs" role="tablist"><a class="tab" style="text-decoration:none" role="tab" aria-selected="'+(SP.mode==="words")+'" href="#/spelling">Step 1: Words</a><a class="tab" style="text-decoration:none" role="tab" aria-selected="'+(SP.mode==="sentences")+'" href="#/spelling/sentences">Step 2: Sentences</a></div>';
+  setView(head("Spelling Practice","Listen, type what you hear, and see which letters were wrong.")+tabs+'<div class="card" id="spell-box"></div>');
+  renderSpelling();
+}
+function renderSpelling(){
+  const box=$("#spell-box");if(!box)return;
+  const o=spellSet(),miss=S.spell&&S.spell.wrong?Object.keys(S.spell.wrong).length:0;
+  const settings='<div class="grid g3"><label class="field">Repeat each<select class="input" data-chg="sp-times">'+[1,2,3].map(n=>'<option value="'+n+'"'+(n===o.times?" selected":"")+">"+n+(n===1?" time":" times")+"</option>").join("")+"</select></label>"+
+    '<label class="field">Speed<select class="input" data-chg="sp-rate">'+[[0.85,"Normal"],[0.7,"Slow"],[0.55,"Very slow"]].map(r=>'<option value="'+r[0]+'"'+(r[0]===o.rate?" selected":"")+">"+r[1]+"</option>").join("")+"</select></label>"+
+    (SP.mode==="words"?'<label class="field">Words<select class="input" data-chg="sp-list">'+[["all","All words"],["General","Everyday words"],["Office","Office words"],["mistakes","My mistakes ("+miss+")"]].map(r=>'<option value="'+r[0]+'"'+(r[0]===o.list?" selected":"")+">"+r[1]+"</option>").join("")+"</select></label>":"")+"</div>";
+  const back='<button class="btn block mt" data-act="sp-home">'+ic("prev")+"Back</button>";
+  if(SP.stage==="home"&&SP.mode==="words"){
+    box.innerHTML=settings+'<p class="muted mt">You will hear 10 words. Type each word, then press Check. Press Hear again as many times as you need.</p>'+
+      (miss?'<p class="small mt"><b>Words to practise:</b> <span class="notranslate">'+esc(Object.keys(S.spell.wrong).join(", "))+"</span></p>":"")+
+      '<button class="btn primary block mt" data-act="sp-start">'+ic("speaker")+"Start</button>";
+    return;
+  }
+  if(SP.stage==="home"){
+    box.innerHTML=settings+'<p class="muted mt">Choose a short story. You will hear one sentence at a time. Type it, then press Check.</p><div class="grid g2 mt">'+
+      STORIES.map((st,i)=>'<button class="card quick" style="text-align:left;cursor:pointer;font:inherit" data-act="sp-story" data-v="'+i+'"><span class="stat-ic">'+ic("book")+'</span><span class="grow"><b>'+esc(st.t)+"</b><p>"+st.s.length+" sentences</p></span></button>").join("")+"</div>";
+    return;
+  }
+  const total=SP.mode==="words"?SP.list.length:SP.story.s.length;
+  if(SP.stage==="done"){
+    const p=Math.round(SP.right/total*100);
+    box.innerHTML='<h2>'+(SP.mode==="words"?"Round finished":"Story finished")+'</h2><p class="score-pill mt">'+SP.right+" of "+total+" correct ("+p+'%)</p><div class="mt">'+barHTML(p,"good")+"</div>"+
+      (SP.wrong.length?'<p class="mt"><b>Practise these again:</b></p><ul class="mistakes notranslate">'+SP.wrong.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":'<div class="note good mt">No mistakes. Well done!</div>')+
+      '<div class="row mt"><button class="btn primary" data-act="'+(SP.mode==="words"?"sp-start":"sp-again")+'">Practise again</button><button class="btn" data-act="sp-home">'+(SP.mode==="words"?"Change settings":"Choose another story")+"</button></div>";
+    return;
+  }
+  SP.checked=false;
+  box.innerHTML='<p class="small muted">'+(SP.mode==="words"?"Word ":"Sentence ")+(SP.i+1)+" of "+total+" | Correct "+SP.right+(SP.mode==="sentences"?" | "+esc(SP.story.t):"")+'</p><div class="mt">'+barHTML(SP.i/total*100)+"</div>"+
+    '<div class="row mt"><button class="btn primary" data-act="sp-hear">'+ic("speaker")+'Hear again</button><button class="btn" data-act="sp-slow">'+ic("slow")+"Very slow</button>"+
+    (SP.mode==="words"?'<button class="btn" data-act="sp-hint">Hint</button>':"")+'</div><p class="small muted mt" id="sp-hint" aria-live="polite"></p>'+
+    '<label class="field mt">Type what you hear'+(SP.mode==="words"?'<input class="input" id="sp-input"':'<textarea class="input" id="sp-input" rows="2"')+' autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" style="font-size:1.2rem" data-enter="sp-check">'+(SP.mode==="words"?"":"</textarea>")+"</label>"+
+    '<div id="sp-result" class="mt" aria-live="polite"></div><button class="btn primary block mt" id="sp-btn" data-act="sp-check">Check</button>'+back;
+  $("#sp-input").focus();
+  spellHear();
+}
+function spellCheck(){
+  const inp=$("#sp-input"),btn=$("#sp-btn"),total=SP.mode==="words"?SP.list.length:SP.story.s.length;
+  if(SP.checked){
+    SP.i++;
+    if(SP.i>=total){
+      SP.stage="done";
+      logScore("spelling",Math.round(SP.right/total*100));save();
+    }
+    renderSpelling();return;
+  }
+  const typed=inp.value.trim();
+  if(!typed){toast("Type what you hear first.");inp.focus();return}
+  SP.checked=true;inp.readOnly=true;
+  let html;
+  if(SP.mode==="words"){
+    const W=SP.list[SP.i],right=typed.toLowerCase()===W.e.toLowerCase();
+    if(right)SP.right++;else SP.wrong.push(W.e);
+    noteMistake(W.e,right);
+    const d=charDiff(W.e,typed);
+    html=(right?'<div class="note good"><b>Correct.</b></div>':'<div class="note bad"><b>Not quite.</b> Look at the letters below.</div>')+
+      '<div class="result notranslate"><p class="small muted">Correct spelling</p><p class="game-word" style="text-align:left;margin:4px 0">'+d.t+'</p>'+
+      (right?"":'<p class="small muted">You typed</p><p style="font-size:1.4rem">'+d.y+'</p><div class="legend"><span class="w-miss">letter you missed</span><span class="w-extra">letter that is not needed</span></div>')+"</div>"+
+      '<div class="mt">'+mean(W.b,W.h,W.e)+'</div><div class="ex row between mt"><span class="grow">'+enLine(W.x)+"</span>"+sayBtn(W.x,"Listen to example")+"</div>";
+  }else{
+    const t=SP.story.s[SP.i],r=sentenceDiff(t,typed);
+    if(r.score===100)SP.right++;
+    r.fixes.forEach(f=>SP.wrong.push(f[0]+" → "+f[1]));
+    html='<div class="note '+(r.score===100?"good":"bad")+'"><b>'+(r.score===100?"Correct.":r.score+"% of words correct.")+"</b></div>"+
+      '<div class="result notranslate"><p class="small muted">Correct sentence</p><p>'+r.t+"</p>"+(r.score===100?"":'<p class="small muted mt">You typed</p><p>'+r.y+"</p>")+
+      (r.fixes.length?'<ul class="mistakes">'+r.fixes.map(f=>"<li>"+esc(f[0])+" → <b>"+esc(f[1])+"</b></li>").join("")+"</ul>":"")+
+      (r.score===100?"":'<div class="legend"><span class="w-bad">wrong spelling</span><span class="w-miss">missing word</span><span class="w-extra">extra word</span></div>')+"</div>";
+  }
+  logAct("spell");save();
+  $("#sp-result").innerHTML=html;
+  btn.textContent=SP.i<total-1?"Next":"See result";btn.focus();
+}
+
 /* ===== GRAMMAR ===== */
 const GRAMMAR_LINKS=[
   ["British Council LearnEnglish","Grammar lessons and exercises for every level.","https://learnenglish.britishcouncil.org/grammar"],
@@ -1979,7 +2138,7 @@ function pageProgress(){
   const days=[];for(let i=6;i>=0;i--){const k=daysAgo(i);days.push({k,m:S.history[k]?Math.floor(S.history[k].sec/60):0})}
   const target=S.settings.target,peak=Math.max(...days.map(d=>d.m)),top=Math.max(target,peak,1)*1.15;
   const keys=Object.keys(S.history).filter(isActive).sort().reverse().slice(0,30);
-  const areas=[["Speaking","speaking"],["Lessons","lessons"],["Grammar","grammar"],["Vocabulary game","vocabulary"],["Office English","office"],["Interview","interview"]];
+  const areas=[["Speaking","speaking"],["Lessons","lessons"],["Grammar","grammar"],["Spelling","spelling"],["Vocabulary game","vocabulary"],["Office English","office"],["Interview","interview"]];
   const totalMin=Math.round(Object.values(S.history).reduce((a,d)=>a+d.sec,0)/60);
   const doneL=ALL_LESSONS.filter(l=>S.lessons[l.id]).sort((a,b)=>S.lessons[b.id].date.localeCompare(S.lessons[a.id].date));
   const byLv=Object.keys(LESSONS).map(k=>[k,LESSONS[k].filter(l=>S.lessons[l.id]).length,LESSONS[k].length]);
@@ -2013,7 +2172,7 @@ function pageProgress(){
     '</div><div class="row mt"><button class="btn" data-act="test-voice">'+ic("speaker")+'Test voice</button><button class="btn danger" data-act="reset">Reset all progress</button></div></div>');
 }
 
-const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
+const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
 
 /* ===== BUTTON ACTIONS ===== */
 const ACT={
@@ -2118,6 +2277,14 @@ const ACT={
     say(W.e);
   },
   "grammar-quiz"(b){grammarQuiz(b.dataset.v)},
+  "sp-start"(){const o=spellSet();SP.list=spellWords(o.list);if(!SP.list.length){toast("No mistakes saved yet. Choose another word list.");return}SP.mode="words";SP.stage="test";SP.i=0;SP.right=0;SP.wrong=[];renderSpelling()},
+  "sp-story"(b){SP.story=STORIES[Number(b.dataset.v)];SP.mode="sentences";SP.stage="test";SP.i=0;SP.right=0;SP.wrong=[];renderSpelling()},
+  "sp-again"(){SP.stage="test";SP.i=0;SP.right=0;SP.wrong=[];renderSpelling()},
+  "sp-home"(){stopSpeaking();SP.stage="home";renderSpelling()},
+  "sp-hear":spellHear,
+  "sp-slow"(){sayTimes(SP.mode==="words"?SP.list[SP.i].e:SP.story.s[SP.i],1,0.5)},
+  "sp-hint"(){const w=SP.list[SP.i].e;$("#sp-hint").innerHTML='Starts with <b class="notranslate">'+esc(w[0])+"</b>, "+w.length+" letters: <span class=\"notranslate\" style=\"letter-spacing:4px\">"+esc(w[0])+"_".repeat(w.length-1)+"</span>"},
+  "sp-check":spellCheck,
   "hv-retry"(){location.reload()},
   "hv-english"(){S.settings.lang="";save();location.reload()},
   async "share-copy"(){
@@ -2150,6 +2317,9 @@ const ACT={
   }
 };
 const CHG={
+  "sp-times"(v){S.spellSet=Object.assign(spellSet(),{times:Number(v)});save()},
+  "sp-rate"(v){S.spellSet=Object.assign(spellSet(),{rate:Number(v)});save()},
+  "sp-list"(v){S.spellSet=Object.assign(spellSet(),{list:v});save()},
   target(v){S.settings.target=Number(v);save();pageDashboard()},
   "word-cat"(v){V.c=v;renderWords()},
   "tr-from"(v){TR.from=v;trRefresh()},
