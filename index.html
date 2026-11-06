@@ -1332,7 +1332,7 @@ function quizNext(btn){
 
 /* ===== NAVIGATION ===== */
 const NAV=[
-  ["dashboard","Dashboard","home"],["speaking","Speaking Practice","mic"],["coach","Talk with Coach","users"],["lessons","Daily Lessons","book"],
+  ["dashboard","Dashboard","home"],["speaking","Speaking Practice","mic"],["coach","Talk with Coach","users"],["friend","Talk with a Friend","chat"],["lessons","Daily Lessons","book"],
   ["tutor","AI Tutor Mode","chat"],["office","Office English","briefcase"],["vocabulary","Vocabulary","letters"],
   ["game","Vocabulary Game","game"],["spelling","Spelling Practice","text"],["translate","Translate","translate"],["grammar","Grammar","check"],["interview","Interview Prep","tie"],["progress","Progress Report","chart"]
 ];
@@ -1652,7 +1652,7 @@ function langSelect(){return '<select class="input notranslate" data-chg="ui-lan
 function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"}
 /* Google's translator is used once per language to prepare all app text, which is then saved on the device.
    After that a small walker swaps English text for the saved text, so screens change instantly. */
-const DICT_V=4;
+const DICT_V=5;
 let DICT=null;
 const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
 function loadDict(l){
@@ -1704,7 +1704,7 @@ function collectStrings(){
     let n;while((n=w.nextNode()))if(!trSkip(n.parentElement))add(n.nodeValue);
     $$("[placeholder]").forEach(e=>add(e.getAttribute("placeholder")));
   };
-  const routes=[["dashboard"],["speaking"],["coach"],["lessons"],["tutor"],["vocabulary"],["game"],["spelling"],["spelling","sentences"],["translate"],["grammar"],["interview"],["progress"]];
+  const routes=[["dashboard"],["speaking"],["coach"],["friend"],["lessons"],["tutor"],["vocabulary"],["game"],["spelling"],["spelling","sentences"],["translate"],["grammar"],["interview"],["progress"]];
   Object.keys(OFFICE).forEach(k=>routes.push(["office",k]));
   Object.keys(GRAMMAR).forEach(k=>routes.push(["grammar",k]));
   INTERVIEW.forEach(q=>routes.push(["interview",q.id]));
@@ -2054,6 +2054,147 @@ function pageCoach(){
 }
 function coachAddNote(){const c=$("#view .card");if(c)c.insertAdjacentHTML("beforeend",'<div class="note warn mt">'+esc(micErrorText("unsupported"))+" The coach needs the microphone, so please use Chrome or Edge.</div>")}
 
+/* ===== TALK WITH A FRIEND =====
+   A spoken conversation. Uses the AI built into Chrome when the browser has it (free, on the device, no key).
+   Without it, a practice friend asks fixed questions and gives rule-based tips, and says so. */
+const FR={run:0,session:null,mode:"",avail:"",topic:"Free chat",q:0,ended:false};
+const FRIEND_TOPICS=["Free chat","My day","Work and office","Family and festivals","Food and cooking","Movies and hobbies","Travel","Job interview practice"];
+const FRIEND_FIXED={"Free chat":"aboutme","My day":"workday","Work and office":"reporting","Family and festivals":"family","Food and cooking":"family","Movies and hobbies":"opinions","Travel":"opinions","Job interview practice":"aboutme"};
+const LMOPTS={expectedInputs:[{type:"text",languages:["en"]}],expectedOutputs:[{type:"text",languages:["en"]}]};
+const FRIEND_PROMPT="You are my friendly English speaking partner. My name is "+"{name}"+". I live in India, I speak Bengali and Hindi, and I want to speak English with more confidence. Talk with me in simple English. Keep your replies short, ask me one question at a time, and when I make a grammar or word mistake, gently tell me the correct way to say it, then continue the conversation.";
+function friendSystem(){
+  const n=S.settings.name;
+  return "You are Alex, a warm and friendly English speaking partner. You are chatting by voice with "+n+", who lives in India, speaks Bengali and Hindi, works in an office, and wants to speak English with more confidence. "+
+    "Keep every reply short: one to three simple sentences, then ask exactly one friendly question. Use everyday words. "+
+    "If "+n+"'s last message has a grammar mistake or a wrong word, start your reply with one line that begins with 'Tip:' and gives the corrected sentence, then continue on a new line. "+
+    "Do not use lists, emojis, or symbols like * or #.";
+}
+async function friendAvail(){
+  if(typeof LanguageModel==="undefined")return "none";
+  try{return String(await LanguageModel.availability(LMOPTS))}catch(e){return "none"}
+}
+function friendSession(progress){
+  return LanguageModel.create(Object.assign({initialPrompts:[{role:"system",content:friendSystem()}],
+    monitor(m){m.addEventListener("downloadprogress",e=>{if(progress)progress(e.loaded)})}},LMOPTS));
+}
+/* Listens until the learner stops talking for two seconds */
+function listenLong(onText){
+  return new Promise(res=>{
+    if(!SR){res({err:"unsupported"});return}
+    let text="",last=Date.now(),timer=0;const start=Date.now();
+    const finish=v=>{clearInterval(timer);res(v)};
+    Mic.start({long:true,onText:t=>{text=t;last=Date.now();if(onText)onText(t)},onEnd:t=>finish({text:t||text}),onError:c=>finish({err:c,text})});
+    timer=setInterval(()=>{
+      if(!Mic.rec){clearInterval(timer);return}
+      const now=Date.now();
+      if((text&&now-last>2000)||(!text&&now-start>10000))Mic.stop();
+    },250);
+  });
+}
+function frStatus(t,busy){const s=$("#fr-status");if(s){s.textContent=t;s.classList.toggle("on",!!busy)}}
+function frAdd(html){const c=$("#fr-chat");if(!c)return;c.insertAdjacentHTML("beforeend",html);c.lastElementChild.scrollIntoView({block:"nearest"})}
+function frButtons(state){
+  const b=$("#fr-btns");if(!b)return;
+  b.innerHTML=state==="listening"?'<button class="btn primary" data-act="fr-done">I am done speaking</button><button class="btn" data-act="fr-stop">Pause</button>':
+    state==="busy"?'<button class="btn" data-act="fr-stop">Pause</button>':
+    state==="ended"?'<button class="btn primary" data-act="fr-start">Start a new chat</button>':
+    '<button class="btn primary" data-act="fr-speak">'+ic("mic")+'Speak</button><button class="btn" data-act="fr-end">End chat</button>';
+}
+/* Shows Alex's reply, with any Tip line in its own box, and says it aloud */
+async function friendSays(reply,alive){
+  const lines=String(reply).replace(/[*#_`]/g,"").split(/\n+/).map(l=>l.trim()).filter(Boolean);
+  const tips=lines.filter(l=>/^tip\s*:/i.test(l)).map(l=>l.replace(/^tip\s*:\s*/i,""));
+  const rest=lines.filter(l=>!/^tip\s*:/i.test(l)).join(" ");
+  tips.forEach(t=>frAdd('<div class="msg check"><div class="who"><span class="badge warn">Tip</span></div><span class="notranslate">'+esc(t)+"</span></div>"));
+  if(rest)frAdd('<div class="msg coach"><div class="who"><span>Alex</span></div>'+enLine(rest)+"</div>");
+  frStatus("Alex is speaking...",true);frButtons("busy");
+  const spoken=(tips.length?"Small tip: "+tips.join(" ")+" ":"")+rest;
+  if(alive())await speakP(spoken,0.95);
+}
+async function frListen(){
+  const my=FR.run,alive=()=>my===FR.run&&!!$("#fr-chat");
+  if(FR.ended)return;
+  frStatus("Listening... speak now",true);frButtons("listening");
+  const r=await listenLong(t=>{if(alive())frStatus("I heard: "+t,true)});
+  if(!alive())return;
+  if(!r.text){frStatus(r.err&&r.err!=="no-speech"?micErrorText(r.err):"I did not hear anything. Press Speak, or type below.");frButtons("idle");return}
+  friendUser(r.text,true);
+}
+async function friendUser(text,spoken){
+  const my=FR.run,alive=()=>my===FR.run&&!!$("#fr-chat");
+  frAdd('<div class="msg user"><div class="who"><span>You'+(spoken?" (spoken)":" (typed)")+'</span></div><span class="notranslate">'+esc(text)+"</span></div>");
+  logAct("tutor");
+  frStatus("Alex is thinking...",true);frButtons("busy");
+  let reply;
+  if(FR.mode==="ai"){
+    try{reply=await FR.session.prompt(text)}
+    catch(e){
+      try{if(FR.session&&FR.session.destroy)FR.session.destroy()}catch(x){}
+      try{FR.session=await friendSession();reply=await FR.session.prompt(text)}
+      catch(e2){if(alive()){frStatus("Your friend could not reply. Please try again.");frButtons("idle")}return}
+    }
+  }else reply=fixedReply(text,spoken);
+  if(!alive())return;
+  await friendSays(reply,alive);
+  if(alive()&&!FR.ended)frListen();
+  else if(alive()){frStatus("Chat finished");frButtons("ended")}
+}
+/* Practice friend without AI: fixed questions and rule-based tips */
+function fixedReply(text,spoken){
+  const qs=TUTOR_TOPICS[FRIEND_FIXED[FR.topic]].qs,res=ruleCheck(text,!spoken);
+  const tip=res.fixes.length?"Tip: "+res.better+"\n":"";
+  const react=["That sounds interesting!","Nice, thank you for sharing.","Oh, I see.","Great answer!"][Math.floor(Math.random()*4)];
+  FR.q++;
+  if(FR.q>=qs.length){FR.ended=true;return tip+react+" Thank you for chatting with me. That was great practice!"}
+  return tip+react+" "+qs[FR.q];
+}
+async function friendStart(){
+  const my=++FR.run,alive=()=>my===FR.run&&!!$("#fr-chat");
+  FR.ended=false;FR.q=0;
+  $("#fr-session").classList.remove("hidden");$("#fr-chat").innerHTML="";
+  $("#fr-session").scrollIntoView({block:"start"});
+  let opener;
+  if(FR.avail==="available"||FR.avail==="downloadable"||FR.avail==="downloading"){
+    frStatus("Getting your friend ready...",true);frButtons("busy");
+    try{
+      if(FR.session&&FR.session.destroy)FR.session.destroy();
+      FR.session=await friendSession(p=>{if(alive())frStatus("Downloading the free AI: "+Math.round(p*100)+"%",true)});
+      FR.mode="ai";
+      opener=await FR.session.prompt("Let's chat about this topic: "+FR.topic+". Greet me in one short sentence and ask me one question.");
+    }catch(e){
+      FR.mode="fixed";
+      frAdd('<div class="note warn">The built-in AI could not start, so your practice friend will ask fixed questions instead.</div>');
+    }
+  }else FR.mode="fixed";
+  if(!alive())return;
+  if(FR.mode==="fixed")opener="Hi "+S.settings.name+"! I am Alex, your practice friend. "+TUTOR_TOPICS[FRIEND_FIXED[FR.topic]].qs[0];
+  await friendSays(opener,alive);
+  if(alive())frListen();
+}
+async function friendCheck(){
+  const box=$("#fr-ai");if(!box)return;
+  FR.avail=await friendAvail();
+  if(!$("#fr-ai"))return;
+  box.innerHTML=FR.avail==="available"?'<div class="note good">Your friend uses the free AI built into Chrome. The conversation stays on this device.</div>':
+    FR.avail==="downloadable"||FR.avail==="downloading"?'<div class="note">Chrome has a free built-in AI. The first time you press Start talking, Chrome downloads it once (about 2 to 4 GB). After that it works on this device, for free.</div>':
+    '<div class="note warn">This browser has no built-in AI, so your practice friend asks fixed questions and gives simple grammar tips. It is not AI. For a real AI friend, use Chrome on a computer, or a free AI app below.</div>';
+}
+function pageFriend(){
+  FR.run++;
+  const apps=[["ChatGPT","https://chatgpt.com/","Tap the voice button in the app."],["Gemini","https://gemini.google.com/","Use Gemini Live in the app."],["Claude","https://claude.ai/","Tap the voice button in the app."]];
+  setView(head("Talk with a Friend","Have a real conversation in English. Your friend replies, asks you questions, and gives small tips.")+
+    '<div class="card"><label class="field">Topic<select class="input" data-chg="fr-topic">'+FRIEND_TOPICS.map(t=>'<option'+(t===FR.topic?" selected":"")+">"+t+"</option>").join("")+"</select></label>"+
+    '<div id="fr-ai" class="mt"></div>'+
+    '<div class="row mt"><button class="btn primary" data-act="fr-start">'+ic("mic")+'Start talking</button><span data-micstate>'+micStateHTML()+"</span></div>"+
+    '<p class="small muted mt">Speak, then stop for two seconds and your friend will reply. Use headphones so your friend does not hear its own voice. You can also type.</p></div>'+
+    '<div class="card hidden" id="fr-session"><p class="badge" id="fr-status"></p><div class="chat mt" id="fr-chat" aria-live="polite"></div>'+
+    '<div class="type-row mt"><input class="input" id="fr-text" placeholder="Or type your message" autocomplete="off" data-enter="fr-send"><button class="btn" data-act="fr-send">Send</button></div><div class="row mt" id="fr-btns"></div></div>'+
+    '<div class="card section"><h2>Other free AI voice friends</h2><p class="small muted mt">These apps have a free voice mode, with daily limits. Copy the instruction, paste it as your first message, then start talking.</p>'+
+    '<div class="row mt"><button class="btn primary" data-act="fr-copy">'+ic("copy")+"Copy instruction</button></div>"+
+    '<div class="grid g3 mt">'+apps.map(a=>'<a class="card quick" href="'+a[1]+'" target="_blank" rel="noopener noreferrer"><span class="stat-ic">'+ic("ext")+'</span><span class="grow"><b class="notranslate">'+a[0]+"</b><p>"+a[2]+"</p></span></a>").join("")+"</div></div>");
+  friendCheck();
+}
+
 /* ===== SPELLING PRACTICE =====
    Words: the app says a word slowly a few times and the learner types it.
    Sentences: the app reads a short story one sentence at a time. */
@@ -2296,7 +2437,7 @@ function pageProgress(){
     '</div><div class="row mt"><button class="btn" data-act="test-voice">'+ic("speaker")+'Test voice</button><button class="btn danger" data-act="reset">Reset all progress</button></div></div>');
 }
 
-const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,coach:pageCoach,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
+const PAGES={dashboard:pageDashboard,speaking:pageSpeaking,coach:pageCoach,friend:pageFriend,lessons:pageLessons,tutor:pageTutor,office:pageOffice,vocabulary:pageVocabulary,game:()=>pageVocabulary("game"),translate:pageTranslate,spelling:pageSpelling,grammar:pageGrammar,interview:pageInterview,progress:pageProgress};
 
 /* ===== BUTTON ACTIONS ===== */
 const ACT={
@@ -2401,6 +2542,18 @@ const ACT={
     say(W.e);
   },
   "grammar-quiz"(b){grammarQuiz(b.dataset.v)},
+  "fr-start"(){Mic.abort();stopSpeaking();friendStart()},
+  "fr-speak"(){FR.run++;stopSpeaking();frListen()},
+  "fr-done"(){Mic.stop()},
+  "fr-stop"(){FR.run++;Mic.abort();stopSpeaking();frStatus("Paused");frButtons("idle")},
+  "fr-end"(){FR.run++;Mic.abort();stopSpeaking();FR.ended=true;frStatus("Chat ended");frButtons("ended")},
+  "fr-send"(){
+    const i=$("#fr-text"),t=i.value.trim();
+    if(!t){toast("Type a message first.");i.focus();return}
+    if(!FR.mode){toast("Press Start talking first.");return}
+    i.value="";FR.run++;Mic.abort();stopSpeaking();friendUser(t,false);
+  },
+  async "fr-copy"(){const ok=await copyText(FRIEND_PROMPT.replace("{name}",S.settings.name));toast(ok?"Copied. Paste it as your first message in the app.":"Could not copy automatically.")},
   "co-start"(){
     if(!SR){toast(micErrorText("unsupported"));return}
     CO.list=shuffle(speakSets()[CO.set]).slice(0,10);CO.i=0;CO.tries=0;CO.quiet=0;CO.perfect=0;
@@ -2453,6 +2606,7 @@ const ACT={
   }
 };
 const CHG={
+  "fr-topic"(v){FR.topic=v},
   "co-voice"(v){S.settings.voice=v;save();say("Hello! This is how I sound.")},
   "co-set"(v){CO.set=v},
   "sp-times"(v){S.spellSet=Object.assign(spellSet(),{times:Number(v)});save()},
