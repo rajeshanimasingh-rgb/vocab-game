@@ -1658,7 +1658,9 @@ function renderGame(){
   const back='<button class="btn block mt" data-act="game-home">'+ic("prev")+"Back to game menu</button>";
   if(G.stage==="home"){
     const cur=S.game.level,allDone=cur>MAX_LEVEL;
-    box.innerHTML='<p class="small muted">'+esc(gameStats())+"</p>"+
+    box.innerHTML='<label class="field">Meaning language<select class="input notranslate" data-chg="ui-lang" aria-label="Meaning language"><option value="">Bengali (built in)</option>'+langOptions(S.settings.lang,["en","bn"])+"</select></label>"+
+      '<p class="small muted mt">The test shows each word\'s meaning in this language. Choosing a language also changes the app\'s menus to it. The first time, it takes one to two minutes to prepare.</p>'+
+      '<p class="small muted section">'+esc(gameStats())+"</p>"+
       (allDone?'<div class="note good mt">You have passed every level. Choose any level below to practise again.</div>':"")+
       '<div class="grid g2 mt"><button class="btn primary" data-act="game-level" data-v="'+Math.min(cur,MAX_LEVEL)+'"'+(allDone?" disabled":"")+">"+ic("game")+'Start Level</button><button class="btn" data-act="game-daily">'+ic("clock")+"Daily Practice</button></div>"+
       '<h3 class="section">Levels</h3><div class="tabs mt">'+Array.from({length:MAX_LEVEL},(_,i)=>i+1).map(n=>'<button class="tab" data-act="game-level" data-v="'+n+'"'+(n>cur?" disabled":"")+' aria-selected="'+(n===cur)+'">'+n+"</button>").join("")+"</div>";
