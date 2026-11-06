@@ -7,6 +7,7 @@
 <meta name="description" content="Practise English speaking, vocabulary, grammar, office English and interviews, with Bengali and Hindi meanings.">
 <meta name="theme-color" content="#1a56db">
 <link rel="manifest" href="manifest.webmanifest">
+<script data-goatcounter="https://rajesh-englishcoach.goatcounter.com/count" data-goatcounter-settings='{"no_onload":true}' async src="https://gc.zgo.at/count.js"></script>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="English Coach">
@@ -303,7 +304,7 @@ body{top:0!important}
 <aside class="sidebar" aria-label="Main navigation">
   <div class="brand"><span class="brand-mark brand-ic"></span><span>Personal English<small>Speaking Coach</small></span></div>
   <ul class="nav" id="nav"></ul>
-  <div class="side-foot"><span id="gt-note">Works free in your browser.</span><br>No login or API key.<br><a href="https://rajeshanimasingh-rgb.github.io/vocab-game/" target="_blank" rel="noopener noreferrer">Open app link</a></div>
+  <div class="side-foot"><span id="gt-note">Works free in your browser.</span><br>No login or API key.<br>Visits are counted anonymously, with no cookies.<br><a href="https://rajeshanimasingh-rgb.github.io/vocab-game/" target="_blank" rel="noopener noreferrer">Open app link</a></div>
 </aside>
 <div class="scrim" data-act="close-menu"></div>
 <div class="main">
@@ -1360,6 +1361,16 @@ function parseRoute(){
   const p=location.hash.replace(/^#\/?/,"").split("/").filter(Boolean);
   return{page:PAGES[p[0]]?p[0]:"dashboard",sub:p[1]?decodeURIComponent(p[1]):null};
 }
+/* Visitor counter (GoatCounter): counts each page people open, with no cookies or personal data.
+   It skips localhost, so test runs are not counted. */
+let gcPending=null;
+function countVisit(r){
+  const path=location.pathname+"#/"+r.page+(r.sub?"/"+r.sub:"");
+  const title=(NAV.find(n=>n[0]===r.page)||NAV[0])[1];
+  if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path,title});
+  else gcPending={path,title};
+}
+window.addEventListener("load",()=>{if(gcPending&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count(gcPending);gcPending=null}});
 function render(){
   Mic.abort();stopSpeaking();
   document.body.classList.remove("menu-open");
@@ -1368,6 +1379,7 @@ function render(){
   $("#top-title").textContent=(NAV.find(n=>n[0]===r.page)||NAV[0])[1];
   LessonRun=null;
   PAGES[r.page](r.sub);
+  countVisit(r);
   window.scrollTo(0,0);
   const h=$("#view h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}
 }
