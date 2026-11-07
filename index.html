@@ -1125,7 +1125,234 @@ const BETTER_WORDS=[
 ];
 
 /* Extra screen text for language translation (text that only appears after an action) */
-const EXTRA_UI2=["Interrupt and speak","End chat and see report","Start a new chat","Chat finished","Conversation report","Messages","Words per message","Messages with no common mistakes","No common mistakes found.","Copied. Paste it into Claude or ChatGPT.","Backup downloaded.","Progress restored.","This file is not an English Coach backup.","Could not read this file.","Your progress before the last reset was restored.","No reviews due. Well done!","Correct.","Not quite.","Round finished","Your level","Level test finished","Skip","Next","Check","Theme saved.","Type the word you hear.","Type the correct sentence.","Write something first.","Checked by fixed rules, not AI.","Original","Corrected","Grammar mistakes","Spelling mistakes","Better professional version","Explanation in Bengali","Explanation in Hindi","No mistakes found by the rules.","Possible spelling mistake","Saved to your mistake history.","Thank you! You have already sent 3 messages today. Please send more tomorrow.","Could not send right now. Please check your internet and try again in a few minutes.","Saved on this device","Your feedback will be sent when you are back online."];
+const EXTRA_UI2=["Date","1 day","Chrome has a free built-in AI. The first time you press Start talking, Chrome downloads it once (about 2 to 4 GB). After that it works on this device, for free.","Your friend uses the free AI built into Chrome. The conversation stays on this device.","This browser has no built-in AI, so your practice friend asks fixed questions for the conversation type you choose and gives simple grammar tips. It is not AI. For a real AI friend, use Chrome on a computer, or a free AI app below.","Listen to 5 short sentences from your Intermediate lessons and type each one. Mistakes come back in your review.","Listen to 5 short sentences from your Advanced lessons and type each one. Mistakes come back in your review.","Listen to 5 short sentences from your Office lessons and type each one. Mistakes come back in your review.","1. Listen","2. Words","2. Speak","3. Speak","3. Quiz","4. Grammar","5. Quiz","Words in this lesson","Next: Learn the words","Next: Speak these sentences","Go to grammar","Go to quiz","Office","At work:","Interrupt and speak","End chat and see report","Start a new chat","Chat finished","Conversation report","Messages","Words per message","Messages with no common mistakes","No common mistakes found.","Copied. Paste it into Claude or ChatGPT.","Backup downloaded.","Progress restored.","This file is not an English Coach backup.","Could not read this file.","Your progress before the last reset was restored.","No reviews due. Well done!","Correct.","Not quite.","Round finished","Your level","Level test finished","Skip","Next","Check","Theme saved.","Type the word you hear.","Type the correct sentence.","Write something first.","Checked by fixed rules, not AI.","Original","Corrected","Grammar mistakes","Spelling mistakes","Better professional version","Explanation in Bengali","Explanation in Hindi","No mistakes found by the rules.","Possible spelling mistake","Saved to your mistake history.","Thank you! You have already sent 3 messages today. Please send more tomorrow.","Could not send right now. Please check your internet and try again in a few minutes.","Saved on this device","Your feedback will be sent when you are back online."];
+
+/* ===== CONTENT: STAGE 1 (100 office words, 10 office lessons) ===== */
+
+/* 100 professional words for MIS reporting, retail sales, business analysis, Excel reporting,
+   management communication and performance analysis. None repeat the first 100 words.
+   Format: English | Bengali | Hindi | Pronunciation | Example | Office usage */
+const OFFICE_WORD_ROWS=[
+["spreadsheet","স্প্রেডশিট (হিসাবের শিট)","स्प्रेडशीट (गणना की शीट)","SPRED-sheet","I updated the sales spreadsheet this morning.","Use it for any Excel or Google Sheets file with rows and columns of data."],
+["formula","সূত্র","सूत्र / फ़ॉर्मूला","FOR-myoo-luh","This formula adds the sales of all studios.","Say it when you explain how a number in Excel is calculated."],
+["pivot","পিভট (সারাংশ টেবিল)","पिवट (सारांश तालिका)","PIV-ut","Refresh the pivot after pasting new data.","Short for pivot table: a table that summarises data by region, studio or month."],
+["filter","ছাঁকনি / বাছাই করা","फ़िल्टर / छाँटना","FIL-ter","Filter the report to show only the East region.","Use it when you show only some rows of a report."],
+["dataset","ডেটা সংগ্রহ","डेटा का समूह","DAY-tuh-set","The dataset has orders from the last three months.","The full set of data you use for a report or analysis."],
+["validation","যাচাই","सत्यापन / जाँच","val-ih-DAY-shun","Data validation stops wrong entries in the sheet.","Checking that data is correct, or limiting what can be typed in a cell."],
+["duplicate","নকল / একই জিনিস দুবার","डुप्लिकेट / दोहराव","DOO-plih-kut","Please remove the duplicate orders before sharing.","A row or entry that appears twice. Always remove duplicates before totals."],
+["template","নমুনা কাঠামো","तैयार ढाँचा / टेम्पलेट","TEM-plut","Use the monthly template for the incentive report.","A ready format you copy every time, so reports look the same."],
+["macro","ম্যাক্রো (স্বয়ংক্রিয় ধাপ)","मैक्रो (स्वचालित चरण)","MAK-roh","The macro sends the report by email at 10 a.m.","A recorded or written set of steps in Excel that runs automatically."],
+["automate","স্বয়ংক্রিয় করা","स्वचालित करना","AW-tuh-mayt","We automated the daily dashboard last month.","Use it when a task now runs by itself without manual work."],
+["export","রপ্তানি / বের করে নেওয়া","निर्यात / एक्सपोर्ट करना","eks-PORT","Export the data from Bridge as a CSV file.","Taking data out of a system into a file."],
+["refresh","নতুন করে হালনাগাদ করা","ताज़ा करना / रिफ़्रेश करना","rih-FRESH","Please refresh the dashboard to see today's numbers.","Updating a pivot, query or page so it shows the latest data."],
+["lookup","খুঁজে মেলানো","खोजकर मिलान","LOOK-up","I used a lookup to bring the target into this sheet.","Excel functions like VLOOKUP and XLOOKUP that find matching values."],
+["aggregate","মোট / একত্রিত","कुल / एकत्रित","AG-rih-gut","The aggregate sales for the region rose by 9 percent.","The combined total of many numbers."],
+["consolidate","একত্র করা","समेकित करना / एक साथ करना","kun-SOL-ih-dayt","I will consolidate all studio reports into one file.","Joining data from many files or teams into one."],
+["variance","পার্থক্য / ফারাক","अंतर / भिन्नता","VAIR-ee-uns","The variance between target and actual is 4 lakh.","The difference between a plan and the actual result."],
+["threshold","সীমা","सीमा / दहलीज़","THRESH-hohld","Studios below the 50 percent threshold need a review.","A limit that, once crossed, triggers an action."],
+["metric","পরিমাপ","मापदंड","MET-rik","Conversion is our most important metric this quarter.","A number you track to measure performance, such as GMV or footfall."],
+["benchmark","মানদণ্ড","मानक / बेंचमार्क","BENCH-mark","Our best studio is the benchmark for the others.","A standard you compare results against."],
+["baseline","ভিত্তিরেখা","आधार रेखा","BAYS-lyn","Last year's sales are the baseline for this target.","The starting number that you compare later results with."],
+["trend","প্রবণতা","रुझान","TREND","The trend shows sales rising every weekend.","The general direction of numbers over time."],
+["outlier","ব্যতিক্রম মান","असामान्य मान","OWT-ly-er","This order is an outlier, so check it before the total.","A value much higher or lower than the rest."],
+["discrepancy","অমিল","विसंगति / अंतर","dis-KREP-un-see","There is a discrepancy between the two reports.","A difference between two numbers that should match."],
+["audit","নিরীক্ষা","लेखा-परीक्षा / ऑडिट","AW-dit","The finance team will audit the incentive payouts.","A careful official check of records."],
+["timestamp","সময়ের ছাপ","समय-मुहर","TYM-stamp","Every order has a timestamp from the system.","The date and time recorded for an event."],
+["query","প্রশ্ন / অনুসন্ধান","प्रश्न / क्वेरी","KWEER-ee","I have a query about yesterday's numbers.","A question; also a request that pulls data from a database."],
+["extract","বের করা / নির্যাস","निकालना","ek-STRAKT","Extract the orders for Kolkata from the main file.","Taking only the part of the data that you need."],
+["cumulative","ক্রমবর্ধমান মোট","संचयी / कुल मिलाकर","KYOO-myuh-luh-tiv","Cumulative sales this month are 2.4 crore.","A running total that keeps adding, such as month to date."],
+["median","মধ্যমা","माध्यिका","MEE-dee-un","The median order value is lower than the average.","The middle value when numbers are sorted. Outliers affect it less than the average."],
+["percentage","শতাংশ","प्रतिशत","per-SEN-tij","What percentage of the target have we achieved?","A part of 100, used for achievement, growth and share."],
+["ratio","অনুপাত","अनुपात","RAY-shee-oh","The ratio of walk-ins to orders is ten to one.","A comparison of two numbers."],
+["projection","পূর্বাভাস হিসাব","अनुमानित आँकड़ा","pruh-JEK-shun","Our month-end projection is 104 percent of target.","An estimate of a future number based on current data."],
+["estimate","আনুমানিক হিসাব","अनुमान","ES-tih-mut","Can you give me a rough estimate by noon?","A close guess of a number."],
+["deviation","বিচ্যুতি","विचलन","dee-vee-AY-shun","Any deviation above 5 percent must be explained.","How far a result moves away from the plan or the average."],
+["quarterly","ত্রৈমাসিক","तिमाही","KWOR-ter-lee","The quarterly review is next Friday.","Happening every three months."],
+["scorecard","স্কোরকার্ড (ফলাফলের তালিকা)","स्कोरकार्ड (परिणाम सूची)","SKOR-kard","Each manager gets a monthly scorecard.","A one-page summary of key results for a person or team."],
+["footfall","আগত ক্রেতার সংখ্যা","आने वाले ग्राहकों की संख्या","FOOT-fawl","Footfall increased on Sunday because of the offer.","The number of people who visit a store."],
+["conversion","রূপান্তর হার","रूपांतरण दर","kun-VER-zhun","Our conversion is 12 percent this week.","The share of visitors who actually buy."],
+["basket","কেনাকাটার ঝুড়ি","टोकरी / बास्केट","BAS-kit","The average basket size went up after the combo offer.","All items a customer buys in one bill."],
+["upsell","বেশি দামের জিনিস বিক্রি করা","महँगा विकल्प बेचना","UP-sel","Train the team to upsell premium sofas.","Persuading a customer to buy a better, more expensive item."],
+["markdown","দাম কমানো","कीमत घटाना","MARK-down","The markdown on old stock ends on Sunday.","A price reduction on items, often to clear stock."],
+["margin","লাভের অংশ","मुनाफ़े का हिस्सा / मार्जिन","MAR-jin","The margin on home decor is higher than on furniture.","The difference between selling price and cost."],
+["turnover","মোট বিক্রি / লেনদেন","कुल कारोबार","TURN-oh-ver","The company's annual turnover crossed 500 crore.","Total sales in a period. Staff turnover means people leaving."],
+["stock","মজুত","स्टॉक / भंडार","STOK","This model is out of stock until next week.","Goods available to sell."],
+["replenish","পুনরায় ভর্তি করা","फिर से भरना","rih-PLEN-ish","We must replenish the best-selling items quickly.","Refilling stock that has been sold."],
+["shrinkage","ঘাটতি / হারানো মাল","माल की कमी / नुकसान","SHRINK-ij","Shrinkage was higher in the old warehouse.","Stock lost through damage, theft or errors."],
+["merchandise","বিক্রির পণ্য","बिक्री का सामान","MER-chun-dyz","New merchandise arrives every Monday.","Goods sold in a store."],
+["showroom","প্রদর্শনী কক্ষ","शोरूम","SHOH-room","The new showroom opens in Pune next month.","A store where products are displayed for customers."],
+["wholesale","পাইকারি","थोक","HOHL-sayl","We buy cushions at wholesale prices.","Selling in large amounts, usually to other businesses."],
+["vendor","বিক্রেতা","विक्रेता","VEN-der","The vendor promised delivery by Thursday.","A company or person that sells goods or services to you."],
+["supplier","সরবরাহকারী","आपूर्तिकर्ता","suh-PLY-er","Our supplier increased the price of wood.","A company that provides materials or products."],
+["procurement","সংগ্রহ / ক্রয় প্রক্রিয়া","खरीद प्रक्रिया","pruh-KYOOR-munt","Procurement approved the new laptops.","The process or team that buys goods for the company."],
+["logistics","পরিবহন ব্যবস্থাপনা","रसद / लॉजिस्टिक्स","luh-JIS-tiks","Logistics delays affected deliveries in the East.","Managing transport, storage and delivery."],
+["dispatch","প্রেরণ করা","भेजना / रवाना करना","dis-PACH","The order was dispatched yesterday evening.","Sending goods out for delivery."],
+["refund","টাকা ফেরত","धनवापसी / रिफ़ंड","REE-fund","The customer will get a full refund in five days.","Money returned to a customer."],
+["warranty","ওয়ারেন্টি / নিশ্চয়তা","वारंटी / गारंटी","WOR-un-tee","The sofa has a one-year warranty.","A promise to repair or replace a product for a period."],
+["quotation","দরপত্র / মূল্য প্রস্তাব","कोटेशन / मूल्य प्रस्ताव","kwoh-TAY-shun","Please send the quotation for twenty chairs.","A written price offer before a purchase."],
+["transaction","লেনদেন","लेन-देन","tran-ZAK-shun","Each transaction is recorded in the system.","One sale or payment."],
+["loyalty","আনুগত্য","निष्ठा / वफ़ादारी","LOY-ul-tee","Our loyalty programme gives points on every order.","Customers coming back to buy again."],
+["promotion","প্রচার / পদোন্নতি","प्रचार / पदोन्नति","pruh-MOH-shun","The weekend promotion doubled footfall.","A sales offer; it also means a move to a higher job."],
+["campaign","প্রচারাভিযান","अभियान","kam-PAYN","The festive campaign starts on the first of October.","A planned series of marketing activities."],
+["seasonal","মৌসুমি","मौसमी","SEE-zun-ul","Sales show a seasonal rise before Diwali.","Changing with the time of year or festivals."],
+["clearance","ছাড়ে বিক্রি / অনুমোদন","क्लियरेंस सेल / मंज़ूरी","KLEER-uns","The clearance sale ends this weekend.","A sale to clear old stock; also official permission."],
+["assortment","বিভিন্ন রকমের সংগ্রহ","विविध संग्रह","uh-SORT-munt","The new assortment includes 40 lamps.","The range of products a store offers."],
+["franchise","ফ্র্যাঞ্চাইজি","फ़्रेंचाइज़ी","FRAN-chyz","The franchise studio follows the same reports.","A business run by a partner under the company's brand."],
+["insight","অন্তর্দৃষ্টি","अंतर्दृष्टि / समझ","IN-syt","The key insight is that weekday sales are weak.","A useful understanding you get from the data."],
+["assumption","অনুমান / ধরে নেওয়া","धारणा","uh-SUMP-shun","This forecast is based on the assumption of 10 percent growth.","Something you accept as true without proof, in a plan."],
+["constraint","সীমাবদ্ধতা","बाधा / सीमा","kun-STRAYNT","Time is our biggest constraint this week.","Something that limits what you can do."],
+["scenario","পরিস্থিতি / সম্ভাব্য অবস্থা","परिदृश्य / स्थिति","sih-NAIR-ee-oh","In the best scenario, we cross the target by the 25th.","A possible situation you plan for."],
+["objective","লক্ষ্য / উদ্দেশ্য","उद्देश्य","ub-JEK-tiv","Our objective is to improve conversion by 2 percent.","A clear goal."],
+["initiative","উদ্যোগ","पहल","ih-NISH-uh-tiv","The new training initiative helped new staff.","A new plan or action to improve something; also acting without being asked."],
+["strategy","কৌশল","रणनीति","STRAT-uh-jee","Our strategy is to focus on high-value customers.","A long-term plan to reach a goal."],
+["mitigate","প্রশমিত করা / কমানো","कम करना","MIT-ih-gayt","We added stock to mitigate the risk of delays.","Making a problem or risk less serious."],
+["evaluate","মূল্যায়ন করা","मूल्यांकन करना","ih-VAL-yoo-ayt","We will evaluate the offer after two weeks.","Judging how good or useful something is."],
+["assess","পর্যালোচনা করা","आकलन करना","uh-SES","Please assess the impact of the price change.","Studying a situation carefully to judge it."],
+["feasible","সম্ভবপর","व्यावहारिक / संभव","FEE-zuh-bul","Is it feasible to finish the report by Monday?","Possible and practical to do."],
+["correlation","পারস্পরিক সম্পর্ক","सहसंबंध","kor-uh-LAY-shun","There is a strong correlation between footfall and sales.","A link between two sets of numbers that move together."],
+["agenda","আলোচ্যসূচি","कार्यसूची / एजेंडा","uh-JEN-duh","The first item on the agenda is the sales review.","The list of topics for a meeting."],
+["deliverable","প্রদেয় কাজ","सौंपा जाने वाला काम","dih-LIV-er-uh-bul","The main deliverable this week is the incentive file.","A piece of work you must hand over."],
+["clarify","স্পষ্ট করা","स्पष्ट करना","KLAIR-ih-fy","Could you clarify which region you need?","Making something easier to understand."],
+["acknowledge","স্বীকার করা","स्वीकार करना","uk-NOL-ij","Please acknowledge this email once you receive it.","Confirming that you received or accept something."],
+["delegate","দায়িত্ব অর্পণ করা","काम सौंपना","DEL-ih-gayt","The manager delegated the data check to me.","Giving part of your work to someone else."],
+["align","সামঞ্জস্য করা","तालमेल बिठाना","uh-LYN","Let's align on the numbers before the meeting.","Agreeing together so everyone works the same way."],
+["consensus","সর্বসম্মতি","आम सहमति","kun-SEN-sus","The team reached a consensus on the new format.","General agreement in a group."],
+["proposal","প্রস্তাব","प्रस्ताव","pruh-POH-zul","I sent a proposal to automate the weekly report.","A formal suggestion or plan."],
+["recommendation","সুপারিশ","सिफ़ारिश","rek-uh-men-DAY-shun","My recommendation is to extend the offer by a week.","Advice on the best action."],
+["circulate","বিতরণ করা","सब तक भेजना","SER-kyuh-layt","Please circulate the minutes to all managers.","Sending a document to many people."],
+["coordinate","সমন্বয় করা","समन्वय करना","koh-OR-dih-nayt","I will coordinate with the warehouse team.","Organising people or tasks so they work together."],
+["collaborate","একসাথে কাজ করা","मिलकर काम करना","kuh-LAB-uh-rayt","The MIS and sales teams collaborate every day.","Working together with others."],
+["accountability","জবাবদিহিতা","जवाबदेही","uh-kown-tuh-BIL-ih-tee","Each studio manager has accountability for their numbers.","Being responsible for results and explaining them."],
+["concise","সংক্ষিপ্ত","संक्षिप्त","kun-SYS","Keep your update concise: three points only.","Short and clear."],
+["tentative","অস্থায়ী / সাময়িক","अस्थायी / संभावित","TEN-tuh-tiv","The tentative date for the launch is the 15th.","Not final yet; may change."],
+["pending","অপেক্ষমাণ / বাকি","लंबित / बाकी","PEN-ding","Two studios' data is still pending.","Not yet done or received."],
+["productivity","উৎপাদনশীলতা","उत्पादकता","proh-duk-TIV-ih-tee","Automation improved the team's productivity.","How much work is done in a given time."],
+["incentive","প্রণোদনা","प्रोत्साहन राशि","in-SEN-tiv","The incentive is paid on achievement above 100 percent.","Extra money or reward for reaching a target."],
+["appraisal","মূল্যায়ন","मूल्यांकन / अप्रेज़ल","uh-PRAY-zul","My annual appraisal is next week.","A formal review of an employee's performance."],
+["attrition","কর্মী ছেড়ে যাওয়ার হার","कर्मचारी छोड़ने की दर","uh-TRISH-un","Attrition in the sales team was high this year.","The rate at which staff leave a company."],
+["quota","নির্ধারিত অংশ","कोटा / निर्धारित हिस्सा","KWOH-tuh","Each consultant has a monthly sales quota.","A fixed amount someone must achieve."],
+["milestone","মাইলফলক","मील का पत्थर","MYL-stohn","Crossing 100 crore was a big milestone.","An important point in progress."],
+["shortfall","ঘাটতি","कमी","SHORT-fawl","The shortfall against target is 12 lakh.","The amount by which a result is less than needed."]
+];
+WORDS.push.apply(WORDS,OFFICE_WORD_ROWS.map(r=>({e:r[0],b:r[1],h:r[2],p:r[3],x:r[4],c:"Office",u:r[5]})));
+
+/* ===== CONTENT: STAGE 1, 10 PRACTICAL OFFICE LESSONS =====
+   Same format as other lessons, plus:
+   vocab: [word, simple English meaning, Bengali, Hindi]
+   grammar: {h, en, bn, hi, ex:[examples]}
+   quiz: extra grammar questions [question, options, right option, explanation] */
+LESSONS.Office=[
+{id:"o1",t:"Daily stand-up meeting",goal:"Say what you did yesterday, what you will do today, and what is blocking you.",lines:[
+["Team lead","Good morning. Let's go round the team. What did you finish yesterday?","সুপ্রভাত। একে একে সবাই বলুন। গতকাল কী শেষ করেছেন?","सुप्रभात। सब बारी-बारी से बताइए। कल आपने क्या पूरा किया?"],
+["You","I have finished the footfall report and shared it with the regional managers.","আমি ফুটফল রিপোর্ট শেষ করে রিজিওনাল ম্যানেজারদের পাঠিয়েছি।","मैंने फुटफॉल रिपोर्ट पूरी करके रीजनल मैनेजरों को भेज दी है।"],
+["Team lead","Good. What is your plan for today?","ভালো। আজ আপনার পরিকল্পনা কী?","अच्छा। आज आपकी क्या योजना है?"],
+["You","Today I will update the incentive file and check the data for duplicates.","আজ আমি ইনসেন্টিভ ফাইল আপডেট করব এবং ডুপ্লিকেট ডেটা দেখব।","आज मैं इंसेंटिव फ़ाइल अपडेट करूँगा और डुप्लिकेट डेटा जाँचूँगा।"],
+["Team lead","Is anything blocking you?","কিছু কি আটকে রেখেছে?","क्या कोई रुकावट है?"],
+["You","Yes, the Pune data is still pending. I will follow up with them before lunch.","হ্যাঁ, পুনের ডেটা এখনও বাকি। দুপুরের আগে আমি তাদের সাথে যোগাযোগ করব।","हाँ, पुणे का डेटा अभी बाकी है। मैं दोपहर से पहले उनसे फ़ॉलो-अप करूँगा।"]],
+vocab:[["stand-up","a short daily team meeting, often done standing","দাঁড়িয়ে ছোট দৈনিক মিটিং","रोज़ की छोटी खड़ी मीटिंग"],["blocking","stopping your work from moving forward","কাজ আটকে রাখা","काम रोकना"],["pending","not yet done or received","বাকি","बाकी / लंबित"],["follow up","contact someone again about something","আবার খোঁজ নেওয়া","फिर से संपर्क करना"],["share","send something so others can see it","পাঠানো / ভাগ করা","भेजना / साझा करना"]],
+grammar:{h:"Present perfect for finished work, will for today's plan",en:"Use have or has + past participle for work you finished recently: I have finished the report. Use will + verb for what you plan to do today: I will update the file.",bn:"সম্প্রতি শেষ করা কাজের জন্য have/has + past participle: I have finished the report। আজকের পরিকল্পনার জন্য will + verb: I will update the file।",hi:"हाल ही में पूरे किए काम के लिए have/has + past participle: I have finished the report। आज की योजना के लिए will + verb: I will update the file।",ex:["I have sent the dashboard to everyone.","She has checked the totals.","I will call the warehouse after the meeting."]},
+quiz:[["Choose the correct update: \"I ___ the report already.\"",["have shared","shared have","am share","will shared"],0,"Use have + past participle for finished work: I have shared the report."],["Which sentence is a plan for today?",["I will check the data after lunch.","I checked the data.","I have check the data.","I checking the data."],0,"Use will + base verb for a plan."]]},
+
+{id:"o2",t:"Sales review meeting",goal:"Compare results with the target and explain the gap.",lines:[
+["Regional manager","How did the East region do last week?","গত সপ্তাহে ইস্ট রিজিওন কেমন করেছে?","पिछले हफ़्ते ईस्ट रीजन का प्रदर्शन कैसा रहा?"],
+["You","Sales were 8 percent higher than the week before, but still lower than the target.","বিক্রি আগের সপ্তাহের চেয়ে ৮ শতাংশ বেশি, কিন্তু এখনও টার্গেটের চেয়ে কম।","बिक्री पिछले हफ़्ते से 8 प्रतिशत ज़्यादा रही, लेकिन टारगेट से अभी भी कम है।"],
+["Regional manager","Which studio has the biggest shortfall?","কোন স্টুডিওর ঘাটতি সবচেয়ে বেশি?","किस स्टूडियो की कमी सबसे ज़्यादा है?"],
+["You","Salt Lake has the biggest shortfall. Its conversion is the lowest in the region.","সল্টলেকের ঘাটতি সবচেয়ে বেশি। এর কনভার্শন রিজিওনে সবচেয়ে কম।","साल्ट लेक की कमी सबसे ज़्यादा है। इसका कन्वर्ज़न रीजन में सबसे कम है।"],
+["Regional manager","What is the required run rate now?","এখন প্রয়োজনীয় রান রেট কত?","अब ज़रूरी रन रेट कितना है?"],
+["You","We need 6 lakh a day for the rest of the month, which is higher than our current 5 lakh.","বাকি মাসে দিনে ৬ লাখ দরকার, যা এখনকার ৫ লাখের চেয়ে বেশি।","बाकी महीने में रोज़ 6 लाख चाहिए, जो अभी के 5 लाख से ज़्यादा है।"]],
+vocab:[["shortfall","the amount by which you are below the target","ঘাটতি","कमी"],["run rate","average sales per day","দৈনিক গড় বিক্রি","रोज़ की औसत बिक्री"],["conversion","the share of visitors who buy","রূপান্তর হার","रूपांतरण दर"],["region","a group of cities or studios","অঞ্চল","क्षेत्र"],["gap","the difference between target and actual","ফারাক","अंतर"]],
+grammar:{h:"Comparing numbers: higher than, lower than, the highest",en:"To compare two things, use an adjective + er + than (higher than, lower than) or more + adjective + than (more expensive than). To compare one thing with all the others, use the + est (the highest, the lowest).",bn:"দুটি জিনিস তুলনায় adjective + er + than (higher than) বা more + adjective + than। সবার মধ্যে সর্বোচ্চ বোঝাতে the + est (the highest)।",hi:"दो चीज़ों की तुलना में adjective + er + than (higher than) या more + adjective + than। सबमें सबसे ज़्यादा बताने के लिए the + est (the highest)।",ex:["Sales were higher than last week.","Kolkata has the highest footfall in the East.","This month is more difficult than last month."]},
+quiz:[["Choose the correct sentence.",["Sales are lower than the target.","Sales are more lower than the target.","Sales are lowest than the target.","Sales are low than the target."],0,"Use lower than. Do not add more before a word ending in -er."],["Pune has ___ conversion in the region.",["the best","better","the better","best than"],0,"Use the + superlative to compare with all the others: the best."]]},
+
+{id:"o3",t:"Customer complaint handling",goal:"Apologise, find the facts, and promise a clear next step.",lines:[
+["Customer","My dining table arrived with a broken leg. This is not acceptable!","আমার ডাইনিং টেবিলের একটা পা ভাঙা অবস্থায় এসেছে। এটা মেনে নেওয়া যায় না!","मेरी डाइनिंग टेबल का एक पैर टूटा हुआ आया है। यह मंज़ूर नहीं है!"],
+["You","I am really sorry about this. I understand how disappointing it is.","এর জন্য আমি সত্যিই দুঃখিত। বুঝতে পারছি এটা কতটা হতাশাজনক।","इसके लिए मुझे सच में खेद है। मैं समझता हूँ कि यह कितना निराशाजनक है।"],
+["You","Could you please share your order number and a photo of the damage?","দয়া করে আপনার অর্ডার নম্বর আর ক্ষতির একটা ছবি দেবেন?","कृपया अपना ऑर्डर नंबर और नुकसान की एक फ़ोटो भेजेंगे?"],
+["Customer","Yes, I have sent them on WhatsApp just now.","হ্যাঁ, এইমাত্র হোয়াটসঅ্যাপে পাঠিয়েছি।","हाँ, मैंने अभी व्हाट्सऐप पर भेज दिए हैं।"],
+["You","Thank you. I will arrange a replacement, and our team will pick up the damaged table.","ধন্যবাদ। আমি বদলে দেওয়ার ব্যবস্থা করব, আর আমাদের টিম ভাঙা টেবিলটা নিয়ে যাবে।","धन्यवाद। मैं बदलने की व्यवस्था करूँगा, और हमारी टीम टूटी टेबल ले जाएगी।"],
+["You","I will call you tomorrow by 11 a.m. to confirm the delivery date.","ডেলিভারির তারিখ নিশ্চিত করতে আমি কাল সকাল ১১টার মধ্যে আপনাকে ফোন করব।","डिलीवरी की तारीख पक्की करने के लिए मैं कल सुबह 11 बजे तक आपको फ़ोन करूँगा।"]],
+vocab:[["replacement","a new item given instead of a damaged one","বদলে দেওয়া জিনিস","बदले में दी गई चीज़"],["damage","harm that breaks or spoils something","ক্ষতি","नुकसान"],["arrange","plan and organise something","ব্যবস্থা করা","व्यवस्था करना"],["acceptable","good enough to agree to","গ্রহণযোগ্য","स्वीकार्य"],["confirm","say that something is definite","নিশ্চিত করা","पक्का करना"]],
+grammar:{h:"Polite apologies and promises",en:"Apologise with I am sorry about + noun, or I am sorry for + verb-ing. Ask politely with Could you please + verb. Promise action with I will + verb, and add a time.",bn:"ক্ষমা চাইতে I am sorry about + noun বা I am sorry for + verb-ing। ভদ্রভাবে অনুরোধ: Could you please + verb। কাজের প্রতিশ্রুতি: I will + verb, সাথে সময়।",hi:"माफ़ी के लिए I am sorry about + noun या I am sorry for + verb-ing। विनम्र अनुरोध: Could you please + verb। वादा: I will + verb, साथ में समय।",ex:["I am sorry for the delay.","Could you please share the invoice number?","I will update you by this evening."]},
+quiz:[["Choose the most polite request.",["Could you please send a photo?","Send photo.","You must send photo now.","Give me photo."],0,"Could you please + verb is polite."],["Choose the correct apology.",["I am sorry for keeping you waiting.","I am sorry for keep you waiting.","I sorry for waiting.","I am sorry to kept you waiting."],0,"After sorry for, use the -ing form: keeping."]]},
+
+{id:"o4",t:"Salary discussion",goal:"Ask for a salary review politely, with facts.",lines:[
+["You","Thank you for your time. I would like to discuss my salary review.","সময় দেওয়ার জন্য ধন্যবাদ। আমি আমার বেতন পর্যালোচনা নিয়ে কথা বলতে চাই।","समय देने के लिए धन्यवाद। मैं अपने वेतन की समीक्षा पर बात करना चाहता हूँ।"],
+["Manager","Of course. What would you like to share?","অবশ্যই। কী বলতে চান?","ज़रूर। आप क्या बताना चाहेंगे?"],
+["You","This year I automated four reports, and the team now saves about ten hours a week.","এই বছর আমি চারটি রিপোর্ট অটোমেট করেছি, এখন টিমের সপ্তাহে প্রায় দশ ঘণ্টা বাঁচে।","इस साल मैंने चार रिपोर्ट ऑटोमेट कीं, अब टीम के हफ़्ते में लगभग दस घंटे बचते हैं।"],
+["You","I have also taken extra responsibility for the incentive calculations.","আমি ইনসেন্টিভ হিসাবের অতিরিক্ত দায়িত্বও নিয়েছি।","मैंने इंसेंटिव गणना की अतिरिक्त ज़िम्मेदारी भी ली है।"],
+["Manager","That is useful work. What are you expecting?","কাজটা খুবই কাজের। আপনি কী আশা করছেন?","यह उपयोगी काम है। आप क्या उम्मीद कर रहे हैं?"],
+["You","I would request an increase of 15 percent, but I am open to discussing it.","আমি ১৫ শতাংশ বৃদ্ধির অনুরোধ করব, তবে আলোচনা করতে আমি প্রস্তুত।","मैं 15 प्रतिशत बढ़ोतरी का अनुरोध करूँगा, लेकिन मैं इस पर बात करने को तैयार हूँ।"]],
+vocab:[["review","a formal check, here of your salary","পর্যালোচনা","समीक्षा"],["responsibility","a duty that you are in charge of","দায়িত্ব","ज़िम्मेदारी"],["increase","a rise in amount","বৃদ্ধি","बढ़ोतरी"],["expect","think something will happen or hope to get it","আশা করা","उम्मीद करना"],["open to","willing to consider","আলোচনায় রাজি","विचार करने को तैयार"]],
+grammar:{h:"Polite forms: would like to, would, could",en:"Would like to + verb is more polite than want to. Use I would request or I would suggest to make a request softer. Could I + verb asks for permission politely.",bn:"want to-এর চেয়ে would like to + verb বেশি ভদ্র। অনুরোধ নরম করতে I would request বা I would suggest। অনুমতি চাইতে Could I + verb।",hi:"want to से ज़्यादा विनम्र है would like to + verb। अनुरोध नरम करने के लिए I would request या I would suggest। अनुमति के लिए Could I + verb।",ex:["I would like to talk about my role.","Could I have ten minutes with you today?","I would suggest a review in three months."]},
+quiz:[["Which is the most polite?",["I would like to discuss my salary.","I want salary talk.","Give me more salary.","Salary increase now."],0,"Would like to is polite and professional."],["Choose the correct sentence.",["Could I speak to you for a minute?","Could I speaking to you for a minute?","Could I to speak to you?","I could speak you a minute?"],0,"Could I + base verb: Could I speak."]]},
+
+{id:"o5",t:"Talking to senior management",goal:"Give a short, clear update to a senior leader.",lines:[
+["Director","I have five minutes. What do I need to know?","আমার হাতে পাঁচ মিনিট আছে। আমার কী জানা দরকার?","मेरे पास पाँच मिनट हैं। मुझे क्या जानना चाहिए?"],
+["You","Three points. First, month-to-date sales are at 64 percent of target.","তিনটি বিষয়। প্রথমত, মাসের এখন পর্যন্ত বিক্রি টার্গেটের ৬৪ শতাংশ।","तीन बातें। पहली, महीने की अब तक की बिक्री टारगेट का 64 प्रतिशत है।"],
+["You","Second, the new display was installed in all studios last week.","দ্বিতীয়ত, গত সপ্তাহে সব স্টুডিওতে নতুন ডিসপ্লে বসানো হয়েছে।","दूसरी, पिछले हफ़्ते सभी स्टूडियो में नया डिस्प्ले लगाया गया।"],
+["You","Third, we need your approval to extend the festive offer by one week.","তৃতীয়ত, উৎসবের অফার এক সপ্তাহ বাড়াতে আপনার অনুমোদন দরকার।","तीसरी, त्योहार का ऑफ़र एक हफ़्ता बढ़ाने के लिए आपकी मंज़ूरी चाहिए।"],
+["Director","What will it cost us?","এতে আমাদের কত খরচ হবে?","इसमें हमारा कितना खर्च होगा?"],
+["You","About 3 lakh in discounts, and we expect 20 lakh in extra sales.","ছাড়ে প্রায় ৩ লাখ, আর আমরা ২০ লাখ অতিরিক্ত বিক্রি আশা করছি।","छूट में लगभग 3 लाख, और हमें 20 लाख की अतिरिक्त बिक्री की उम्मीद है।"]],
+vocab:[["month-to-date","from the first day of the month until today","মাসের শুরু থেকে আজ পর্যন্ত","महीने की शुरुआत से आज तक"],["approval","official permission","অনুমোদন","मंज़ूरी"],["extend","make something last longer","বাড়ানো","बढ़ाना"],["install","put equipment in place, ready to use","স্থাপন করা","लगाना"],["festive","related to festivals","উৎসবের","त्योहारी"]],
+grammar:{h:"Passive voice for results and actions",en:"Use the passive when the action matters more than the person: subject + was or were + past participle. The display was installed. The reports were shared. It sounds formal and is common in reports to senior managers.",bn:"কে করেছে তার চেয়ে কাজটি গুরুত্বপূর্ণ হলে passive: subject + was/were + past participle। The display was installed। সিনিয়রদের রিপোর্টে এটি বেশি ব্যবহার হয়।",hi:"जब काम करने वाले से ज़्यादा काम महत्वपूर्ण हो तो passive: subject + was/were + past participle। The display was installed। वरिष्ठों को रिपोर्ट में यह आम है।",ex:["The report was sent at 10 a.m.","All studios were visited last month.","The offer was approved by the business head."]},
+quiz:[["Choose the correct passive sentence.",["The data was checked yesterday.","The data checked was yesterday.","The data were check yesterday.","The data is checked yesterday."],0,"was + past participle: was checked."],["Choose the best opening for a senior leader.",["Three points. First, sales are at 64 percent of target.","So, actually, basically, I wanted to say many things.","Sir, everything is fine, no issues.","I will tell you later."],0,"Be short and structured: give the number of points, then the facts."]]},
+
+{id:"o6",t:"Explaining business performance",goal:"Explain why results changed, using reasons and results.",lines:[
+["Manager","Why did Home Decor grow so fast this month?","এই মাসে হোম ডেকর এত দ্রুত বাড়ল কেন?","इस महीने होम डेकोर इतनी तेज़ी से क्यों बढ़ा?"],
+["You","It grew because we placed decor items near the billing counter.","বিলিং কাউন্টারের কাছে ডেকরের জিনিস রাখায় এটা বেড়েছে।","बिलिंग काउंटर के पास डेकोर का सामान रखने की वजह से यह बढ़ा।"],
+["You","As a result, the average basket size went up by 11 percent.","এর ফলে গড় বাস্কেট সাইজ ১১ শতাংশ বেড়েছে।","इसके परिणामस्वरूप औसत बास्केट साइज़ 11 प्रतिशत बढ़ा।"],
+["Manager","And why did furniture sales fall?","আর ফার্নিচারের বিক্রি কমল কেন?","और फ़र्नीचर की बिक्री क्यों घटी?"],
+["You","Furniture fell due to delivery delays in the North.","উত্তরে ডেলিভারি দেরির কারণে ফার্নিচার কমেছে।","उत्तर में डिलीवरी में देरी के कारण फ़र्नीचर घटा।"],
+["You","However, the delays are now solved, so we expect a recovery next month.","তবে দেরির সমস্যা এখন মিটে গেছে, তাই আগামী মাসে পুনরুদ্ধার আশা করছি।","हालाँकि देरी अब ठीक हो गई है, इसलिए अगले महीने सुधार की उम्मीद है।"]],
+vocab:[["average","the usual amount, found by dividing the total","গড়","औसत"],["recovery","a return to a normal level","পুনরুদ্ধার","सुधार / वापसी"],["counter","the place where customers pay","কাউন্টার","काउंटर"],["fall","go down","কমা","घटना"],["grow","go up or get bigger","বাড়া","बढ़ना"]],
+grammar:{h:"Giving reasons and results: because, due to, as a result, so",en:"Because is followed by a full sentence: because delivery was late. Due to is followed by a noun: due to delivery delays. Use as a result or so to show what happened next.",bn:"because-এর পরে পুরো বাক্য: because delivery was late। due to-এর পরে noun: due to delivery delays। ফলাফল বোঝাতে as a result বা so।",hi:"because के बाद पूरा वाक्य: because delivery was late। due to के बाद noun: due to delivery delays। परिणाम बताने के लिए as a result या so।",ex:["Sales rose because footfall increased.","Sales fell due to the heavy rain.","Footfall rose, so conversion became more important."]},
+quiz:[["Choose the correct sentence.",["Sales fell due to the delivery delays.","Sales fell due to delivery was late.","Sales fell because of delivery was late.","Sales fell due delivery delays."],0,"Due to + noun: due to the delivery delays."],["Footfall increased. ___, sales went up.",["As a result","Because","Due to","Although"],0,"As a result shows what happened next."]]},
+
+{id:"o7",t:"Giving a daily MIS update",goal:"Give today's key numbers clearly and say what you are working on.",lines:[
+["Manager","Can you give me today's update?","আজকের আপডেট দিতে পারবেন?","आज का अपडेट दे सकते हैं?"],
+["You","Sure. Yesterday's GMV was 42 lakh, and NSV was 35 lakh.","অবশ্যই। গতকালের GMV ছিল ৪২ লাখ, আর NSV ছিল ৩৫ লাখ।","ज़रूर। कल का GMV 42 लाख था, और NSV 35 लाख था।"],
+["You","Month to date, we are at 61 percent of target, with 58 percent of the month gone.","মাসের শুরু থেকে আমরা টার্গেটের ৬১ শতাংশে, মাসের ৫৮ শতাংশ পেরিয়েছে।","महीने की शुरुआत से हम टारगेट के 61 प्रतिशत पर हैं, और महीने का 58 प्रतिशत बीत चुका है।"],
+["Manager","Good. What are you working on now?","ভালো। এখন কী নিয়ে কাজ করছেন?","अच्छा। अभी किस पर काम कर रहे हैं?"],
+["You","I am preparing the studio-wise conversion report. It will be ready by 3 p.m.","আমি স্টুডিওভিত্তিক কনভার্শন রিপোর্ট তৈরি করছি। বিকেল ৩টার মধ্যে তৈরি হবে।","मैं स्टूडियो-वार कन्वर्ज़न रिपोर्ट तैयार कर रहा हूँ। यह दोपहर 3 बजे तक तैयार होगी।"],
+["You","I am also checking two studios where the footfall numbers look unusual.","যে দুটি স্টুডিওর ফুটফল অস্বাভাবিক দেখাচ্ছে, সেগুলোও দেখছি।","मैं उन दो स्टूडियो की भी जाँच कर रहा हूँ जहाँ फुटफॉल असामान्य दिख रहा है।"]],
+vocab:[["GMV","gross merchandise value: the total value of orders","মোট অর্ডারের মূল্য","कुल ऑर्डर मूल्य"],["NSV","net sales value: sales after returns and discounts","নিট বিক্রির মূল্য","शुद्ध बिक्री मूल्य"],["studio-wise","shown separately for each studio","স্টুডিও অনুযায়ী","स्टूडियो के हिसाब से"],["unusual","different from normal","অস্বাভাবিক","असामान्य"],["prepare","make ready","তৈরি করা","तैयार करना"]],
+grammar:{h:"Present continuous for work in progress",en:"Use am, is or are + verb-ing for work happening now or this week: I am preparing the report. Use the simple past for yesterday's results: GMV was 42 lakh.",bn:"এখন চলমান কাজের জন্য am/is/are + verb-ing: I am preparing the report। গতকালের ফলের জন্য simple past: GMV was 42 lakh।",hi:"अभी चल रहे काम के लिए am/is/are + verb-ing: I am preparing the report। कल के नतीजों के लिए simple past: GMV was 42 lakh।",ex:["I am updating the dashboard now.","The team is checking the returns data.","Yesterday's footfall was 1,240."]},
+quiz:[["Choose the correct sentence about work happening now.",["I am preparing the report.","I preparing the report.","I am prepare the report.","I prepared the report now."],0,"am + verb-ing: I am preparing."],["Yesterday's NSV ___ 35 lakh.",["was","is being","were","has"],0,"Use the past simple was for yesterday's number."]]},
+
+{id:"o8",t:"Asking for pending data",goal:"Follow up politely and give a clear deadline.",lines:[
+["You","Hi Ravi, I hope you are doing well.","হাই রবি, আশা করি ভালো আছেন।","हाय रवि, आशा है आप ठीक हैं।"],
+["You","I am following up on the stock data for the Pune studio. It is still pending.","পুনে স্টুডিওর স্টক ডেটা নিয়ে আবার খোঁজ নিচ্ছি। এটা এখনও বাকি।","पुणे स्टूडियो के स्टॉक डेटा के बारे में फ़ॉलो-अप कर रहा हूँ। यह अभी बाकी है।"],
+["Ravi","Sorry, I was busy with the audit. When do you need it?","দুঃখিত, অডিট নিয়ে ব্যস্ত ছিলাম। কখন লাগবে?","माफ़ कीजिए, मैं ऑडिट में व्यस्त था। आपको कब चाहिए?"],
+["You","Could you please send it by 2 p.m. today? The report goes to management at 4.","দয়া করে আজ দুপুর ২টার মধ্যে পাঠাতে পারবেন? রিপোর্ট ৪টায় ম্যানেজমেন্টের কাছে যাবে।","क्या आप कृपया आज दोपहर 2 बजे तक भेज सकते हैं? रिपोर्ट 4 बजे मैनेजमेंट को जाती है।"],
+["Ravi","Yes, I will send it by 1:30.","হ্যাঁ, দেড়টার মধ্যে পাঠিয়ে দেব।","हाँ, मैं डेढ़ बजे तक भेज दूँगा।"],
+["You","Thank you so much. Please let me know if anything is unclear.","অনেক ধন্যবাদ। কিছু অস্পষ্ট হলে আমাকে জানাবেন।","बहुत धन्यवाद। कुछ स्पष्ट न हो तो मुझे बताइए।"]],
+vocab:[["following up","contacting someone again about an earlier request","আবার খোঁজ নেওয়া","दोबारा याद दिलाना"],["unclear","not easy to understand","অস্পষ্ট","अस्पष्ट"],["management","the senior leaders of a company","ব্যবস্থাপনা","प्रबंधन"],["busy","having a lot of work","ব্যস্ত","व्यस्त"],["by 2 p.m.","no later than 2 p.m.","দুপুর ২টার মধ্যে","दोपहर 2 बजे तक"]],
+grammar:{h:"Polite follow-ups and deadlines with by",en:"Start softly: I am following up on + noun. Ask with Could you please + verb. Give a deadline with by + time: by 2 p.m. means no later than 2 p.m. Avoid kindly revert and do the needful; say exactly what you need.",bn:"নরমভাবে শুরু: I am following up on + noun। অনুরোধ: Could you please + verb। সময়সীমা: by + time, by 2 p.m. মানে ২টার পরে নয়। kindly revert বা do the needful না বলে ঠিক কী দরকার বলুন।",hi:"नरमी से शुरू करें: I am following up on + noun। अनुरोध: Could you please + verb। समय-सीमा: by + time, by 2 p.m. यानी 2 बजे के बाद नहीं। kindly revert या do the needful के बजाय साफ़ बताइए क्या चाहिए।",ex:["I am following up on yesterday's sales file.","Could you please share it by Friday?","Please send the corrected numbers by noon."]},
+quiz:[["Choose the best follow-up.",["Could you please send the data by 2 p.m.?","Kindly do the needful.","Send data fast.","Revert back asap."],0,"Be polite and specific: what you need and by when."],["\"By 5 p.m.\" means:",["no later than 5 p.m.","exactly at 5 p.m.","after 5 p.m.","near 5 p.m. tomorrow"],0,"By + time means no later than that time."]]},
+
+{id:"o9",t:"Discussing monthly targets",goal:"Talk about targets, plans and what the team needs to do.",lines:[
+["Manager","Next month's target is 3.2 crore. Is it achievable?","আগামী মাসের টার্গেট ৩.২ কোটি। এটা কি অর্জন করা সম্ভব?","अगले महीने का टारगेट 3.2 करोड़ है। क्या यह हासिल हो सकता है?"],
+["You","Yes, but we need to grow 12 percent over this month.","হ্যাঁ, তবে এই মাসের চেয়ে ১২ শতাংশ বাড়তে হবে।","हाँ, लेकिन हमें इस महीने से 12 प्रतिशत बढ़ना होगा।"],
+["Manager","How are we going to do that?","আমরা সেটা কীভাবে করব?","हम यह कैसे करेंगे?"],
+["You","We are going to run a sofa exchange offer and train the team on upselling.","আমরা সোফা এক্সচেঞ্জ অফার চালাব এবং টিমকে আপসেলিং শেখাব।","हम सोफ़ा एक्सचेंज ऑफ़र चलाएँगे और टीम को अपसेलिंग की ट्रेनिंग देंगे।"],
+["You","Each studio needs to reach a daily run rate of about 10 lakh.","প্রতিটি স্টুডিওকে দৈনিক প্রায় ১০ লাখ রান রেটে পৌঁছাতে হবে।","हर स्टूडियो को रोज़ लगभग 10 लाख का रन रेट हासिल करना होगा।"],
+["Manager","Good. Please share the studio-wise targets by Friday.","ভালো। শুক্রবারের মধ্যে স্টুডিওভিত্তিক টার্গেট পাঠাবেন।","अच्छा। शुक्रवार तक स्टूडियो-वार टारगेट भेज दीजिए।"]],
+vocab:[["achievable","possible to reach","অর্জনযোগ্য","हासिल करने योग्य"],["target","the result you must reach","লক্ষ্য","लक्ष्य"],["exchange offer","an offer where you trade in an old item","এক্সচেঞ্জ অফার","एक्सचेंज ऑफ़र"],["train","teach skills to someone","প্রশিক্ষণ দেওয়া","प्रशिक्षण देना"],["reach","get to a level","পৌঁছানো","पहुँचना"]],
+grammar:{h:"Plans and needs: going to, need to",en:"Use going to + verb for a plan you have already decided: We are going to run an offer. Use need to + verb for something necessary: We need to grow 12 percent.",bn:"আগে থেকে ঠিক করা পরিকল্পনার জন্য going to + verb: We are going to run an offer। প্রয়োজনীয় কাজের জন্য need to + verb: We need to grow 12 percent।",hi:"पहले से तय योजना के लिए going to + verb: We are going to run an offer। ज़रूरी काम के लिए need to + verb: We need to grow 12 percent।",ex:["We are going to open two new studios.","The team needs to improve conversion.","I am going to share the plan tomorrow."]},
+quiz:[["Choose the correct sentence.",["We are going to start the offer on Monday.","We going to start the offer on Monday.","We are go to start the offer on Monday.","We are going start the offer on Monday."],0,"am, is or are + going to + verb."],["Each studio ___ reach 10 lakh a day.",["needs to","need","needs","needing to"],0,"With one studio (it), use needs to + verb."]]},
+
+{id:"o10",t:"Reporting a technical issue",goal:"Describe what happened, what you tried, and what help you need.",lines:[
+["You","Hi, I am calling from the MIS team. Our dashboard is not refreshing.","হাই, আমি MIS টিম থেকে বলছি। আমাদের ড্যাশবোর্ড রিফ্রেশ হচ্ছে না।","हाय, मैं MIS टीम से बोल रहा हूँ। हमारा डैशबोर्ड रिफ़्रेश नहीं हो रहा।"],
+["IT support","What happened exactly?","ঠিক কী হয়েছে?","ठीक-ठीक क्या हुआ?"],
+["You","I was refreshing the pivot tables when Excel stopped responding.","আমি পিভট টেবিল রিফ্রেশ করছিলাম, তখন এক্সেল সাড়া দেওয়া বন্ধ করে দেয়।","मैं पिवट टेबल रिफ़्रेश कर रहा था, तभी एक्सेल ने काम करना बंद कर दिया।"],
+["You","I restarted the computer and tried again, but the same error appeared.","কম্পিউটার রিস্টার্ট করে আবার চেষ্টা করেছি, কিন্তু একই ত্রুটি এসেছে।","मैंने कंप्यूटर रीस्टार्ट करके फिर कोशिश की, लेकिन वही त्रुटि आई।"],
+["IT support","Can you send me a screenshot of the error?","ত্রুটির একটা স্ক্রিনশট পাঠাতে পারবেন?","क्या आप त्रुटि का स्क्रीनशॉट भेज सकते हैं?"],
+["You","Yes, I will email it now. The report is due at 11, so it is urgent.","হ্যাঁ, এখনই ইমেল করছি। রিপোর্টটা ১১টায় জমা দিতে হবে, তাই জরুরি।","हाँ, मैं अभी ईमेल करता हूँ। रिपोर्ट 11 बजे देनी है, इसलिए यह ज़रूरी है।"]],
+vocab:[["responding","working and reacting normally","সাড়া দেওয়া","प्रतिक्रिया देना"],["restart","switch off and on again","আবার চালু করা","फिर से चालू करना"],["error","a message that something went wrong","ত্রুটি","त्रुटि"],["screenshot","a picture of your screen","স্ক্রিনশট","स्क्रीनशॉट"],["urgent","needing attention now","জরুরি","ज़रूरी / तुरंत"]],
+grammar:{h:"Past continuous and past simple together",en:"Use the past continuous (was or were + verb-ing) for a longer action, and the past simple for the short event that interrupted it: I was refreshing the data when Excel stopped.",bn:"দীর্ঘ চলমান কাজের জন্য past continuous (was/were + verb-ing), আর হঠাৎ ঘটা ঘটনার জন্য past simple: I was refreshing the data when Excel stopped।",hi:"लंबे चल रहे काम के लिए past continuous (was/were + verb-ing), और बीच में हुई छोटी घटना के लिए past simple: I was refreshing the data when Excel stopped।",ex:["I was sending the report when the internet went down.","We were checking the file when the error appeared.","She was typing when the laptop shut down."]},
+quiz:[["Choose the correct sentence.",["I was saving the file when Excel crashed.","I saving the file when Excel crashed.","I was save the file when Excel crashed.","I was saving the file when Excel was crash."],0,"Was + verb-ing for the longer action, past simple for the interruption."],["Which detail helps IT support the most?",["A screenshot of the error and what you already tried.","Nothing works.","Please fix it.","Computer problem."],0,"Give facts: the error, what you tried, and the deadline."]]}
+];
+ALL_LESSONS.push.apply(ALL_LESSONS,LESSONS.Office);
 
 /* ===== STORAGE ===== */
 const KEY="pesc_v1";
@@ -1745,44 +1972,57 @@ function pageLessons(id){
     }).join("")+"</div>");
 }
 function lessonQuiz(l){
-  return shuffle(l.lines).slice(0,4).map(x=>{
+  const extra=(l.quiz||[]).map(x=>({q:x[0],opts:x[1],ans:x[2],why:x[3],nt:true}));
+  return extra.concat(shuffle(l.lines).slice(0,4).map(x=>{
     const others=shuffle(l.lines.filter(y=>y!==x)).slice(0,3).map(y=>y[1]);
     return{q:"Which English sentence has this meaning?",b:x[2],h:x[3],e:x[1],opts:[x[1]].concat(others),ans:0,why:x[1]};
-  });
+  }));
 }
+/* Lesson steps. Office lessons also have a Words step and a Grammar step. */
+const STEP_NAMES={listen:"Listen",words:"Words",speak:"Speak",grammar:"Grammar",quiz:"Quiz"};
+function lessonSteps(l){return l.vocab?["listen","words","speak","grammar","quiz"]:["listen","speak","quiz"]}
 function lessonDetail(l){
-  LessonRun={l,step:0,sp:0,left:600};
+  LessonRun={l,step:0,sp:0,left:600,steps:lessonSteps(l)};
   const r=S.lessons[l.id];
   setView('<div class="row between page-head"><div class="grow"><a class="small" href="#/lessons">Back to lessons</a><h1>'+esc(l.t)+"</h1><p>"+esc(l.goal)+'</p></div><span class="badge notranslate" id="lesson-timer">'+ic("clock")+"<span>10:00</span></span></div>"+
     (r?'<div class="note good">You completed this lesson. Best score '+r.score+"%. You can practise it again.</div>":"")+
-    '<div class="tabs mt" role="tablist">'+["1. Listen","2. Speak","3. Quiz"].map((t,i)=>'<button class="tab" role="tab" data-act="lesson-step" data-v="'+i+'">'+t+"</button>").join("")+"</div>"+
+    '<div class="tabs mt" role="tablist">'+LessonRun.steps.map((t,i)=>'<button class="tab" role="tab" data-act="lesson-step" data-v="'+i+'">'+(i+1)+". "+STEP_NAMES[t]+"</button>").join("")+"</div>"+
     '<div id="lesson-body"></div>');
   lessonStep(0);
 }
+function nextStepBtn(i,label){return '<button class="btn primary block mt" data-act="lesson-step" data-v="'+i+'">'+label+"</button>"}
 function lessonStep(s){
-  const R=LessonRun,l=R.l;R.step=s;
+  const R=LessonRun,l=R.l,name=R.steps[s],nx=s+1;R.step=s;
   $$(".tab[data-act=lesson-step]").forEach((b,i)=>b.setAttribute("aria-selected",String(i===s)));
   const body=$("#lesson-body");
   stopSpeaking();Mic.abort();
-  if(s===0){
+  if(name==="listen"){
     body.innerHTML='<div class="card"><div class="row between"><h2>Daily conversation</h2><button class="btn" data-act="lesson-play">'+ic("speaker")+"Play all</button></div>"+
       '<div class="mt">'+l.lines.map(x=>'<div class="phrase"><div class="grow"><div class="speaker">'+esc(x[0])+'</div><div class="en notranslate">'+esc(x[1])+"</div>"+mean(x[2],x[3],x[1])+"</div>"+sayBtn(x[1],"Listen")+"</div>").join("")+"</div>"+
-      '<button class="btn primary block mt" data-act="lesson-step" data-v="1">Next: Speak these sentences</button></div>';
-  }else if(s===1){
+      nextStepBtn(nx,"Next: "+(R.steps[nx]==="words"?"Learn the words":"Speak these sentences"))+"</div>";
+  }else if(name==="words"){
+    body.innerHTML='<div class="card"><h2>Words in this lesson</h2><div class="mt">'+l.vocab.map(v=>'<div class="phrase"><div class="grow"><div class="en notranslate">'+esc(v[0])+'</div><p class="small muted">'+esc(v[1])+"</p>"+mean(v[2],v[3])+"</div>"+sayBtn(v[0],"Pronounce "+v[0])+"</div>").join("")+"</div>"+
+      nextStepBtn(nx,"Next: Speak these sentences")+"</div>";
+  }else if(name==="speak"){
     const x=l.lines[R.sp];
     body.innerHTML='<div class="card"><div class="row between"><h2>Speak sentence '+(R.sp+1)+" of "+l.lines.length+'</h2></div><div class="mt">'+barHTML((R.sp+1)/l.lines.length*100)+'</div><div class="mt" id="sb"></div>'+
       '<div class="row mt"><button class="btn" data-act="lesson-sp" data-d="-1"'+(R.sp===0?" disabled":"")+">"+ic("prev")+"Previous</button>"+
-      (R.sp<l.lines.length-1?'<button class="btn primary" data-act="lesson-sp" data-d="1">Next sentence'+ic("next")+"</button>":'<button class="btn primary" data-act="lesson-step" data-v="2">Go to quiz'+ic("next")+"</button>")+"</div></div>";
+      (R.sp<l.lines.length-1?'<button class="btn primary" data-act="lesson-sp" data-d="1">Next sentence'+ic("next")+"</button>":'<button class="btn primary" data-act="lesson-step" data-v="'+nx+'">'+(R.steps[nx]==="grammar"?"Go to grammar":"Go to quiz")+ic("next")+"</button>")+"</div></div>";
     mountSpeak($("#sb"),{target:x[1],b:x[2],h:x[3],area:"speaking"});
+  }else if(name==="grammar"){
+    const g=l.grammar;
+    body.innerHTML='<div class="card"><h2>'+esc(g.h)+'</h2><p class="mt">'+esc(g.en)+'</p><div class="mt">'+mean(g.bn,g.hi)+"</div>"+
+      '<ul class="ex-list">'+g.ex.map(x=>"<li>"+sayBtn(x,"Listen")+"<span>"+enLine(x)+"</span></li>").join("")+"</ul>"+
+      nextStepBtn(nx,"Go to quiz")+"</div>";
   }else{
     body.innerHTML='<div class="card" id="lesson-quiz"></div>';
     mountQuiz($("#lesson-quiz"),lessonQuiz(l),(score,total)=>{
       const p=Math.round(score/total*100),old=S.lessons[l.id],first=!old;
       S.lessons[l.id]={score:Math.max(p,old?old.score:0),date:todayKey()};
       logAct("lesson");logScore("lessons",p);
-      const list=ALL_LESSONS,nx=list[(list.indexOf(l)+1)%list.length];
+      const list=ALL_LESSONS,nl=list[(list.indexOf(l)+1)%list.length];
       $("#lesson-quiz").innerHTML='<h2>'+(first?"Lesson completed":"Lesson practised again")+'</h2><p class="score-pill mt">Quiz score: '+score+" of "+total+" ("+p+'%)</p><div class="mt">'+barHTML(p,"good")+"</div>"+
-        '<div class="row mt"><a class="btn primary" href="#/lessons/'+nx.id+'">Next lesson'+ic("next")+'</a><button class="btn" data-act="lesson-step" data-v="2">Retake quiz</button><a class="btn" href="#/lessons">All lessons</a></div>';
+        '<div class="row mt"><a class="btn primary" href="#/lessons/'+nl.id+'">Next lesson'+ic("next")+'</a><button class="btn" data-act="lesson-step" data-v="'+s+'">Retake quiz</button><a class="btn" href="#/lessons">All lessons</a></div>';
     });
   }
 }
@@ -1964,7 +2204,7 @@ function setGtCookie(l){document.cookie=l?"googtrans=/en/"+l+"; path=/":"googtra
    After that a small walker swaps English text for the saved text, so screens change instantly. */
 const DICT_V=7;
 let DICT=null;
-const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 8 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
+const EXTRA_UI=["Your answer","Send answer","Speak answer","Change topic","Get AI feedback from Claude","Step 1: copy your conversation. Step 2: open Claude. Step 3: paste it into the chat box and send. You need a Claude account, and a free one works.","Copy conversation","Open Claude","Start again","See the text that will be copied","Conversation finished. Copy it to Claude for AI feedback, or start again.","Rule check, not AI","The fixed rules found no common mistakes. This does not prove the answer is perfect.","Try a longer answer next time: a full sentence with a reason or example.","Suggested:","Tutor","You (spoken)","You (typed)","Learn Words","Start Test","Back to game menu","Choose the meaning","Next","Type the English word","Check","Continue","Daily practice finished","Passed! Next level unlocked.","Passed!","Not passed yet. You need 14 points.","Today's 5 words","Correct.","Not quite.","See result","Next question","Go to quiz","Next sentence","Previous","Retake quiz","Next lesson","All lessons","Lesson completed","Lesson practised again","Quiz result","Try again","All topics","Perfect match","Good, nearly there","Keep practising","Try again, slowly","Correct sentence","What you said","wrong word","missing","extra","Stop","Start speaking","Listening... please speak now.","Your spoken words will appear here.","Show sample","Hide sample","Good morning","Good afternoon","Good evening","Keep your streak going today.","A short practice every day builds confidence.","Word 1 of 5 | Score 0","Question 1 of 10","Score 0","Sentence 1 of 36","Today: 0 spoken","Speak sentence 1 of 6","Quiz score: 2 of 4 (50%)","Score 8 of 20","Level: 3 of 10 | Best Score: 7 | Attempts: 5","Level 4 of 10","Best score: 10%","Best 80%","Level 1","Attempt 1. Words that sound the same, such as \"there\" and \"their\", count as correct.","67% match","The correct spelling is","Listen","Slow","Check","Daily conversation","Play all","Next: Speak these sentences","Please speak or type the sentence first.","Please speak or type your answer first.","Please type the English word.","Copied. Now open Claude and paste it.","Could not copy automatically. Please copy the text shown.","Email copied.","Could not copy. Please select the text by hand.","Added to favourites.","Removed from favourites.","Answer saved.","Answer updated.","Write or speak your answer first.","Type some text first.","Listen works for English text only.","Link copied. You can paste it anywhere.","Could not copy. Please select the link by hand.","Name saved.","Accent saved.","Speed saved.","Setting saved.","All progress has been reset.","Your browser cannot read text aloud. Please try Chrome.","No words found. Try a different search or filter.","Lesson completed","Found in this app","Microphone allowed","Microphone blocked","Your browser will ask for permission","Speech recognition is not available here","Or type the sentence here"];
 function loadDict(l){
   try{const o=JSON.parse(readLS("pesc_dict_"+l)||"null");return o&&o.v===DICT_V?o.d:null}catch(e){return null}
 }
@@ -2023,10 +2263,10 @@ function collectStrings(){
   INTERVIEW.forEach(q=>routes.push(["interview",q.id]));
   routes.forEach(r=>{try{PAGES[r[0]](r[1]);scan()}catch(e){}});
   try{lessonDetail(ALL_LESSONS[0]);scan();lessonStep(1);scan();LessonRun=null}catch(e){}
-  ALL_LESSONS.forEach(l=>{add(l.t);add(l.goal);l.lines.forEach(x=>add(x[1]))});
+  ALL_LESSONS.forEach(l=>{add(l.t);add(l.goal);l.lines.forEach(x=>{add(x[0]);add(x[1])});if(l.vocab){l.vocab.forEach(v=>{add(v[0]);add(v[1])});add(l.grammar.h);add(l.grammar.en);l.grammar.ex.forEach(add);l.quiz.forEach(q=>{add(q[0]);add(q[3])})}});
   Object.values(OFFICE).forEach(o=>{add(o.t);add(o.d);o.phrases.forEach(x=>add(x[0]))});
   EMAILS.forEach(m=>{add(m.t);add(m.s);add(m.b)});
-  WORDS.forEach(w=>{add(w.e);add(w.x)});
+  WORDS.forEach(w=>{add(w.e);add(w.x);add(w.u)});
   Object.values(GRAMMAR).forEach(g=>{add(g.t);add(g.d);g.sections.forEach(x=>{add(x.h);add(x.en);(x.ex||[]).forEach(add)});g.quiz.forEach(x=>add(x[3]))});
   INTERVIEW.forEach(q=>{add(q.q);add(q.a);add(q.tip)});
   Object.values(TUTOR_TOPICS).forEach(t=>{add(t.t);t.qs.forEach(add)});
@@ -2115,8 +2355,21 @@ function startLanguage(){
   document.body.classList.add(l==="bn"||l==="hi"?"lang-"+l:"lang-other");
   DICT=loadDict(l);
   if(DICT){startDict();return false}
+  if(READY_LANGS.indexOf(l)>=0){loadReadyLang(l);return true}
   runHarvest(l);
   return true;
+}
+/* Bengali, Hindi and Tamil come as ready-made files (lang/bn.json and so on), so they open at once.
+   If the file cannot be loaded, the app prepares the language the old way. */
+const READY_LANGS=["bn","hi","ta"];
+function loadReadyLang(l){
+  $("#view").innerHTML='<div class="card"><p class="muted">Loading your language...</p></div>';
+  fetch("lang/"+l+".json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(o=>{
+    if(!o||o.v!==DICT_V||!o.d)throw new Error("old file");
+    DICT=o.d;
+    writeLS("pesc_dict_"+l,JSON.stringify(o));
+    startDict();render();
+  }).catch(()=>runHarvest(l));
 }
 
 /* ===== VOCABULARY AND WORD GAME ===== */
@@ -2126,6 +2379,7 @@ function wordCard(w){
   return '<div class="card word-card" data-word="'+esc(w.e)+'"><div class="row between"><div class="grow"><h3 class="notranslate">'+esc(w.e)+'</h3><div class="pron notranslate">'+esc(w.p)+'</div></div><div class="actions">'+sayBtn(w.e,"Pronounce "+w.e)+
     '<button class="icon-btn'+(fav?" fav-on":"")+'" data-act="fav" data-w="'+esc(w.e)+'" aria-pressed="'+fav+'" aria-label="Favourite '+esc(w.e)+'" title="Favourite">'+ic("star")+"</button></div></div>"+
     '<div class="mt">'+mean(w.b,w.h,w.e)+'</div><div class="ex row between"><span class="grow">'+enLine(w.x)+"</span>"+sayBtn(w.x,"Listen to example")+"</div>"+
+    (w.u?'<p class="small mt usage"><b>At work:</b> '+esc(w.u)+"</p>":"")+
     '<button class="btn block mt" data-act="learned" data-w="'+esc(w.e)+'" aria-pressed="'+lr+'">'+(lr?ic("checkc")+"Learned":"Mark as learned")+"</button></div>";
 }
 function filteredWords(){
@@ -2164,8 +2418,9 @@ function markLearned(e,on){
   save();
 }
 /* Same flow as the original game: learn the list, then for each word a meaning question and a spelling test.
-   Each word has 2 points, and a level of 10 words passes at 8 points. */
+   Each word has 2 points. A level of 10 words passes at 14 points (changed from 8 on request, Nov 2026). */
 const MAX_LEVEL=Math.ceil(WORDS.length/10);
+const PASS_MARK=14;
 const G={stage:"home",mode:"level",words:[],i:0,score:0,lvl:1,mcqRight:false,answered:false};
 function levelWords(l){return WORDS.slice((l-1)*10,l*10)}
 function gameStats(){return "Level: "+Math.min(S.game.level,MAX_LEVEL)+" of "+MAX_LEVEL+" | Best Score: "+S.game.best+" | Attempts: "+S.game.attempts}
@@ -2178,6 +2433,7 @@ function renderGame(){
     box.innerHTML='<label class="field">Meaning language<select class="input notranslate" data-chg="ui-lang" aria-label="Meaning language"><option value="">Bengali (built in)</option>'+langOptions(S.settings.lang,["en","bn"])+"</select></label>"+
       '<p class="small muted mt">The test shows each word\'s meaning in this language. Choosing a language also changes the app\'s menus to it. The first time, it takes one to two minutes to prepare.</p>'+
       '<p class="small muted section">'+esc(gameStats())+"</p>"+
+      '<p class="small muted">Each word has 2 points: 1 for the meaning and 1 for the spelling. Score '+PASS_MARK+' of 20 to pass a level.'+(MAX_LEVEL>10?' Levels 11 to '+MAX_LEVEL+' are office words.':'')+"</p>"+
       (allDone?'<div class="note good mt">You have passed every level. Choose any level below to practise again.</div>':"")+
       '<div class="grid g2 mt"><button class="btn primary" data-act="game-level" data-v="'+Math.min(cur,MAX_LEVEL)+'"'+(allDone?" disabled":"")+">"+ic("game")+'Start Level</button><button class="btn" data-act="game-daily">'+ic("clock")+"Daily Practice</button></div>"+
       '<h3 class="section">Levels</h3><div class="tabs mt">'+Array.from({length:MAX_LEVEL},(_,i)=>i+1).map(n=>'<button class="tab" data-act="game-level" data-v="'+n+'"'+(n>cur?" disabled":"")+' aria-selected="'+(n===cur)+'">'+n+"</button>").join("")+"</div>";
@@ -2221,9 +2477,9 @@ function gameFinish(){
   S.game.best=Math.max(S.game.best,G.score);
   const total=G.words.length*2;let title="Score "+G.score+" of "+total;
   if(G.mode==="level"){
-    if(G.score>=8&&G.lvl===S.game.level){S.game.level++;title="Passed! Next level unlocked."}
-    else if(G.score>=8)title="Passed!";
-    else title="Not passed yet. You need 8 points.";
+    if(G.score>=PASS_MARK&&G.lvl===S.game.level){S.game.level++;title="Passed! Next level unlocked."}
+    else if(G.score>=PASS_MARK)title="Passed!";
+    else title="Not passed yet. You need "+PASS_MARK+" points.";
   }else title="Daily practice finished";
   logAct("game");logScore("vocabulary",Math.round(G.score/total*100));save();
   G.result={title};G.stage="result";renderGame();
@@ -2956,7 +3212,7 @@ const ACT={
   "lesson-level"(b){S.settings.level=b.dataset.v;save();pageLessons()},
   "lesson-step"(b){lessonStep(Number(b.dataset.v))},
   "lesson-play"(){say(LessonRun.l.lines.map(x=>x[1]))},
-  "lesson-sp"(b){LessonRun.sp+=Number(b.dataset.d);lessonStep(1)},
+  "lesson-sp"(b){LessonRun.sp+=Number(b.dataset.d);lessonStep(LessonRun.steps.indexOf("speak"))},
   "tutor-start"(b){
     S.tutor={topic:b.dataset.v,idx:0,msgs:[],done:false};tutorAsk();pageTutor();
     if(S.settings.autoRead)say(S.tutor.msgs[0].t);
@@ -3234,7 +3490,8 @@ const BADGES=[
 ["lesson10","10 lessons","Finish 10 lessons.",()=>completedCount(),10],
 ["words10","10 words","Learn 10 words.",()=>learnedCount(),10],
 ["words50","50 words","Learn 50 words.",()=>learnedCount(),50],
-["words100","100 words","Learn all 100 words.",()=>learnedCount(),100],
+["words100","100 words","Learn 100 words.",()=>learnedCount(),100],
+["words200","200 words","Learn all 200 words, including the office words.",()=>learnedCount(),200],
 ["speak50","50 sentences spoken","Speak 50 sentences.",()=>sumActs().act.speak||0,50],
 ["speak300","300 sentences spoken","Speak 300 sentences.",()=>sumActs().act.speak||0,300],
 ["chat1","First conversation","Finish a chat with Alex.",()=>(S.chats||[]).length,1],
